@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure--i)jgqjqpg3b6ehf#-b8i8o%mdq+un3j!z(ynlt&0n2pdo+gsx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'example.com', '.example.com', 'dc5e-110-225-151-139.in.ngrok.io']
+ALLOWED_HOSTS = ['localhost', 'example.com', '.example.com', 'a973-90-197-25-16.ngrok-free.app']
 
 
 # Application definition
@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'payment'
+    'payment',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -70,7 +71,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://dc5e-110-225-151-139.in.ngrok.io']
+CSRF_TRUSTED_ORIGINS = ['https://a973-90-197-25-16.ngrok-free.app']
 
 ROOT_URLCONF = 'goshop.urls'
 PUBLIC_SCHEMA_URLCONF = 'goshop.urls'
