@@ -9,6 +9,7 @@ class Plan(TimeStamp):
     description = models.TextField()
     price = models.IntegerField()
     is_active = models.BooleanField(default=True)
+    slug = models.SlugField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Plan"
