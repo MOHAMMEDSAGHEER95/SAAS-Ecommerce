@@ -36,7 +36,7 @@ class OnboardingFormView(FormView):
 
     def form_valid(self, form):
         clientobj = form.save(commit=False)
-        clientobj.domain_url = clientobj.schema_name + settings.PUBLIC_DOMAIN_URL
+        clientobj.domain_url = clientobj.schema_name + "." + settings.PUBLIC_DOMAIN_URL
         clientobj.save()
         return super().form_valid(form)
 
