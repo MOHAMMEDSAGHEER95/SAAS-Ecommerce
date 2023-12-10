@@ -172,3 +172,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 PUBLIC_DOMAIN_URL = os.environ.get("PUBLIC_DOMAIN_URL")
+GO_DADDY_API_KEY = os.environ.get("GO_DADDY_API_KEY")
+GO_DADDY_API_SECRET = os.environ.get("GO_DADDY_API_SECRET")

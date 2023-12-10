@@ -9,6 +9,7 @@ from django.views.generic import TemplateView, FormView
 from tenant_schemas.utils import schema_context
 
 from onboarding.forms import OnboardingForm
+from onboarding.godaddy.client import GoDaddyClientHelper
 from onboarding.models import Plan
 
 
@@ -41,7 +42,10 @@ class OnboardingFormView(FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('plans')
+        godaddy = GoDaddyClientHelper()
+        schema_name = self.request.POST['schema_name']
+        godaddy.add_cname_to_dns(schema_name)
+        return reverse('onboarding-success')
 
 
 
