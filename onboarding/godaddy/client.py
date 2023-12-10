@@ -19,7 +19,7 @@ class GoDaddyClientHelper(object):
     def make_api_request(self, url, data=None, method="GET", headers={}):
         print(url)
         headers = {"Authorization": self.HEADER,
-                   'Content-Type': 'application/json'}
+                   "Content-Type": "application/json"}
         if method == "GET":
             logger.info("Request to GoDaddy: {}".format(url))
             response = requests.get(url, headers=headers)
@@ -40,5 +40,5 @@ class GoDaddyClientHelper(object):
                 "type": "CNAME"
             }
         ])
-        url = f"{self.BASE_URL}/domains/{self.DOMAIN}/records"
+        url = f"{self.BASE_URL}/domains/setyour.shop/records"
         response = self.make_api_request(url, payload, method='PATCH')
