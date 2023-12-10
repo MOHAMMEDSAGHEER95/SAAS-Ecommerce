@@ -28,7 +28,6 @@ class GoDaddyClientHelper(object):
         else:
             logger.info("Request to GoDaddy: {}".format(json.dumps(data)))
             response = requests.post(url, data=data, headers=headers)
-        logger.info("Response from GoDaddy: {}".format(json.dumps(response.json())))
         return response
 
     def add_cname_to_dns(self, name):
