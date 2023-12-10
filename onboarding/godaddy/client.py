@@ -18,7 +18,8 @@ class GoDaddyClientHelper(object):
 
     def make_api_request(self, url, data=None, method="GET", headers={}):
         print(url)
-        headers = {"Authorization": self.HEADER}
+        headers = {"Authorization": self.HEADER,
+                   'Content-Type': 'application/json'}
         if method == "GET":
             logger.info("Request to GoDaddy: {}".format(url))
             response = requests.get(url, headers=headers)
