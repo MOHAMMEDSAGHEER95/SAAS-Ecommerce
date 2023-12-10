@@ -12,20 +12,15 @@
 <section>
   <div class="container py-5">
 
-    <!-- FOR DEMO PURPOSE -->
-    <header class="text-center mb-5 text-white">
-      <div class="row">
-        <div class="col-lg-7 mx-auto">
-          <h1>Create your online store in 2 minutes</h1>
-          <p>Kickstart your business with SaaS E-commerce: Elevate Efficiency, Streamline Sales.</p>
-        </div>
-      </div>
-    </header>
-    <!-- END -->
-
 
 
     <div class="row text-center align-items-end">
+      <div class="row">
+        <div class="col-lg-7 mx-auto">
+          <h1>Create your online store in 2 minutes {{tenant}}</h1>
+          <p>Kickstart your business with SaaS E-commerce: Elevate Efficiency, Streamline Sales.</p>
+        </div>
+      </div>
       <!-- Pricing Table-->
       {% for plan in plans %}
       <div class="col-lg-4 mb-5 mb-lg-0">
