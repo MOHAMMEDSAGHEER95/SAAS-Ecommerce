@@ -33,9 +33,7 @@
 */
 
 body {
-  background: #00B4DB;
-  background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);
-  background: linear-gradient(to right, #0083B0, #00B4DB);
-  color: #514B64;
+  background:url('/static/img/eCommerce-Animated-GIF.gif') no-repeat;
+  background-size: cover;
   min-height: 100vh;
 }

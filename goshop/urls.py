@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from onboarding.views import PlanListView
+from onboarding.views import PlanListView, OnboardingFormView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', PlanListView.as_view(), name='plans')
+    path('', PlanListView.as_view(), name='plans'),
+    path('onboarding/<slug:slug>/', OnboardingFormView.as_view(), name='onboarding')
 ]
