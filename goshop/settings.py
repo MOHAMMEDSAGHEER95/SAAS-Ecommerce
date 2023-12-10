@@ -34,6 +34,7 @@ SHARED_APPS = (
     'tenant_schemas',  # mandatory, should always be before any django app
     'customers',  # you must list the app where your tenant model resides in
     'django.contrib.contenttypes',
+    'onboarding',
     # everything below here is optional
     'django.contrib.auth',
     'django.contrib.sessions',
@@ -45,6 +46,7 @@ SHARED_APPS = (
 TENANT_APPS = (
     'django.contrib.contenttypes',
     'payment',
+    'onboarding',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.sites',
@@ -55,6 +57,7 @@ TENANT_APPS = (
 INSTALLED_APPS = [
     'tenant_schemas',
     'customers',
+    'onboarding',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -85,7 +88,7 @@ SHOW_PUBLIC_IF_NO_TENANT_FOUND = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -155,7 +158,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "staticfiles")
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
