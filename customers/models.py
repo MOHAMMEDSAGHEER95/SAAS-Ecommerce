@@ -10,6 +10,7 @@ class Client(TenantMixin):
     created_on = models.DateField(auto_now_add=True)
     email = models.EmailField(null=True)
     contact_number = models.CharField(null=True, max_length=15)
+    on_trials = models.BooleanField(default=True)
 
     # default true, schema will be automatically created and synced when it is saved
     auto_create_schema = True
