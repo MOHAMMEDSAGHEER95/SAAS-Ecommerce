@@ -13,9 +13,10 @@ def get_upload_path(instance, filename):
 class Products(TimeStamp):
     title = models.CharField(max_length=300)
     description = models.TextField()
-    image = models.ImageField(upload_to=get_upload_path)
+    image = models.ImageField(upload_to=get_upload_path, null=True)
     price = models.IntegerField()
     is_available = models.BooleanField(default=True)
+    url = models.CharField(max_length=500, null=True, blank=True)
 
     class Meta:
         verbose_name = "Product"
