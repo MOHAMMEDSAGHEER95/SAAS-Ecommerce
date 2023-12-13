@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
 
 from onboarding.views import PlanListView, OnboardingFormView, CreateOnboarding
@@ -27,6 +27,7 @@ urlpatterns = [
     path('onboarding/success/<slug:slug>/', CreateOnboarding.as_view(), name="create-onboarding"),
     path('onboarding/success/', TemplateView.as_view(template_name='onboarding/success.html'), name='onboarding-success'),
     path('onboarding/<slug:slug>/', OnboardingFormView.as_view(), name='onboarding'),
+    path('products/', include('products.urls')),
 
 ]
 
