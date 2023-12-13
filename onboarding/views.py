@@ -1,7 +1,8 @@
 import stripe
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
-from django.db import connection
+from django.db import connection, IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
@@ -92,6 +93,18 @@ class CreateOnboarding(TemplateView):
         context['website_url'] = onboarding.domain_url
         context['products'] = Products.objects.filter(is_available=True)
         context['schema_name'] = onboarding.schema_name
+        with schema_context(onboarding.schema_name):
+            try:
+                user = User.objects.create(username='admin')
+                user.set_password("qwertyuiop")
+                user.is_superuser = True
+                user.is_staff = True
+                user.save()
+                site = Site.objects.first()
+                site.domain = onboarding.domain_url
+                site.save()
+            except IntegrityError as e:
+                pass
         return context
 
 
