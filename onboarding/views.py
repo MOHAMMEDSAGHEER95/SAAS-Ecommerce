@@ -27,6 +27,9 @@ class PlanListView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['plans'] = plans
         context['tenant'] = connection.schema_name
+        if connection.schema_name != 'public':
+            with schema_context(connection.schema_name):
+                context['products'] = Products.objects.filter(is_available=True)
         return context
 
     def get_template_names(self):
