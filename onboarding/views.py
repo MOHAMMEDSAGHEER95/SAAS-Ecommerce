@@ -88,6 +88,7 @@ class CreateOnboarding(TemplateView):
         context = super().get_context_data()
         context['website_url'] = onboarding.domain_url
         context['products'] = Products.objects.filter(is_available=True)
+        context['schema_name'] = onboarding.schema_name
         return context
 
 
