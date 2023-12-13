@@ -8,7 +8,7 @@
 <body>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
+<link href="{% static 'css/custom-style.css' %}" rel="stylesheet">
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
@@ -191,7 +191,7 @@ a:hover {
 										<div class="part-1" style="background: url('{{product.image.url}}')">
 												<ul>
 
-														<li class="add-to-website" id="{{product.id}}"><a href="#"><i class="fas fa-plus"></i></a></li>
+														<li class="add-to-website"  name="{{product.title}}" id="{{product.id}}"><a href="#"><i class="fas fa-plus"></i></a></li>
 
 												</ul>
 										</div>
@@ -214,16 +214,18 @@ a:hover {
 <script>
 	$(".add-to-website").on("click", function() {
 	data = {"id": $(this).attr("id"), "schema_name": "{{schema_name}}"};
+	let name = $(this).attr("name");
     $.ajax({
                 url: "{% url 'products:add_product' %}", // Replace with your API endpoint
                 method: "POST",
                 dataType: "json",
                 data: data,
                 success: function(response) {
-
+                alert(name+" added to your website")
                 },
                 error: function(xhr, status, error) {
                     // Handle error
+                    alert(name+" already added website")
                     console.error("AJAX Request Error:", status, error);
                 }
             });
