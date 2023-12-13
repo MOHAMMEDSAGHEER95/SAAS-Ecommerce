@@ -24,6 +24,11 @@
   letter-spacing: 0.2em;
 }
 
+.error-message {
+            color: red;
+            font-weight: bold;
+        }
+
 /*
 *
 * ==========================================

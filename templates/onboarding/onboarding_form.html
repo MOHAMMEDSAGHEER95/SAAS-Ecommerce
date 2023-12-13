@@ -18,6 +18,11 @@
     <div class="form-group">
       <label for="inputSchemaName">Schema Name</label>
       <input type="text" class="form-control" id="inputSchemaName" name="schema_name" placeholder="Enter your subdomain name" required>
+      {% for field in form %}
+            {% if field.errors %}
+                <p class="error-message"><strong style="color:red">{{ field.errors }}</strong></p>
+            {% endif %}
+        {% endfor %}
     </div>
 
         <div class="form-group">
