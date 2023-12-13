@@ -1,6 +1,7 @@
 from django import forms
 
 from customers.models import Client
+from onboarding.models import Onboarding
 
 
 class OnboardingForm(forms.ModelForm):
@@ -9,5 +10,5 @@ class OnboardingForm(forms.ModelForm):
     contact_number = forms.CharField(max_length=15)
 
     class Meta:
-        model = Client
-        fields = ('schema_name', 'email', 'contact_number')
+        model = Onboarding
+        fields = ('schema_name', 'email', 'contact_number', 'first_name', 'last_name')

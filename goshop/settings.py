@@ -174,3 +174,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PUBLIC_DOMAIN_URL = os.environ.get("PUBLIC_DOMAIN_URL")
 GO_DADDY_API_KEY = os.environ.get("GO_DADDY_API_KEY")
 GO_DADDY_API_SECRET = os.environ.get("GO_DADDY_API_SECRET")
+
+
+STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+
+STRIPE_CONNECT_CLIENT_ID = os.environ.get("STRIPE_CONNECT_CLIENT_ID")
+IS_PRODUCTION = bool(int(os.environ.get("IS_PRODUCTION", "1")))

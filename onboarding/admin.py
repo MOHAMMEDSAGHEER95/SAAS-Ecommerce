@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.utils.text import slugify
 
-from onboarding.models import Plan
+from onboarding.models import Plan, Onboarding
 
 
 class PlanAdmin(admin.ModelAdmin):
@@ -15,3 +15,4 @@ class PlanAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Plan, PlanAdmin)
+admin.site.register(Onboarding)
