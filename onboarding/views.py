@@ -14,6 +14,7 @@ from customers.models import Client
 from onboarding.forms import OnboardingForm
 from onboarding.godaddy.client import GoDaddyClientHelper
 from onboarding.models import Plan, Onboarding
+from products.models import Products
 
 
 class PlanListView(TemplateView):
@@ -86,6 +87,7 @@ class CreateOnboarding(TemplateView):
             onboarding.save()
         context = super().get_context_data()
         context['website_url'] = onboarding.domain_url
+        context['products'] = Products.objects.filter(is_available=True)
         return context
 
 
