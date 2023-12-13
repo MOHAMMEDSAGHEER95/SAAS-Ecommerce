@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Plans</title>
+    <title>Onboarding Success</title>
 </head>
 <body>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -179,8 +179,7 @@ a:hover {
 				<div class="row justify-content-center text-center">
 						<div class="col-md-8 col-lg-6">
 								<div class="header">
-										<h3>Featured Product</h3>
-										<h2>Popular Products</h2>
+										<h3>Popular Products you can add to your website</h3>
 								</div>
 						</div>
 				</div>
@@ -191,10 +190,9 @@ a:hover {
 								<div id="product-1" class="single-product">
 										<div class="part-1" style="background: url('{{product.image.url}}')">
 												<ul>
-														<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-														<li><a href="#"><i class="fas fa-heart"></i></a></li>
-														<li><a href="#"><i class="fas fa-plus"></i></a></li>
-														<li><a href="#"><i class="fas fa-expand"></i></a></li>
+
+														<li class="add-to-website" id="{{product.id}}"><a href="#"><i class="fas fa-plus"></i></a></li>
+
 												</ul>
 										</div>
 										<div class="part-2">
@@ -212,4 +210,23 @@ a:hover {
 
 
 </body>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+	$(".add-to-website").on("click", function() {
+	data = {"id": $(this).attr("id"), "schema_name": "{{schema_name}}"};
+    $.ajax({
+                url: "{% url 'products:add_product' %}", // Replace with your API endpoint
+                method: "POST",
+                dataType: "json",
+                data: data,
+                success: function(response) {
+
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    console.error("AJAX Request Error:", status, error);
+                }
+            });
+});
+</script>
 </html>

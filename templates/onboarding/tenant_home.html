@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Plans</title>
+    <title>Home:Products</title>
 </head>
 <body>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -15,7 +15,28 @@
 <section>
   <div class="container py-5">
 
-      <h1>Welcome to {{tenant}}</h1>
+      <div class="row">
+						<!-- Single Product -->
+                    {% for product in products %}
+						<div class="col-md-6 col-lg-4 col-xl-3">
+								<div id="product-1" class="single-product">
+										<div class="part-1" style="background: url('{{product.image.url}}')">
+												<ul>
+
+														<li><a href="#"><i class="fas fa-plus"></i></a></li>
+
+												</ul>
+										</div>
+										<div class="part-2">
+												<h3 class="product-title">{{product.title}}</h3>
+												<h4 class="product-old-price">£{{product.price}}</h4>
+												<h4 class="product-price">£50</h4>
+										</div>
+								</div>
+						</div>
+                    {% endfor %}
+						<!-- Single Product -->
+				</div>
   </div>
 </section>
 
