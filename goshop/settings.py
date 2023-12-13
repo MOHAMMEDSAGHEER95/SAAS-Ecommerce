@@ -41,12 +41,14 @@ SHARED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'products',
 )
 
 TENANT_APPS = (
     'django.contrib.contenttypes',
     'payment',
     'onboarding',
+    'products',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.sites',
@@ -58,6 +60,7 @@ INSTALLED_APPS = [
     'tenant_schemas',
     'customers',
     'onboarding',
+    'products',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -181,3 +184,16 @@ STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
 
 STRIPE_CONNECT_CLIENT_ID = os.environ.get("STRIPE_CONNECT_CLIENT_ID")
 IS_PRODUCTION = bool(int(os.environ.get("IS_PRODUCTION", "1")))
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
+
+if IS_PRODUCTION:
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': os.environ.get("CLOUDINARY_CLOUD_NAME"),
+        'API_KEY': os.environ.get("CLOUDINARY_API_KEY"),
+        'API_SECRET': os.environ.get("CLOUDINARY_API_SECRET"),
+    }
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
