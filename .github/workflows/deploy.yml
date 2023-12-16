@@ -16,6 +16,10 @@ jobs:
 
           script: |
             cd /home/sagheer/SAAS-Ecommerce
+            echo "${{secrets.SSH_KEY}}" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            eval "$(ssh-agent -s)"
+            ssh-add ~/.ssh/id_rsa
             git config --global --add safe.directory /home/sagheer/SAAS-Ecommerce
             git pull origin master
             systemctl restart gunicorn
