@@ -10,12 +10,12 @@ jobs:
       - name: Deploy Django app
         uses: appleboy/ssh-action@v0.1.2
         with:
-          host: 68.183.32.93
+          host: ${{secrets.SSH_HOST}}
           key: ${{secrets.SSH_KEY}}
-          username: root
+          username: ${{secrets.SSH_USERNAME}}
 
           script: |
-            cd /home/sagheer/SAAS-Ecommerce
+            cd SAAS-Ecommerce
             git pull
             /home/sagheer/SAAS-Ecommerce
             systemctl restart gunicorn
