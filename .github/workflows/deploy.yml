@@ -16,7 +16,6 @@ jobs:
 
           script: |
             cd /home/sagheer/SAAS-Ecommerce
-            eval "$(ssh-agent -s)"
             git config --global --add safe.directory /home/sagheer/SAAS-Ecommerce
             git pull origin master
             systemctl restart gunicorn
