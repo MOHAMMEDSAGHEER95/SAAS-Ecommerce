@@ -15,8 +15,7 @@ jobs:
           username: ${{secrets.SSH_USERNAME}}
 
           script: |
-            cd SAAS-Ecommerce
+            cd /home/sagheer/SAAS-Ecommerce
             git pull
-            /home/sagheer/SAAS-Ecommerce
             systemctl restart gunicorn
             echo 'Deployment successful to digital ocean'
