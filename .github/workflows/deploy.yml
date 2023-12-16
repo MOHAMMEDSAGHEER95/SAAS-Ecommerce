@@ -9,6 +9,6 @@ jobs:
     steps:
       - name: Debug SSH Key
         run: |
-          echo "${{secrets.SSH_KEY}}" > ssh_key_debug
+          echo "hello" > ssh_key_debug
           cat ssh_key_debug
         shell: bash
