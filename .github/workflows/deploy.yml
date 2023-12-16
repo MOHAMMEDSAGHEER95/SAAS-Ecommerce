@@ -7,8 +7,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Debug SSH Key
-        run: |
-          echo "${{secrets.SSH_HOST}}" > ssh_key_debug
-          cat ssh_key_debug
-        shell: bash
+      - name: Deploy Django app
+        uses: appleboy/ssh-action@v0.1.2
+        with:
+          host: 68.183.32.93
+          key: ${{secrets.SSH_KEY}}
+          username: root
+
+          script: |
+            mkdir test
+            echo 'Deployment successful to digital ocean'
