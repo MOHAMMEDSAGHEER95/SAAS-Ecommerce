@@ -16,7 +16,7 @@ jobs:
 
           script: |
             cd /home/sagheer/SAAS-Ecommerce
-            whoami
+            git config --global --add safe.directory /home/sagheer/SAAS-Ecommerce
             git pull origin master
             systemctl restart gunicorn
             echo 'Deployment successful to digital ocean'
