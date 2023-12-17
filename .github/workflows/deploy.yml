@@ -15,4 +15,5 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
 
           script: |
-            ${{ secrets.SCRIPT }}
+            whoami
+          
