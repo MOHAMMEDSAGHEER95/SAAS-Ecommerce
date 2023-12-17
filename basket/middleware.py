@@ -1,4 +1,3 @@
-from django.utils.functional import SimpleLazyObject
 
 from basket.models import Basket
 
@@ -8,10 +7,15 @@ class CustomBasketMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if 'basket' not in request.session:
-            basket = Basket.create_basket()
-            request.session['basket'] = SimpleLazyObject(basket.id)
-        request.basket = request.session['basket']
-        response = self.get_response(request)
-        request.session['basket'] = request.basket
-        return response
+
+        if request.tenant.schema_name != 'public':
+            if 'basket' not in request.session:
+                basket = Basket.create_basket(request.user)
+                request.session['basket'] = basket.id
+            request.basket = request.session['basket']
+            response = self.get_response(request)
+            request.session['basket'] = request.basket
+            return response
+        else:
+            response = self.get_response(request)
+            return response

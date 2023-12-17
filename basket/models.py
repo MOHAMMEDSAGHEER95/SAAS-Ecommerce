@@ -25,6 +25,24 @@ class Basket(TimeStamp):
         for line in self.lines.all():
             sum += line.price * line.quantity
         return sum
+    @classmethod
+    def create_basket(self, user):
+        if user.is_authenticated:
+            basket = Basket.objects.create(user=user)
+            return basket
+        basket  = Basket.objects.create()
+        return basket
+
+    def create_basket_lines(self, product_id, quantity):
+        product = Products.objects.get(id=product_id)
+        if self.lines.filter(product_id=product_id).exists():
+            quantity = self.lines.filter(product_id=product_id).first().quantity + 1
+            price = quantity * product.price
+            self.lines.filter(product_id=product_id).update(quantity=quantity, price=price)
+        else:
+            line = BasketLine.objects.create(basket=self, product_id=product_id, quantity=quantity,
+                                             price=product.price)
+        return self.lines.count()
 
 
 class BasketLine(TimeStamp):
