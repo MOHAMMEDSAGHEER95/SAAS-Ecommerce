@@ -16,5 +16,7 @@ jobs:
 
           script: |
             cd /home/sagheer/SAAS-Ecommerce
-            whoami > username.txt
+            eval "$(ssh-agent -s)"
+            ssh-add /home/sagheer/.ssh/id_rsa
+            git pull
           
