@@ -17,20 +17,26 @@
 
     {% for line in view.object.lines.all %}
         <div class="card mb-3 shadow" style="height: 150px;">
-    <div class="row no-gutters">
-        <div class="col-md-4">
-            <img src="{{line.product.url}}" class="img-thumbnail" alt="{{line.product.title}}" style="width: 100px; height: 100px;">
-        </div>
-        <div class="col-md-8">
-            <div class="card-body">
-                <h5 class="card-title">{{line.product.title}}</h5>
-                <p class="card-text">£{{line.price}}</p>
-                <p class="card-text"><small class="text-muted">Quantity: {{line.quantity}}</small></p>
-
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="{{line.product.url}}" class="img-thumbnail" alt="{{line.product.title}}" style="width: 100px; height: 100px;">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{line.product.title}}</h5>
+                        <p class="card-text">£{{line.price}}</p>
+                        <p class="card-text"><small class="text-muted">Quantity: {{line.quantity}}</small></p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
     {% endfor %}
+
+    <!-- Basket Total Div -->
+    <div class="basket-total text-white bg-dark p-3" style="border-radius: 10px;">
+        <h4 class="mb-3">Basket Total</h4>
+        <p>Total: £{{ view.object.total }}</p>
+        <a href="{% url 'basket:checkout_basket'%}" class="btn btn-primary checkout-basket">Checkout</a>
+    </div>
 </div>
 {% endblock %}

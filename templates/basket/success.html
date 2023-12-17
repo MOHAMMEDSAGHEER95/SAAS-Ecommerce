@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+
+    {% block title %}
+    <title>Basket</title>
+    {% endblock %}
+
+{% block body %}
+<style>
+    .shadow {
+  box-shadow: 5px 5px 2px 6px lightblue;
+}
+</style>
+<div class="container my-5" style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center mb-4">Payment {{status}}</h2>
+</div>
+{% endblock %}

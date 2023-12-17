@@ -57,4 +57,17 @@ class SuccessView(TemplateView):
     template_name = 'basket/success.html'
 
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        try:
+            session = stripe.checkout.Session.retrieve(id=kwargs.get('slug'))
+            if session.status == "complete":
+                context['status'] = "Success"
+        except Exception as e:
+            context['status'] = "Error"
+        return context
+
+
+
 
