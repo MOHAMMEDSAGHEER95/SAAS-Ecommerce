@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+
+    {% block title %}
+    <title>Basket</title>
+    {% endblock %}
+
+{% block body %}
+<style>
+    .shadow {
+  box-shadow: 5px 5px 2px 6px lightblue;
+}
+</style>
+<div class="container my-5" style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center mb-4">Shopping Cart</h2>
+
+    {% for line in view.object.lines.all %}
+        <div class="card mb-3 shadow" style="height: 150px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="{{line.product.url}}" class="img-thumbnail" alt="{{line.product.title}}" style="width: 100px; height: 100px;">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">{{line.product.title}}</h5>
+                <p class="card-text">£{{line.price}}</p>
+                <p class="card-text"><small class="text-muted">Quantity: {{line.quantity}}</small></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+    {% endfor %}
+</div>
+{% endblock %}
