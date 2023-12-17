@@ -45,11 +45,12 @@ def stripe_basket_checkout(request):
     success_url = f"http://{request.tenant.domain_url}/basket/payment-success/"
     session = stripe.checkout.Session.create(line_items=line_items,mode="payment",
                                              success_url=success_url + "{CHECKOUT_SESSION_ID}/",
-                                             cancel_url="http://localhost:8000/cancel"
+                                             cancel_url="http://localhost:8000/cancel",
+                                             stripe_account=stripe_account
                                              )
     basket.status = basket.SUBMITTED
     basket.save()
-    del request.session['basket']
+    request.session.pop('basket')
     return HttpResponseRedirect(session.url)
 
 
