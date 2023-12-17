@@ -30,6 +30,7 @@ class Onboarding(TimeStamp):
     is_active = models.BooleanField(default=False)
     plan = models.ForeignKey(Plan, null=True, related_name="onboarding_plan", on_delete=models.CASCADE)
     session_id = models.CharField(max_length=500, null=True, blank=True)
+    stripe_connect_id = models.CharField(max_length=500, null=True, blank=True)
 
     class Meta:
         verbose_name = "Onboarding"
