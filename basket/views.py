@@ -62,7 +62,10 @@ class SuccessView(TemplateView):
         context = super().get_context_data()
         stripe.api_key = settings.STRIPE_SECRET_KEY
         try:
-            session = stripe.checkout.Session.retrieve(id=kwargs.get('slug'))
+            schema_name = self.request.tenant.schema_name
+            with schema_context('public'):
+                stripe_account = Onboarding.objects.get(schema_name=schema_name).stripe_connect_id
+            session = stripe.checkout.Session.retrieve(id=kwargs.get('slug'), stripe_account=stripe_account)
             if session.status == "complete":
                 context['status'] = "Success"
         except Exception as e:
