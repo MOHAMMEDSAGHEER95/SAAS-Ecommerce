@@ -1,7 +1,7 @@
 name: Build & Deploy
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   deploy:
@@ -19,5 +19,7 @@ jobs:
             eval "$(ssh-agent -s)"
             ssh-add /home/sagheer/.ssh/id_rsa
             git pull
+            source venv/bin/activate
+            python manage.py migrate_schemas
             sudo systemctl restart gunicorn
           
