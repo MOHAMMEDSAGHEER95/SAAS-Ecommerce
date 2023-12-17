@@ -8,9 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
@@ -204,7 +202,7 @@
     <li class="nav-item">
   <a href="#" style="color:white" class="nav-link">
     <i class="fa-solid fa-cart-shopping"></i> Cart
-    <span class="badge rounded-pill badge-notification bg-danger">2</span>
+    <span class="badge rounded-pill badge-notification bg-danger">{{basket_lines}}</span>
   </a>
 </li>
 
@@ -238,7 +236,7 @@
                              style="background: {% if product.image %} url('{{product.image.url}}') {% else %} url('{{product.url}}'){% endif %} no-repeat center/cover ">
                             <ul>
 
-                                <li class="add-to-website" id="{{product.id}}"><a href="#">
+                                <li class="add-to-cart" id="{{product.id}}"><a href="#">
                                     <i class="fa-solid fa-cart-plus"></i>
                                 </a></li>
 
@@ -258,4 +256,23 @@
 </div>
 
 </body>
+<script>
+    $(".add-to-cart").on("click", function() {
+	data = {"id": $(this).attr("id"), "quantity": 1};
+	$.ajax({
+                url: "{% url 'basket:add_to_basket' %}", // Replace with your API endpoint
+                method: "POST",
+                dataType: "json",
+                data: data,
+                success: function(response) {
+                $('.badge-notification').text(response.count)
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    alert(name+" already added website")
+                    console.error("AJAX Request Error:", status, error);
+                }
+            });
+    });
+</script>
 </html>
