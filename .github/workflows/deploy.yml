@@ -20,6 +20,7 @@ jobs:
             ssh-add /home/sagheer/.ssh/id_rsa
             git pull
             source venv/bin/activate
+            source venv/.env
             python manage.py migrate_schemas
             sudo systemctl restart gunicorn
           
