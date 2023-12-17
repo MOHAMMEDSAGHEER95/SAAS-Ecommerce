@@ -11,6 +11,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView, FormView
 from tenant_schemas.utils import schema_context
 
+from basket.models import BasketLine
 from customers.models import Client
 from onboarding.forms import OnboardingForm
 from onboarding.godaddy.client import GoDaddyClientHelper
@@ -31,6 +32,7 @@ class PlanListView(TemplateView):
         if connection.schema_name != 'public':
             with schema_context(connection.schema_name):
                 context['products'] = Products.objects.filter(is_available=True)
+                context['basket_lines'] = BasketLine.objects.filter(basket_id=self.request.basket).count()
         return context
 
     def get_template_names(self):
