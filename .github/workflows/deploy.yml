@@ -19,4 +19,5 @@ jobs:
             eval "$(ssh-agent -s)"
             ssh-add /home/sagheer/.ssh/id_rsa
             git pull
+            sudo systemctl restart gunicorn
           
