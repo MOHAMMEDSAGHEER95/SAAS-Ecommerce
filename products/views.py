@@ -18,7 +18,7 @@ class AddProductFromPublicSchema(View):
         product = Products.objects.get(id=data.get("id"))
         with schema_context(schema_name):
             if Products.objects.filter(title=product.title).exists():
-                return JsonResponse({"message": "Error"}, status=400)
+                return JsonResponse({"message": "Errors..."}, status=400)
             product_dictionary = {"title": product.title,
                                   "description": product.description, "url": product.image.url,
                                   "is_available": product.is_available, "price": product.price}
