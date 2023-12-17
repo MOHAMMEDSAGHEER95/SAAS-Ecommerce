@@ -2,6 +2,7 @@ import stripe
 from django.conf import settings
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.utils import timezone
 from django.views import View
 from django.views.generic import DetailView, TemplateView
 from tenant_schemas.utils import schema_context
@@ -48,9 +49,6 @@ def stripe_basket_checkout(request):
                                              cancel_url="http://localhost:8000/cancel",
                                              stripe_account=stripe_account
                                              )
-    basket.status = basket.SUBMITTED
-    basket.save()
-    request.session.pop('basket')
     return HttpResponseRedirect(session.url)
 
 
@@ -68,6 +66,10 @@ class SuccessView(TemplateView):
             session = stripe.checkout.Session.retrieve(id=kwargs.get('slug'), stripe_account=stripe_account)
             if session.status == "complete":
                 context['status'] = "Success"
+                basket = Basket.objects.get(id=self.request.basket)
+                basket.status = basket.SUBMITTED
+                basket.submitted_at = timezone.now()
+                basket.save()
         except Exception as e:
             context['status'] = "Error"
         return context

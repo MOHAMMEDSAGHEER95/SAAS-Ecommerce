@@ -9,6 +9,8 @@ class CustomBasketMiddleware:
     def __call__(self, request):
 
         if request.tenant.schema_name != 'public':
+            if 'basket' in request.session and Basket.objects.filter(id=request.session['basket'], status=Basket.SUBMITTED):
+                request.session.pop('basket')
             if 'basket' not in request.session:
                 basket = Basket.create_basket(request.user)
                 request.session['basket'] = basket.id
