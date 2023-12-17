@@ -15,5 +15,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
 
           script: |
-            whoami
+            cd /home/sagheer/SAAS-Ecommerce
+            whoami > username.txt
           
