@@ -7,9 +7,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
       - name: Deploy Django app
         uses: appleboy/ssh-action@v0.1.2
         with:
@@ -19,6 +16,6 @@ jobs:
 
           script: |
             cd /home/sagheer/SAAS-Ecommerce
-            git config --global --add safe.directory /home/sagheer/SAAS-Ecommerce
-            systemctl restart gunicorn
+            chmod +x deploy.sh
+            ./deploy.sh
             echo 'Deployment successful to digital ocean'
