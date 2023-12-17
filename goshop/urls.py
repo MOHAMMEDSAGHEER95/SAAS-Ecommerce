@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', PlanListView.as_view(), name='plans'),
     path('products/', include('products.urls')),
+    path('basket/', include('basket.urls')),
     path('onboarding/', include('onboarding.urls')),
 
 ]

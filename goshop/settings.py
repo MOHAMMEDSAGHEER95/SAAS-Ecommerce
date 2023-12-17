@@ -82,6 +82,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'basket.middleware.CustomBasketMiddleware'
 ]
 
 CSRF_TRUSTED_ORIGINS = ['*']
