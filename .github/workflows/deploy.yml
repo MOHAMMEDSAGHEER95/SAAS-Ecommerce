@@ -15,7 +15,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
 
           script: |
-            cd /home/sagheer/SAAS-Ecommerce
             chmod +x deploy.sh
             ./deploy.sh
             echo 'Deployment successful to digital ocean'
