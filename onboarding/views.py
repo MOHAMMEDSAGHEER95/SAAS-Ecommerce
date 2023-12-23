@@ -88,7 +88,7 @@ class CreateOnboarding(TemplateView):
                 schema_name = onboarding.schema_name
                 godaddy.add_cname_to_dns(schema_name)
 
-            Client.objects.create(domain_url=onboarding.domain_url, schema_name=onboarding.schema_name)
+            Client.objects.create(domain_url=onboarding.domain_url.lower(), schema_name=onboarding.schema_name.lower())
             onboarding.is_active = True
             onboarding.save()
         context = super().get_context_data()
