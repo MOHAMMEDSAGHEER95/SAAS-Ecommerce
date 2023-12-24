@@ -51,6 +51,7 @@ TENANT_APPS = (
     'products',
     'basket',
     'dashboard',
+    'orders',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.sites',
@@ -65,6 +66,7 @@ INSTALLED_APPS = [
     'products',
     'basket',
     'dashboard',
+    'orders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -202,3 +204,6 @@ if IS_PRODUCTION:
         'API_SECRET': os.environ.get("CLOUDINARY_API_SECRET"),
     }
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+ORDER_NUMBERING_FROM = 10000

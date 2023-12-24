@@ -9,6 +9,7 @@ from tenant_schemas.utils import schema_context
 
 from basket.models import Basket
 from onboarding.models import Onboarding
+from orders.models import Order
 
 
 # Create your views here.
@@ -70,6 +71,9 @@ class SuccessView(TemplateView):
                 basket.status = basket.SUBMITTED
                 basket.submitted_at = timezone.now()
                 basket.save()
+                number = settings.ORDER_NUMBERING_FROM + basket.id
+                Order.objects.create(basket=basket, user=basket.user, number=str(number),
+                                     total_incl_tax=session.amount_total/100, transaction_id=session.id)
         except Exception as e:
             context['status'] = "Error"
         return context
