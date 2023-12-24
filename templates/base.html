@@ -202,7 +202,7 @@
       <ul class="navbar-nav">
     <li class="nav-item">
   <a href="{% url 'basket:view_basket' %}" style="color:white" class="nav-link">
-    <i class="fa-solid fa-cart-shopping"></i> Cart
+    <i class="fa-solid fa-cart-shopping"></i> Cart {{request.basket}}
     <span class="badge rounded-pill badge-notification bg-danger">{{basket_lines}}</span>
   </a>
 </li>
