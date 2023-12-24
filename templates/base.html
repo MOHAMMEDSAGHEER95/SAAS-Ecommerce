@@ -208,9 +208,9 @@
 </li>
 
               {% if request.user.is_authenticated %}
-        <li class="nav-item"><a  class="nav-link" href="#" style="color:white"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        <li class="nav-item"><a  class="nav-link" href="{% url 'customers:logout' %}" style="color:white"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         {% else %}
-      <li class="nav-item"><a  class="nav-link" href="#" style="color:white"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li class="nav-item"><a  class="nav-link" href="{% url 'customers:login' %}" style="color:white"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         {% endif %}
 
       </ul>

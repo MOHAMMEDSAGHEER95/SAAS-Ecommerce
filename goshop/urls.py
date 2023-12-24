@@ -24,6 +24,7 @@ from onboarding.views import PlanListView, OnboardingFormView, CreateOnboarding
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', PlanListView.as_view(), name='plans'),
+    path("customer/", include('customers.urls')),
     path('products/', include('products.urls')),
     path('basket/', include('basket.urls')),
     path('onboarding/', include('onboarding.urls')),
