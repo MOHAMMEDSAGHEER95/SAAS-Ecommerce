@@ -17,7 +17,7 @@ class Order(TimeStamp):
     SHIPPED = 'shipped'
     DELIVERED = 'delivered'
     STATUS = ((PLACED, "Placed"), (PACKED, "Packed"), (SHIPPED, "Shippped"), (DELIVERED, "Delivered"))
-    status = models.CharField(max_length=30, default=PACKED, choices=STATUS)
+    status = models.CharField(max_length=30, default=PLACED, choices=STATUS)
     number = models.CharField(max_length=10, unique=True)
     basket = models.ForeignKey(Basket, on_delete=models.SET_NULL, related_name='orders', null=True)
     total_incl_tax = models.FloatField()
