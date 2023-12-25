@@ -27,7 +27,7 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="#" class="nav-link active" aria-current="page">
+        <a href="{% url 'dashboard:dashboard_home' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'dashboard_home'%}active{% endif %}" aria-current="page">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
           Home
         </a>
@@ -39,7 +39,7 @@
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
+        <a href="{% url 'dashboard:dashboard_orders' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'dashboard_orders' %}active{% endif %}">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
           Orders
         </a>
@@ -73,11 +73,11 @@
     </div>
   </div>
  <div class="b-example-divider"></div>
-</main>
+
 {% block body %}
 
 {% endblock %}
-
+</main>
 </body>
 <script>
     /* global bootstrap: false */

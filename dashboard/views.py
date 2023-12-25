@@ -1,9 +1,10 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView, FormView, ListView
 
 from dashboard.forms import DashboardAdminForm
+from orders.models import Order
 
 
 # Create your views here.
@@ -35,5 +36,24 @@ class DashboardLogin(FormView):
         else:
             form.add_error(None, "Invalid credentials")
             return self.form_invalid(form)
+
+
+class OrderListView(ListView):
+    model = Order
+    queryset = Order.objects.all()
+    context_object_name = 'orders'
+    template_name = 'dashboard/orders.html'
+
+    def get_queryset(self):
+        if self.request.GET.get('number'):
+            return Order.objects.filter(number__icontains=self.request.GET.get('number'))
+        return self.queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.GET.get('number'):
+            context['query'] = self.request.GET.get('number')
+        return context
+
 
 
