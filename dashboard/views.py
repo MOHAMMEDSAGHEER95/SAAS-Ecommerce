@@ -5,6 +5,8 @@ from django.views.generic import TemplateView, FormView, ListView
 
 from dashboard.forms import DashboardAdminForm
 from orders.models import Order
+from products.models import Products
+from tenant_schemas.utils import schema_context
 
 
 # Create your views here.
@@ -54,6 +56,27 @@ class OrderListView(ListView):
         if self.request.GET.get('number'):
             context['query'] = self.request.GET.get('number')
         return context
+
+
+class PublicSchemaProductImport(TemplateView):
+    model = Products
+    context_object_name = 'products'
+    template_name = 'dashboard/products.html'
+
+    def get_queryset(self):
+        with schema_context('public'):
+            return Products.objects.all()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product_list = []
+        with schema_context('public'):
+            for i in Products.objects.all():
+                product_list.append(i)
+            context['items'] = product_list
+        return context
+
+
 
 
 
