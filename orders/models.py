@@ -12,6 +12,12 @@ class Order(TimeStamp):
     CASH_ON_DELIVERY = 'cash_on_delivery'
     ONLINE_TRANSACTION = 'online_transaction'
     PAYMENT_METHOD = ((CASH_ON_DELIVERY, "Cash on Delivery"), (ONLINE_TRANSACTION, "Online Transaction"))
+    PLACED = 'placed'
+    PACKED = 'packed'
+    SHIPPED = 'shipped'
+    DELIVERED = 'delivered'
+    STATUS = ((PLACED, "Placed"), (PACKED, "Packed"), (SHIPPED, "Shippped"), (DELIVERED, "Delivered"))
+    status = models.CharField(max_length=30, default=PACKED, choices=STATUS)
     number = models.CharField(max_length=10, unique=True)
     basket = models.ForeignKey(Basket, on_delete=models.SET_NULL, related_name='orders', null=True)
     total_incl_tax = models.FloatField()
