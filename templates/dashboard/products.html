@@ -1,0 +1,40 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}
+    <title>Dashboard: Import Products</title>
+    {% endblock %}
+{% block body %}
+<div class="container">
+<div class="mx-auto" style="margin-top:40px">
+    <form action="." method="get" autocomplete="off">
+      <input type="text" name="number" placeholder="Search" {% if query%}value="{{query}}"{% endif %}>
+    </form>
+  </div>
+<div class="d-flex" style="width:100%">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="row"><input type="checkbox"></th>
+        <th scope="col">Product</th>
+        <th scope="col">Thumbnail</th>
+        <th scope="col">Price</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for product in items %}
+      <tr>
+        <th scope="row"><input type="checkbox"></th>
+        <td>{{product.title}}</td>
+        <td><img src="{{product.get_image_url}}" style="width:50px;height:50px"> </td>
+        <td>£ {{product.price}}</td>
+        <td>{{product.is_available}}</td>
+      </tr>
+    {% endfor %}
+      <!-- Add more rows for each order -->
+    </tbody>
+  </table>
+</div>
+  </div>
+
+{% endblock %}

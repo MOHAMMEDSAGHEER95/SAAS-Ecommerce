@@ -44,11 +44,16 @@
           Orders
         </a>
       </li>
-      <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+        <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded collapsed nav-link text-white" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
           Products
-        </a>
+        </button>
+        <div class="collapse" id="orders-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="{% url 'dashboard:import_products' %}" class="text-white rounded">Import Products</a></li>
+            <li><a href="#" class="text-white rounded">Store Products</a></li>
+          </ul>
+        </div>
       </li>
       <li>
         <a href="#" class="nav-link text-white">
