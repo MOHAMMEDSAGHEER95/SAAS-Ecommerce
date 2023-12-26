@@ -29,7 +29,8 @@
             </div>
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
-
+                  {% if form.errors %}
+                  {% endif %}
 <form action="." method="post" >
     {% csrf_token %}
 
@@ -39,27 +40,58 @@
                   </div>
 
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+    <div class="form-outline mb-4">
+                    <input type="text" id="first_name" name="first_name" class="form-control form-control-lg" />
+                    <label class="form-label" for="form2Example17">First Name</label>
+        {% if form.first_name.errors %}
+    <div class="alert-danger" role="alert">
+        {{form.first_name.errors}}
+    </div>
+    {% endif %}
+                  </div>
+
+    <div class="form-outline mb-4">
+                    <input type="text" id="last_name" name="last_name" class="form-control form-control-lg" />
+                    <label class="form-label" for="form2Example17">Last Name</label>
+        {% if form.last_name.errors %}
+    <div class="alert-danger" role="alert">
+        {{form.last_name.errors}}
+    </div>
+    {% endif %}
+                  </div>
 
                   <div class="form-outline mb-4">
-                    <input type="email" id="form2Example17" name="username" class="form-control form-control-lg" />
+                    <input type="email" id="form2Example17" name="email" class="form-control form-control-lg" />
                     <label class="form-label" for="form2Example17">Email</label>
+                      {% if form.email.errors %}
+    <div class="alert-danger" role="alert">
+        {{form.email.errors}}
+    </div>
+    {% endif %}
                   </div>
 
                   <div class="form-outline mb-4">
                     <input type="password" id="form2Example27" name="password" class="form-control form-control-lg" />
                     <label class="form-label" for="form2Example27">Password</label>
+                      {% if form.password.errors %}
+    <div class="alert-danger" role="alert">
+        {{form.password.errors}}
+    </div>
+    {% endif %}
+                  </div>
+
+                <div class="form-outline mb-4">
+                    <input type="password" id="password2" name="password2" class="form-control form-control-lg" />
+                    <label class="form-label" for="password2">Confirm Password</label>
                   </div>
 
                   <div class="pt-1 mb-4">
-                    <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+                    <button class="btn btn-dark btn-lg btn-block" type="submit">Register</button>
                   </div>
-
-                  <a class="small text-muted" href="#">Forgot password?</a>
-                  <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="{% url 'customers:register' %}"
-                      style="color: #393f81;">Register here</a></p>
                   <a href="#!" class="small text-muted">Terms of use.</a>
                   <a href="#!" class="small text-muted">Privacy policy</a>
                 </form>
+
 
               </div>
             </div>
