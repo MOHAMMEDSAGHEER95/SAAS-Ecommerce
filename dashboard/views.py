@@ -63,10 +63,6 @@ class PublicSchemaProductImport(TemplateView):
     context_object_name = 'products'
     template_name = 'dashboard/products.html'
 
-    def get_queryset(self):
-        with schema_context('public'):
-            return Products.objects.all()
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         product_list = []
@@ -75,6 +71,13 @@ class PublicSchemaProductImport(TemplateView):
                 product_list.append(i)
             context['items'] = product_list
         return context
+
+
+class StoreProductListView(ListView):
+    queryset = Products.objects.filter(is_available=True)
+    context_object_name = 'items'
+    template_name = 'dashboard/products.html'
+
 
 
 
