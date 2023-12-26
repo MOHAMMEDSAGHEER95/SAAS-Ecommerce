@@ -4,11 +4,22 @@
     {% endblock %}
 {% block body %}
 <div class="container">
-<div class="mx-auto" style="margin-top:40px">
+<div class="row">
+  <div class="mx-auto col-sm-6" style="margin-top: 40px">
     <form action="." method="get" autocomplete="off">
-      <input type="text" name="number" placeholder="Search" {% if query%}value="{{query}}"{% endif %}>
+      <div class="input-group">
+        <input type="text" name="number" class="form-control" placeholder="Search" {% if query %}value="{{query}}" {% endif %}>
+        <div class="input-group-append" style="margin-left: 10px;">
+          <button type="button" class="btn btn-success" id="import_product">Import Products</button>
+        </div>
+      </div>
     </form>
   </div>
+</div>
+
+  <div class="alert alert-success d-none" role="alert">
+  This is a success alert—check it out!
+</div>
 <div class="d-flex" style="width:100%">
 
   <table class="table">
@@ -24,7 +35,7 @@
     <tbody>
     {% for product in items %}
       <tr>
-        <th scope="row"><input type="checkbox"></th>
+        <th scope="row"><input product_id="{{product.id}}" type="checkbox" {% if request.resolver_match.url_name == 'import_products' and  product.imported %}checked disabled{% endif %}></th>
         <td>{{product.title}}</td>
         <td><img src="{{product.get_image_url}}" style="width:50px;height:50px"> </td>
         <td>£ {{product.price}}</td>

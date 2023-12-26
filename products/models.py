@@ -2,6 +2,7 @@ import os
 
 from django.db import models, connection
 from django_extensions.db.fields import AutoSlugField
+from tenant_schemas.utils import schema_context
 
 # Create your models here.
 from customers.abstract_model import TimeStamp
@@ -30,6 +31,7 @@ class Products(TimeStamp):
     is_available = models.BooleanField(default=True)
     url = models.CharField(max_length=500, null=True, blank=True)
     brand = models.ForeignKey(Brand, null=True, on_delete=models.SET_NULL, related_name="brand_products")
+    public_schema_product_id = models.IntegerField(default=False, db_index=True)
 
     class Meta:
         verbose_name = "Product"
@@ -46,6 +48,12 @@ class Products(TimeStamp):
             return self.url
         else:
             return ""
+
+
+    @property
+    def imported(self):
+        with schema_context(connection.schema_name):
+            return Products.objects.filter(public_schema_product_id=self.id).exists()
 
 
 class ProductVariant(TimeStamp):
