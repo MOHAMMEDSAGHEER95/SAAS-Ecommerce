@@ -35,7 +35,7 @@
     <tbody>
     {% for product in items %}
       <tr>
-        <th scope="row"><input product_id="{{product.id}}" type="checkbox" {% if request.resolver_match.url_name == 'import_products' and  product.imported %}checked disabled{% endif %}></th>
+        <th scope="row"><input name="product" product_id="{{product.id}}" type="checkbox" {% if request.resolver_match.url_name == 'import_products' and  product.imported %}checked disabled{% endif %}></th>
         <td>{{product.title}}</td>
         <td><img src="{{product.get_image_url}}" style="width:50px;height:50px"> </td>
         <td>£ {{product.price}}</td>

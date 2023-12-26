@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.db import connection
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView, FormView, ListView
 
@@ -71,6 +73,19 @@ class PublicSchemaProductImport(TemplateView):
                 product_list.append(i)
             context['items'] = product_list
         return context
+
+    def post(self, request):
+        product_ids = request.POST.getlist("ids[]")
+        tenant = connection.schema_name
+        with schema_context('public'):
+            products = Products.objects.filter(id__in=product_ids)
+            for product in products:
+                with schema_context(tenant):
+                    Products.objects.create(title=product.title, public_schema_product_id=product.id,
+                                            url=product.url, is_available=product.is_available,
+                                            price=product.price, image=product.image,
+                                            description=product.description)
+        return JsonResponse({"message": "success"})
 
 
 class StoreProductListView(ListView):

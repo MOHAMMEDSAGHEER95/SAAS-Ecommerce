@@ -93,5 +93,27 @@
     new bootstrap.Tooltip(tooltipTriggerEl)
   })
 })()
+
+    $("#import_product").on("click", function(){
+        let checkboxlist = [];
+        $('input[name="product"]').each(function(){
+            if((!$(this).attr("disabled")) && ($(this).prop("checked"))){
+                checkboxlist.push($(this).attr("product_id"));
+                $(this).prop("disabled",true);
+            }
+        })
+        data = {"ids": checkboxlist}
+        $.ajax({
+                url: "{% url 'dashboard:import_products' %}",
+                method: "POST",
+                dataType: "json",
+                data: data,
+                success: function(response) {
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Request Error:", status, error);
+                }
+            });
+    });
 </script>
 </html>
