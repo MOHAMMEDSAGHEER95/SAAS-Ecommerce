@@ -22,9 +22,9 @@ class RegisterUserForm(forms.ModelForm):
             raise ValidationError("Cannot use this email.")
         return email
 
-    def clean_password(self):
+    def clean(self):
         password = self.cleaned_data.get('password')
         password1 = self.cleaned_data.get("password2")
         if password != password1:
-            raise ValidationError("Passwords are not same.")
-        return password
+            self.add_error("password", "Passwords are not same.")
+        return self.cleaned_data
