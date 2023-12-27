@@ -19,7 +19,7 @@
                 <div class="col-md-6 col-lg-4 col-xl-3">
                     <div id="product-1" class="single-product">
                         <div class="part-1"
-                             style="background: {% if product.image %} url('{{product.image.url}}') {% else %} url('{{product.url}}'){% endif %} no-repeat center/cover ">
+                             style="background: {% if product.image %} url('{{product.get_image_url}}') {% else %} url('{{product.url}}'){% endif %} no-repeat center/cover ">
                             <ul>
 
                                 <li class="add-to-cart" id="{{product.id}}"><a href="#">
