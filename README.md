@@ -32,8 +32,8 @@ This Django project, named "SAAS-Ecommerce," is a modular e-commerce system desi
 
 ## Demo and E-commerce URLs
 
-- **Demo URL:** [http://setyour.shop](http://setyour.shop)
-- **E-commerce URL:** [http://sagheer.setyour.shop](http://sagheer.setyour.shop)
+- **Demo URL:** [https://setyour.shop](http://setyour.shop)
+- **E-commerce URL:** [https://sagheer.setyour.shop](http://sagheer.setyour.shop)
 
 ## Continuous Integration/Continuous Deployment (CI/CD)
 
