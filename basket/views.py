@@ -20,8 +20,10 @@ class AddToBasket(View):
     def post(self, request):
         data = request.POST
         basket = Basket.objects.get(id=request.basket)
-        lines = basket.create_basket_lines(data.get('id'), data.get('quantity'))
-        return JsonResponse({"message": "Added to Cart", "count": lines})
+        product_id = data.get('id')
+        lines = basket.create_basket_lines(product_id, data.get('quantity'))
+        product_count = basket.get_product_line_count(product_id)
+        return JsonResponse({"message": "Added to Cart", "count": lines, "product_count": product_count})
 
 
 class BasketDetailView(DetailView):

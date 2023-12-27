@@ -4,6 +4,7 @@ from django.db import models, connection
 from django_extensions.db.fields import AutoSlugField
 from tenant_schemas.utils import schema_context
 
+
 # Create your models here.
 from customers.abstract_model import TimeStamp
 
@@ -48,6 +49,10 @@ class Products(TimeStamp):
             return self.url
         else:
             return ""
+
+    def exists_in_basket(self, basket_id):
+        from basket.models import BasketLine
+        return BasketLine.objects.filter(product=self, basket_id=basket_id).exists()
 
 
     @property

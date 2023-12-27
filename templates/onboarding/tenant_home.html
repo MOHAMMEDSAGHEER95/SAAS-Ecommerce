@@ -1,4 +1,6 @@
+
 {% extends 'base.html' %}
+{% load helpertags %}
 {% block body %}
 
 
@@ -17,12 +19,17 @@
                              style="background: url('{{product.get_image_url}}') no-repeat center/cover ">
                             <ul>
 
-                                <li class="add-to-cart" id="{{product.id}}"><a href="#">
+                                <li  class="add-to-cart {% check_product_exists request.basket product as exists %}{% if exists %}d-none{% endif %}" id="{{product.id}}"><a href="#">
                                     <i class="fa-solid fa-cart-plus"></i>
                                 </a></li>
-
                             </ul>
+
                         </div>
+                        <div class="basket_details b_d_{{product.id}} "{% if exists %} style="opacity:1" {% endif %}>
+                        <button class="btn btn-danger btn-minus" product_id="{{product.id}}" input_id="#count_{{product.id}}" style="width:30px;">-</button>
+                        <input  type="text" id="count_{{product.id}}" {% if exists%}value="{% get_product_count request.basket product %}{% endif %}" style="width:30px; text-align:center; font-weight:bold;">
+                        <button class="btn btn-success btn-plus" product_id="{{product.id}}" input_id="#count_{{product.id}}" style="width:30px;">+</button>
+                            </div>
                         <div class="part-2">
                             <h3 class="product-title">{{product.title}}</h3>
                             <h4 class="product-price">£{{product.price}}</h4>
@@ -40,24 +47,65 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 <script>
     $(".add-to-cart").on("click", function(e) {
-    e.preventDefault();
+        e.preventDefault();
+        $(".b_d_"+$(this).attr("id")).css("opacity", 1);
+        $(".b_d_"+$(this).attr("id")).show();
+        $(this).hide();
+        var count_element = $("#count_"+$(this).attr("id"));
+        data = {"id": $(this).attr("id"), "quantity": 1};
+        addToBasket(data,count_element, "add");
+    });
 
-	data = {"id": $(this).attr("id"), "quantity": 1};
-	$.ajax({
-                url: "{% url 'basket:add_to_basket' %}",
-                method: "POST",
-                dataType: "json",
-                data: data,
-                success: function(response) {
-                $('.badge-notification').text(response.count)
-                toastr.success('Product added to basket')
-                },
-                error: function(xhr, status, error) {
-                    // Handle error
-                    alert(name+" already added website")
-                    console.error("AJAX Request Error:", status, error);
-                }
-            });
+    function addToBasket(data, count_element, action) {
+    $.ajax({
+        url: "{% url 'basket:add_to_basket' %}",
+        method: "POST",
+        dataType: "json",
+        data: data,
+        success: function(response) {
+            $('.badge-notification').text(response.count);
+            count_element.val(response.product_count);
+            if((response.product_count == 1) && action == "add"){
+                toastr.success('Product added to basket');
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle error
+            alert(name + " already added website");
+            console.error("AJAX Request Error:", status, error);
+        }
+    });
+}
+
+    $(".btn-minus").on("click", function(e) {
+        e.preventDefault();
+        var element = $(this);
+        var decrement_value = parseInt($(element.attr("input_id")).val());
+        var count_element = $(element.attr("input_id"));
+        if(decrement_value > 1){
+            $(element.attr("input_id")).val(decrement_value - 1);
+            data = {"id": element.attr("product_id"), "quantity": decrement_value - 1};
+            addToBasket(data,count_element, "remove");
+
+        }
+        else if(decrement_value == 1){
+            $(this).parent().hide();
+            $("#"+element.attr("product_id")).show();
+            data = {"id": element.attr("product_id"), "quantity": 0};
+            addToBasket(data,count_element, "add");
+        }
+
+    });
+
+    $(".btn-plus").on("click", function(e) {
+        e.preventDefault();
+        var element = $(this);
+        var count_element = $(element.attr("input_id"));
+        var increment_value = parseInt($(element.attr("input_id")).val());
+        $(element.attr("input_id")).val(parseInt(increment_value) + 1);
+        data = {"id": element.attr("product_id"), "quantity": increment_value + 1};
+        addToBasket(data,count_element);
+
     });
 </script>
 {% endblock %}

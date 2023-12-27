@@ -35,14 +35,20 @@ class Basket(TimeStamp):
 
     def create_basket_lines(self, product_id, quantity):
         product = Products.objects.get(id=product_id)
-        if self.lines.filter(product_id=product_id).exists():
-            quantity = self.lines.filter(product_id=product_id).first().quantity + 1
+        if int(quantity) == 0:
+            self.lines.filter(product_id=product_id).delete()
+        elif self.lines.filter(product_id=product_id).exists():
             price = quantity * product.price
             self.lines.filter(product_id=product_id).update(quantity=quantity, price=price)
         else:
             line = BasketLine.objects.create(basket=self, product_id=product_id, quantity=quantity,
                                              price=product.price)
         return self.lines.count()
+
+    def get_product_line_count(self, product_id):
+        if self.lines.filter(product_id=product_id).exists():
+            return self.lines.filter(product_id=product_id).first().quantity
+        return 0
 
 
 class BasketLine(TimeStamp):
