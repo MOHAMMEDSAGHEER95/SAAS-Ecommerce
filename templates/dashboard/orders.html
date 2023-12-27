@@ -19,6 +19,7 @@
         <th scope="col">User Email</th>
         <th scope="col">Total</th>
         <th scope="col">Status</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -29,6 +30,7 @@
         <td>{{order.user.email}}</td>
         <td>£ {{order.total_incl_tax}}</td>
         <td>{{order.status}}</td>
+        <td><a href="{% url 'dashboard:dashboard_orders_edit' pk=order.id %}" type="button" class="btn btn-primary">Edit</a> </td>
       </tr>
     {% endfor %}
       <!-- Add more rows for each order -->

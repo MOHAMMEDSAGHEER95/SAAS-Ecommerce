@@ -3,9 +3,10 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.generic import TemplateView, FormView, ListView
+from django.views.generic import TemplateView, FormView, ListView, UpdateView
 
 from dashboard.forms import DashboardAdminForm
+from orders.forms import OrderEdit
 from orders.models import Order
 from products.models import Products
 from tenant_schemas.utils import schema_context
@@ -51,7 +52,7 @@ class OrderListView(ListView):
     def get_queryset(self):
         if self.request.GET.get('number'):
             return Order.objects.filter(number__icontains=self.request.GET.get('number'))
-        return self.queryset
+        return Order.objects.all().order_by('-id')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -92,6 +93,14 @@ class StoreProductListView(ListView):
     queryset = Products.objects.filter(is_available=True)
     context_object_name = 'items'
     template_name = 'dashboard/products.html'
+
+
+class OrderEditView(UpdateView):
+    model = Order
+    form_class = OrderEdit
+    pk_url_kwarg = 'pk'
+    template_name = 'dashboard/order_edit.html'
+    success_url = '/dashboard/orders'
 
 
 
