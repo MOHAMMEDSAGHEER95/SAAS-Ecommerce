@@ -1,4 +1,4 @@
-# Django Multi-Tenancy
+# Django Multi-Tenancy (phase 1 completing on Jan 19,2024)
 
 ## Overview
 
