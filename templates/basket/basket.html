@@ -34,9 +34,60 @@
 
     <!-- Basket Total Div -->
     <div class="basket-total text-white bg-dark p-3" style="border-radius: 10px;">
+        <h1>Shipping Address</h1>
+        <form id="add-address" action="{% url 'customers:add_address' %}" method="post">
+            <div class="form-outline mb-4">
+                <input type="text" id="line_1" name="line_1" class="form-control form-control-sm"/>
+                <label class="form-label" for="line_1">Line 1</label>
+            </div>
+            <div class="form-outline mb-4">
+                <input type="text" id="line_2" name="line_2" class="form-control form-control-sm"/>
+                <label class="form-label" for="line_2">Line 2</label>
+            </div>
+            <div class="form-outline mb-4">
+                <input type="text" id="city" name="city" maxlength="20" class="form-control form-control-sm"/>
+                <label class="form-label" for="city" >City</label>
+            </div>
+            <div class="form-outline mb-4">
+                <input type="text" id="postcode" name="postcode" maxlength="8" class="form-control form-control-sm"/>
+                <label class="form-label" for="postcode" >PostCode</label>
+            </div>
+            <div class="form-outline mb-4">
+                <input type="checkbox" id="is_default" name="is_default" class="form-control form-control-sm"/>
+                <label class="form-label" for="is_default" >Is Default</label>
+            </div>
+            <input type="submit" value="submit" class="btn btn-danger">
+        </form>
         <h4 class="mb-3">Basket Total</h4>
         <p>Total: £{{ view.object.total }}</p>
         <a href="{% url 'basket:checkout_basket'%}" class="btn btn-primary checkout-basket">Checkout</a>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $("#add-address").on("submit", function(e){
+    e.preventDefault();
+    var addressData = new FormData($(this)[0]);
+
+    $.ajax({
+        url: "{% url 'customers:add_address' %}",
+        method: "POST",
+        dataType: "json",
+        data: addressData,
+        contentType: false,
+        processData: false,
+            success: function(response) {
+                // Handle the success response from the server
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+</script>
 {% endblock %}

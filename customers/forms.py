@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from customers.models import ShippingAddress
+
 
 class RegisterUserForm(forms.ModelForm):
     email = forms.EmailField(required=True)
@@ -28,3 +30,10 @@ class RegisterUserForm(forms.ModelForm):
         if password != password1:
             self.add_error("password", "Passwords are not same.")
         return self.cleaned_data
+
+
+class AddAddressForm(forms.ModelForm):
+
+    class Meta:
+        model = ShippingAddress
+        fields = ('line_1', 'line_2', 'city', 'postcode', 'is_default')

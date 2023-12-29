@@ -1,10 +1,10 @@
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.views.generic import FormView
 
-from customers.forms import RegisterUserForm
+from customers.forms import RegisterUserForm, AddAddressForm
 
 
 # Create your views here.
@@ -34,5 +34,20 @@ class RegisterCustomer(FormView):
         user.set_password(form.cleaned_data.pop("password"))
         user.save()
         return super().form_valid(form)
+
+
+class AddAddress(FormView):
+    form_class = AddAddressForm
+
+
+    def post(self, request):
+        form = self.form_class(data=request.POST)
+        if form.is_valid():
+            address = form.save()
+            address.user = request.user
+            address.save()
+            request.session["address_id"] = address.id
+            return JsonResponse({"message": "address added"}, status=200)
+        return JsonResponse({"errors": form.errors})
 
 

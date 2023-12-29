@@ -1,7 +1,10 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
 from tenant_schemas.models import TenantMixin
+
+from customers.abstract_model import TimeStamp
 
 
 class Client(TenantMixin):
@@ -17,3 +20,21 @@ class Client(TenantMixin):
 
     def __str__(self):
         return f"{self.schema_name}-{self.domain_url}"
+
+
+
+class ShippingAddress(TimeStamp):
+    line_1 = models.CharField(max_length=250)
+    line_2 = models.CharField(max_length=250)
+    city = models.CharField(max_length=100)
+    postcode = models.CharField(max_length=10)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    is_default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.line_1}-{self.user.get_full_name()}"
+
+    class Meta:
+        verbose_name = "Shipping Address"
+        verbose_name_plural = "Shipping Addresses"
+

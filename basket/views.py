@@ -35,6 +35,8 @@ class BasketDetailView(DetailView):
 
 
 def stripe_basket_checkout(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/customer/login?next=/basket/view-basket')
     stripe.api_key = settings.STRIPE_SECRET_KEY
     line_items = []
     basket = Basket.objects.get(id=request.basket)
@@ -74,8 +76,10 @@ class SuccessView(TemplateView):
                 basket.submitted_at = timezone.now()
                 basket.save()
                 number = settings.ORDER_NUMBERING_FROM + basket.id
+                shipping_address = self.request.session.get("address_id")
                 Order.objects.create(basket=basket, user=basket.user, number=str(number),
-                                     total_incl_tax=session.amount_total/100, transaction_id=session.id)
+                                     total_incl_tax=session.amount_total/100, transaction_id=session.id,
+                                     shipping_address_id=shipping_address)
         except Exception as e:
             context['status'] = "Error"
         return context
