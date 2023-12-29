@@ -34,6 +34,7 @@
 
     <!-- Basket Total Div -->
     <div class="basket-total text-white bg-dark p-3" style="border-radius: 10px;">
+        {% if request.user.is_authenticated %}
         <h1>Shipping Address</h1>
         <form id="add-address" action="{% url 'customers:add_address' %}" method="post">
             <div class="form-outline mb-4">
@@ -58,6 +59,7 @@
             </div>
             <input type="submit" value="submit" class="btn btn-danger">
         </form>
+        {% endif %}
         <h4 class="mb-3">Basket Total</h4>
         <p>Total: £{{ view.object.total }}</p>
         <a href="{% url 'basket:checkout_basket'%}" class="btn btn-primary checkout-basket">Checkout</a>
