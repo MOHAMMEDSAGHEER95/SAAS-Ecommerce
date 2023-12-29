@@ -11,6 +11,10 @@
     .shadow {
   box-shadow: 5px 5px 2px 6px lightblue;
 }
+
+    .wd-25{
+    width:25%
+    }
 </style>
 <div class="container my-5" style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
     <h2 class="text-center mb-4">Shopping Cart</h2>
@@ -33,27 +37,27 @@
     {% endfor %}
 
     <!-- Basket Total Div -->
-    <div class="basket-total text-white bg-dark p-3" style="border-radius: 10px;">
+    <div class="basket-total text-white bg-dark p-3 " style="border-radius: 10px;">
         {% if request.user.is_authenticated %}
         <h1>Shipping Address</h1>
         <form id="add-address" action="{% url 'customers:add_address' %}" method="post">
-            <div class="form-outline mb-4">
+            <div class="form-outline mb-4 wd-25">
                 <input type="text" id="line_1" name="line_1" class="form-control form-control-sm"/>
                 <label class="form-label" for="line_1">Line 1</label>
             </div>
-            <div class="form-outline mb-4">
+            <div class="form-outline mb-4 wd-25">
                 <input type="text" id="line_2" name="line_2" class="form-control form-control-sm"/>
                 <label class="form-label" for="line_2">Line 2</label>
             </div>
-            <div class="form-outline mb-4">
+            <div class="form-outline mb-4 wd-25">
                 <input type="text" id="city" name="city" maxlength="20" class="form-control form-control-sm"/>
                 <label class="form-label" for="city" >City</label>
             </div>
-            <div class="form-outline mb-4">
+            <div class="form-outline mb-4 wd-25">
                 <input type="text" id="postcode" name="postcode" maxlength="8" class="form-control form-control-sm"/>
                 <label class="form-label" for="postcode" >PostCode</label>
             </div>
-            <div class="form-outline mb-4">
+            <div class="form-outline mb-4 wd-25">
                 <input type="checkbox" id="is_default" name="is_default" class="form-control form-control-sm"/>
                 <label class="form-label" for="is_default" >Is Default</label>
             </div>
