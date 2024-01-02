@@ -25,6 +25,11 @@ class Brand(TimeStamp):
 
 
 class Products(TimeStamp):
+    STAND_ALONE_PRODUCT = 'stand_alone_product'
+    PARENT_PRODUCT = 'parent_product'
+    PRODUCT_TYPES = ((STAND_ALONE_PRODUCT, "Stand Alone Product"),
+                     (PARENT_PRODUCT, "Parent Product"))
+
     title = models.CharField(max_length=300)
     description = models.TextField()
     image = models.ImageField(upload_to=get_upload_path, null=True)
@@ -33,6 +38,7 @@ class Products(TimeStamp):
     url = models.CharField(max_length=500, null=True, blank=True)
     brand = models.ForeignKey(Brand, null=True, on_delete=models.SET_NULL, related_name="brand_products")
     public_schema_product_id = models.IntegerField(default=False, db_index=True)
+    product_type = models.CharField(max_length=30, choices=PRODUCT_TYPES, default=STAND_ALONE_PRODUCT)
 
     class Meta:
         verbose_name = "Product"
