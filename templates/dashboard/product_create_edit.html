@@ -1,0 +1,47 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}
+    <title>Dashboard: Product Create</title>
+    {% endblock %}
+{% block body %}
+<div class="container">
+<form action="." method="post" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group mt-5">
+        <label for="product_title">Title</label>
+        <input type="text" class="form-control" id="product_title" name="title" placeholder="Product Title">
+    </div>
+    <div class="form-group mt-5">
+        <label for="product_description">Description</label>
+        <textarea class="form-control" id="product_description"  rows="3" name="description" placeholder="Product Description"></textarea>
+
+    </div>
+    <div class="form-group mt-5">
+        <label for="product_price">Price</label>
+        <input type="number" class="form-control" id="product_price" name="price" placeholder="Product Price">
+    </div>
+    <div class="form-group mt-5">
+        <label for="product_brand">Brand</label>
+        <select name="brand" id="product_brand" class="form-control">
+            {% for brand in brands %}
+            <option value="{{brand.id}}">{{brand.title}}</option>
+            {% endfor %}
+            </select>
+    </div>
+    <div class="form-group mt-5">
+         <label for="id_product_type">Product Type</label>
+        <select name="product_type" id="id_product_type" class="form-control ">
+            <option value="stand_alone_product" selected="">Stand Alone Product</option>
+
+            <option value="parent_product">Parent Product</option>
+
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="id_image">Image:</label> <input class="mt-5" type="file" name="image" accept="image/*" required="" id="id_image">
+    </div>
+<div class="form-group">
+    <input  class="btn btn-danger"type="submit" value="submit">
+</div>
+</form>
+    </div>
+{% endblock %}

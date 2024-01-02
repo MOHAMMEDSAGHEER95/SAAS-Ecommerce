@@ -15,6 +15,11 @@
           <button type="button" class="btn btn-success" id="import_product">Import Products</button>
         </div>
         {% endif %}
+        {% if request.resolver_match.url_name == 'store_products' %}
+        <div class="input-group-append" style="margin-left: 10px;">
+          <button onclick="location.href = '{% url 'dashboard:create_product' %}';" type="button" class="btn btn-success" id="store_products">Add Products</button>
+        </div>
+        {% endif %}
       </div>
     </form>
   </div>
@@ -33,6 +38,7 @@
         <th scope="col">Product</th>
         <th scope="col">Thumbnail</th>
         <th scope="col">Price</th>
+        <th scope="col">Type</th>
         {% if request.resolver_match.url_name == 'store_products' %}
         <th scope="col">Show on Website</th>
         {% endif %}
@@ -46,6 +52,7 @@
         <td>{{product.title}}</td>
         <td><img src="{{product.get_image_url}}" style="width:50px;height:50px"> </td>
         <td>£ {{product.price}}</td>
+        <td>{{product.get_product_type_display}}</td>
         {% if request.resolver_match.url_name == 'store_products' %}
         <td><input type="checkbox" product_id="{{product.id}}" {% if product.is_available %}checked{% endif %}></td>
         <td><a href="#" type="button" class="btn btn-primary">Edit</a> </td>
