@@ -68,9 +68,14 @@ class PublicSchemaProductImport(TemplateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['collapse_open'] = "show"
         product_list = []
+        filter_kwargs = {}
+        if self.request.GET.get("name"):
+            filter_kwargs["title__icontains"] = self.request.GET.get("name")
+
         with schema_context('public'):
-            for i in Products.objects.all():
+            for i in Products.objects.filter(**filter_kwargs):
                 product_list.append(i)
             context['items'] = product_list
         return context
@@ -93,6 +98,18 @@ class StoreProductListView(ListView):
     queryset = Products.objects.filter(is_available=True)
     context_object_name = 'items'
     template_name = 'dashboard/products.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['collapse_open'] = "show"
+        return context
+
+    def get_queryset(self):
+        filter_kwargs = {}
+        if self.request.GET.get("name"):
+            filter_kwargs["title__icontains"] = self.request.GET.get("name")
+            return self.queryset.filter(**filter_kwargs)
+        return self.queryset
 
 
 class OrderEditView(UpdateView):

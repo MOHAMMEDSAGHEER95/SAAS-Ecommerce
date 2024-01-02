@@ -5,16 +5,20 @@
 {% block body %}
 <div class="container">
 <div class="row">
+
   <div class="mx-auto col-sm-6" style="margin-top: 40px">
     <form action="." method="get" autocomplete="off">
       <div class="input-group">
-        <input type="text" name="number" class="form-control" placeholder="Search" {% if query %}value="{{query}}" {% endif %}>
+        <input type="text" name="name" class="form-control" placeholder="Search" {% if query %}value="{{query}}" {% endif %}>
+        {% if request.resolver_match.url_name == 'import_products' %}
         <div class="input-group-append" style="margin-left: 10px;">
           <button type="button" class="btn btn-success" id="import_product">Import Products</button>
         </div>
+        {% endif %}
       </div>
     </form>
   </div>
+
 </div>
 
   <div class="alert alert-success d-none" role="alert">
@@ -29,7 +33,10 @@
         <th scope="col">Product</th>
         <th scope="col">Thumbnail</th>
         <th scope="col">Price</th>
-        <th scope="col">Status</th>
+        {% if request.resolver_match.url_name == 'store_products' %}
+        <th scope="col">Show on Website</th>
+        {% endif %}
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -39,7 +46,10 @@
         <td>{{product.title}}</td>
         <td><img src="{{product.get_image_url}}" style="width:50px;height:50px"> </td>
         <td>£ {{product.price}}</td>
-        <td>{{product.is_available}}</td>
+        {% if request.resolver_match.url_name == 'store_products' %}
+        <td><input type="checkbox" checked></td>
+        <td><a href="#" type="button" class="btn btn-primary">Edit</a> </td>
+        {% endif %}
       </tr>
     {% endfor %}
       <!-- Add more rows for each order -->

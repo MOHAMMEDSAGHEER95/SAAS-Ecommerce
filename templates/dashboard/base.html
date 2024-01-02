@@ -33,25 +33,19 @@
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-          Dashboard
-        </a>
-      </li>
-      <li>
         <a href="{% url 'dashboard:dashboard_orders' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'dashboard_orders' %}active{% endif %}">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
           Orders
         </a>
       </li>
         <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded collapsed nav-link text-white" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+        <button class="btn btn-toggle align-items-center rounded collapsed nav-link text-white" data-bs-toggle="collapse" data-bs-target="#product-collapse" aria-expanded="false">
           Products
         </button>
-        <div class="collapse" id="orders-collapse">
+        <div class="collapse {{collapse_open}}" id="product-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="{% url 'dashboard:import_products' %}" class="text-white rounded">Import Products</a></li>
-            <li><a href="{% url 'dashboard:store_products' %}" class="text-white rounded">Store Products</a></li>
+            <li><a href="{% url 'dashboard:import_products' %}" class="nav-link text-white rounded {% if request.resolver_match.url_name == 'import_products' %}active{% endif %}">Import Products</a></li>
+            <li><a href="{% url 'dashboard:store_products' %}" class="nav-link text-white rounded {% if request.resolver_match.url_name == 'store_products' %}active{% endif %}">Store Products</a></li>
           </ul>
         </div>
       </li>
