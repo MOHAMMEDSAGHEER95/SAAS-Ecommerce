@@ -1,7 +1,7 @@
 from django.urls import path
 
 from dashboard.views import DashboardHomeView, DashboardLogin, OrderListView, PublicSchemaProductImport, \
-    StoreProductListView, OrderEditView
+    StoreProductListView, OrderEditView, ChangeProductStatus
 
 app_name = 'dashboard'
 
@@ -12,4 +12,5 @@ urlpatterns = [
     path('orders/<int:pk>/edit/', OrderEditView.as_view(), name='dashboard_orders_edit'),
     path('import-products/', PublicSchemaProductImport.as_view(), name='import_products'),
     path('store-products/', StoreProductListView.as_view(), name='store_products'),
+    path('change-product-status/', ChangeProductStatus.as_view(), name='change_product_status'),
 ]

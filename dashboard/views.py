@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views import View
 from django.views.generic import TemplateView, FormView, ListView, UpdateView
 
 from dashboard.forms import DashboardAdminForm
@@ -69,6 +70,7 @@ class PublicSchemaProductImport(TemplateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['collapse_open'] = "show"
+        context['page_title'] = "Import Products"
         product_list = []
         filter_kwargs = {}
         if self.request.GET.get("name"):
@@ -95,21 +97,22 @@ class PublicSchemaProductImport(TemplateView):
 
 
 class StoreProductListView(ListView):
-    queryset = Products.objects.filter(is_available=True)
     context_object_name = 'items'
     template_name = 'dashboard/products.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['collapse_open'] = "show"
+        context['page_title'] = "Store Products"
         return context
 
     def get_queryset(self):
+        queryset = Products.objects.order_by('-id')
         filter_kwargs = {}
         if self.request.GET.get("name"):
             filter_kwargs["title__icontains"] = self.request.GET.get("name")
-            return self.queryset.filter(**filter_kwargs)
-        return self.queryset
+            return queryset.filter(**filter_kwargs)
+        return queryset
 
 
 class OrderEditView(UpdateView):
@@ -118,6 +121,17 @@ class OrderEditView(UpdateView):
     pk_url_kwarg = 'pk'
     template_name = 'dashboard/order_edit.html'
     success_url = '/dashboard/orders'
+
+
+class ChangeProductStatus(View):
+
+    def post(self, request):
+        product_id = request.POST.get("product_id")
+        status = request.POST.get("status") == "true"
+        product = Products.objects.get(id=product_id)
+        product.is_available = status
+        product.save()
+        return JsonResponse({"message": "product marked"})
 
 
 

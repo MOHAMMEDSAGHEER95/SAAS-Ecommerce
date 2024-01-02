@@ -1,6 +1,6 @@
 {% extends 'dashboard/base.html' %}
 {% block title %}
-    <title>Dashboard: Import Products</title>
+    <title>Dashboard: {{page_title}}</title>
     {% endblock %}
 {% block body %}
 <div class="container">
@@ -47,7 +47,7 @@
         <td><img src="{{product.get_image_url}}" style="width:50px;height:50px"> </td>
         <td>£ {{product.price}}</td>
         {% if request.resolver_match.url_name == 'store_products' %}
-        <td><input type="checkbox" checked></td>
+        <td><input type="checkbox" product_id="{{product.id}}" {% if product.is_available %}checked{% endif %}></td>
         <td><a href="#" type="button" class="btn btn-primary">Edit</a> </td>
         {% endif %}
       </tr>
@@ -58,4 +58,25 @@
 </div>
   </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+  $('input[type="checkbox"]').on("change", function(e){
+
+    data = {"status": $(this).prop("checked"), "product_id": $(this).attr("product_id")};
+        $.ajax({
+                url: "{% url 'dashboard:change_product_status' %}",
+                method: "POST",
+                dataType: "json",
+                data: data,
+                success: function(response) {
+                },
+                error: function(xhr, status, error) {
+                    console.error("AJAX Request Error:", status, error);
+                }
+            });
+  })
+
+</script>
 {% endblock %}
