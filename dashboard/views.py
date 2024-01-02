@@ -6,10 +6,10 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView, FormView, ListView, UpdateView
 
-from dashboard.forms import DashboardAdminForm
+from dashboard.forms import DashboardAdminForm, AddStoreProduct
 from orders.forms import OrderEdit
 from orders.models import Order
-from products.models import Products
+from products.models import Products, Brand
 from tenant_schemas.utils import schema_context
 
 
@@ -132,6 +132,25 @@ class ChangeProductStatus(View):
         product.is_available = status
         product.save()
         return JsonResponse({"message": "product marked"})
+
+
+class CreateProductView(FormView):
+    form_class = AddStoreProduct
+    template_name = 'dashboard/product_create_edit.html'
+    success_url = '/dashboard/store-products'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['brands'] = Brand.objects.all()
+        return context
+
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
 
 
