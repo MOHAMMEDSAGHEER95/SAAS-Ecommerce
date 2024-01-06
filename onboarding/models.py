@@ -19,7 +19,7 @@ class Plan(TimeStamp):
         return self.title
 
     def decription_array(self):
-        return self.description.split("*")
+        return self.description.split("\n")
 
 
 class Onboarding(TimeStamp):
