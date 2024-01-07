@@ -17,5 +17,5 @@ urlpatterns = [
     path('create-product/', CreateProductView.as_view(), name='create_product'),
     path('brands/', BrandsListView.as_view(), name='brands_list_view'),
     path('create-brand/', AddBrandView.as_view(), name='create_brand'),
-    # path('edit-brand/<int:pk>/', EditBrandView.as_view(), name='edit_brand'),
+    path('edit-brand/<int:pk>/', EditBrandView.as_view(), name='edit_brand'),
 ]

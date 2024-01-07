@@ -182,12 +182,12 @@ class AddBrandView(FormView):
         return super().form_valid(form)
 
 
-# class EditBrandView(UpdateView):
-#     form_class = AddBrandForm
-#     template_name = 'dashboard/brand_create_edit.html'
-#     success_url = '/dashboard/brands/'
-#     pk_url_kwarg = 'pk'
-#     model = Brand
+class EditBrandView(UpdateView):
+    form_class = AddBrandForm
+    template_name = 'dashboard/brand_create_edit.html'
+    success_url = '/dashboard/brands/'
+    pk_url_kwarg = 'pk'
+    model = Brand
 
 
 
