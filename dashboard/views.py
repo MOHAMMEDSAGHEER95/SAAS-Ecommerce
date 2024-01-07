@@ -187,7 +187,7 @@ class BrandsListView(ListView):
     def get_queryset(self):
         filter_kwargs = {}
         if self.request.GET.get("title"):
-            filter_kwargs = {'title__icontains': self.request.GET.get("name")}
+            filter_kwargs = {'title__icontains': self.request.GET.get("title")}
         return self.model.objects.filter(**filter_kwargs)
 
     def get_context_data(self, *, object_list=None, **kwargs):

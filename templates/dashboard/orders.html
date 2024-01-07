@@ -3,7 +3,7 @@
     <title>Dashboard: Orders</title>
     {% endblock %}
 {% block body %}
-<div class="container">
+<div class="container" style="overflow: auto;">
 <div class="mx-auto" style="margin-top:40px">
     <form action="." method="get" autocomplete="off">
       <input type="text" name="number" placeholder="Search" {% if query%}value="{{query}}"{% endif %}>

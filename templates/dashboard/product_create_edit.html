@@ -45,7 +45,7 @@
         </select>
     </div>
     <div class="form-group mt-5">
-    <label for="id_image">Image:</label>
+    <label >Image:</label>
     <div class="custom-file">
 <!--        <input type="file" class="custom-file-input" id="id_image" name="image" accept="image/*" required>-->
 {{form.image}}
@@ -53,7 +53,6 @@
     <img id="image-preview" class="img-thumbnail" style="max-width: 100px; max-height: 100px;"
          src="{% if form.image.value %}/media/{{ form.image.value }}{% endif %}" alt="Image Preview">
 </div>
-        <label class="custom-file-label" for="id_image">Choose file</label>
     </div>
 </div>
 <div class="form-group mt-5">
