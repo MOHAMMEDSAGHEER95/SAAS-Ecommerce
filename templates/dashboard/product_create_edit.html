@@ -1,29 +1,29 @@
 {% extends 'dashboard/base.html' %}
 {% block title %}
-    <title>Dashboard: Product Create</title>
+    <title>Dashboard: {{page_title}}</title>
     {% endblock %}
 {% block body %}
-<div class="container">
+<div class="container" style="overflow: auto;">
 <form action="." method="post" autocomplete="off" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group mt-5">
         <label for="product_title">Title</label>
-        <input type="text" class="form-control" id="product_title" name="title" placeholder="Product Title">
+        <input type="text" class="form-control" id="product_title" {% if form.title.value %}value="{{form.title.value}}"{% endif %} name="title" placeholder="Product Title">
     </div>
     <div class="form-group mt-5">
         <label for="product_description">Description</label>
-        <textarea class="form-control" id="product_description"  rows="3" name="description" placeholder="Product Description"></textarea>
+        <textarea class="form-control" id="product_description"  rows="3"   name="description" placeholder="Product Description">{% if form.description.value %}{{form.description.value}}{% endif %}</textarea>
 
     </div>
     <div class="form-group mt-5">
         <label for="product_price">Price</label>
-        <input type="number" class="form-control" id="product_price" name="price" placeholder="Product Price">
+        <input type="number" class="form-control" id="product_price" {% if form.price.value %}value="{{form.price.value}}"{% endif %} name="price" placeholder="Product Price">
     </div>
     <div class="form-group mt-5">
         <label for="product_brand">Brand</label>
         <select name="brand" id="product_brand" class="form-control">
             {% for brand in brands %}
-            <option value="{{brand.id}}">{{brand.title}}</option>
+            <option value="{{brand.id}}" {% if form.brand.value == brand.id %}selected{% endif %} >{{brand.title}}</option>
             {% endfor %}
             </select>
     </div>
@@ -31,23 +31,32 @@
         <label for="product_category">Category</label>
         <select name="category" id="product_category" class="form-control">
             {% for category in categories %}
-            <option value="{{category.id}}">{{category.title}}</option>
+            <option value="{{category.id}}" {% if form.category.value ==  "{{category.id}}" %}selected{% endif %} >{{category.title}}</option>
             {% endfor %}
             </select>
     </div>
     <div class="form-group mt-5">
          <label for="id_product_type">Product Type</label>
         <select name="product_type" id="id_product_type" class="form-control ">
-            <option value="stand_alone_product" selected="">Stand Alone Product</option>
+            <option value="stand_alone_product" selected="" {% if form.product_type.value == 'stand_alone_product' %}value="{{form.title.value}}"{% endif %} >Stand Alone Product</option>
 
-            <option value="parent_product">Parent Product</option>
+            <option value="parent_product" {% if form.product_type.value == 'parent_product' %}value="{{form.title.value}}"{% endif %} >Parent Product</option>
 
         </select>
     </div>
-    <div class="form-group">
-        <label for="id_image">Image:</label> <input class="mt-5" type="file" name="image" accept="image/*" required="" id="id_image">
+    <div class="form-group mt-5">
+    <label for="id_image">Image:</label>
+    <div class="custom-file">
+<!--        <input type="file" class="custom-file-input" id="id_image" name="image" accept="image/*" required>-->
+{{form.image}}
+        <div class="mt-3">
+    <img id="image-preview" class="img-thumbnail" style="max-width: 100px; max-height: 100px;"
+         src="{% if form.image.value %}/media/{{ form.image.value }}{% endif %}" alt="Image Preview">
+</div>
+        <label class="custom-file-label" for="id_image">Choose file</label>
     </div>
-<div class="form-group">
+</div>
+<div class="form-group mt-5">
     <input  class="btn btn-danger"type="submit" value="submit">
 </div>
 </form>

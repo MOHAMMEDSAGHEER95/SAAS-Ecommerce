@@ -55,7 +55,7 @@
         <td>{{product.get_product_type_display}}</td>
         {% if request.resolver_match.url_name == 'store_products' %}
         <td><input type="checkbox" product_id="{{product.id}}" {% if product.is_available %}checked{% endif %}></td>
-        <td><a href="#" type="button" class="btn btn-primary">Edit</a> </td>
+        <td><a href="{% url 'dashboard:edit_product' pk=product.id %}" type="button" class="btn btn-primary">Edit</a> </td>
         {% endif %}
       </tr>
     {% endfor %}
