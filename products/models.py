@@ -24,6 +24,17 @@ class Brand(TimeStamp):
         verbose_name_plural = "Brands"
 
 
+class Category(TimeStamp):
+    title = models.CharField(max_length=300)
+    slug = AutoSlugField(populate_from="title")
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+
+
 class Products(TimeStamp):
     STAND_ALONE_PRODUCT = 'stand_alone_product'
     PARENT_PRODUCT = 'parent_product'
@@ -37,6 +48,7 @@ class Products(TimeStamp):
     is_available = models.BooleanField(default=True)
     url = models.CharField(max_length=500, null=True, blank=True)
     brand = models.ForeignKey(Brand, null=True, on_delete=models.SET_NULL, related_name="brand_products")
+    category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, related_name="categories_products")
     public_schema_product_id = models.IntegerField(default=False, db_index=True)
     product_type = models.CharField(max_length=30, choices=PRODUCT_TYPES, default=STAND_ALONE_PRODUCT)
 
