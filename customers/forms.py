@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from customers.models import ShippingAddress
+from orders.models import ShippingAddress
 
 
 class RegisterUserForm(forms.ModelForm):

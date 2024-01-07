@@ -3,10 +3,28 @@ from django.db import models
 
 from basket.models import Basket
 from customers.abstract_model import TimeStamp
-from customers.models import ShippingAddress
 
 
-# Create your models here.
+
+class ShippingAddress(TimeStamp):
+    line_1 = models.CharField(max_length=250)
+    line_2 = models.CharField(max_length=250)
+    city = models.CharField(max_length=100)
+    postcode = models.CharField(max_length=10)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='shipping_address', null=True)
+    is_default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.line_1}-{self.user.username}"
+
+    class Meta:
+        verbose_name = "Shipping Address"
+        verbose_name_plural = "Shipping Addresses"
+        unique_together = ('line_1', 'line_2', 'city', 'postcode')
+
+    @property
+    def full_address(self):
+        return f"{self.line_1}, {self.line_2}, {self.city}, {self.postcode}"
 
 
 class Order(TimeStamp):

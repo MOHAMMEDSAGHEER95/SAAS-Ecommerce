@@ -92,10 +92,10 @@
         <h4 class="mb-3">Basket Total</h4>
         <p>Total: £{{ view.object.total }}</p>
         {% if lines_exists %}
-    <form method="post" action="{% url 'basket:checkout_basket' %}">
+    <form method="post" action="{% url 'basket:checkout_basket' %}" id="checkoutForm">
         {% csrf_token %}
         <input id="selected_shipping_address" name="selected_shipping_address" value="" type="hidden">
-        <button id="checkoutBasketButton" type="submit" class="btn btn-primary checkout-basket" disabled>Checkout</button>
+        <button id="checkoutBasketButton" type="submit" class="btn btn-primary checkout-basket" >Checkout</button>
     </form>
 {% endif %}
     </div>
@@ -125,6 +125,17 @@
             }
         });
     });
+
+    $("#checkoutBasketButton").on("click", function(e){
+        e.preventDefault();
+        if($("#selected_shipping_address").val() == ""){
+            toastr.error("Add or select an Address")
+            return false;
+        }
+        else {
+           $("#checkoutForm").submit();
+        }
+    })
 
     $(".selectedAddress").on("click", function(e){
         $("#selected_shipping_address").val($(this).val());
