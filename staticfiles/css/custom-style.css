@@ -33,7 +33,7 @@
 */
 
 body {
-  background:url('/static/img/bg.jpg') no-repeat;
+  background:url('https://res.cloudinary.com/dlfmiu5bf/image/upload/v1/media/sagheer/solid-concrete-wall-textured-backdrop_1_vvdq5o') no-repeat;
   background-size: cover;
   min-height: 100vh;
 }

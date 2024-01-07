@@ -22,5 +22,6 @@ jobs:
             source venv/bin/activate
             source .env
             python manage.py migrate_schemas
+            python manage.py collectstatic --no-input
             sudo systemctl restart gunicorn
           
