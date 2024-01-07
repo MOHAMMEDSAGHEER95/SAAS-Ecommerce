@@ -51,7 +51,7 @@
 {{form.image}}
         <div class="mt-3">
     <img id="image-preview" class="img-thumbnail" style="max-width: 100px; max-height: 100px;"
-         src="{% if form.image.value %}{{ form.image.value }}{% endif %}" alt="Image Preview">
+         src="" alt="Image Preview">
 </div>
     </div>
 </div>
@@ -60,4 +60,10 @@
 </div>
 </form>
     </div>
+{% endblock %}
+{% block script %}
+<script>
+    var fileATag = $(".custom-file").find("a");
+    $("#image-preview").attr("src", fileATag.attr("href"));
+</script>
 {% endblock %}
