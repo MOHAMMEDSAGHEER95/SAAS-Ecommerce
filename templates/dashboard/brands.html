@@ -1,6 +1,6 @@
 {% extends 'dashboard/base.html' %}
 {% block title %}
-    <title>Dashboard: Brands</title>
+    <title>Dashboard: {{metadata_value}}</title>
     {% endblock %}
 {% block body %}
 <div class="container">
@@ -11,7 +11,7 @@
       <div class="input-group">
         <input type="text" name="title" class="form-control" placeholder="Search" {% if query %}value="{{query}}" {% endif %}>
         <div class="input-group-append" style="margin-left: 10px;">
-          <button onclick="location.href = '{% url 'dashboard:create_brand' %}';" type="button" class="btn btn-success" id="store_products">Add Brand</button>
+          <button onclick="location.href = '{{add_object_url}}';" type="button" class="btn btn-success" id="store_products">Add {{metadata_value}}</button>
         </div>
       </div>
     </form>
@@ -30,11 +30,11 @@
       </tr>
     </thead>
       <tbody>
-      {% for brand in brands %}
+      {% for object in objects %}
       <tr>
         <th scope="row"><input type="checkbox"></th>
-        <td>{{brand.title}}</td>
-          <td><a href="{% url 'dashboard:edit_brand' pk=brand.id %}" type="button" class="btn btn-primary">Edit</a> </td>
+        <td>{{object.title}}</td>
+          <td><a href="{{edit_object_url}}/{{object.id}}" type="button" class="btn btn-primary">Edit</a> </td>
           <td><a href="#" type="button" class="btn btn-danger">Delete</a> </td>
       </tr>
       {% endfor %}

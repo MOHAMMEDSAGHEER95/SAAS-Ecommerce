@@ -1,6 +1,6 @@
 {% extends 'dashboard/base.html' %}
 {% block title %}
-    <title>Dashboard: Brand Create</title>
+    <title>Dashboard: {{metadata_value}} Create</title>
     {% endblock %}
 {% block body %}
 <div class="container">
@@ -8,10 +8,10 @@
     {% csrf_token %}
     <div class="form-group mt-5">
         <label for="brand_title">Title</label>
-        <input {% if form.title.value%}value="{{form.title.value}}"{% endif %} type="text" class="form-control" id="brand_title" name="title" placeholder="Brand Title">
+        <input {% if form.title.value%}value="{{form.title.value}}"{% endif %} type="text" class="form-control" id="brand_title" name="title" placeholder="{{metadata_value}} Title">
     </div>
     <div class="form-group mt-5">
-    <input type="submit" class="btn btn-success" value="Success">
+    <input type="submit" class="btn btn-success" value="Submit">
     </div>
 
 </form>
