@@ -2,7 +2,7 @@ from django.urls import path
 
 from dashboard.views import DashboardHomeView, DashboardLogin, OrderListView, PublicSchemaProductImport, \
     StoreProductListView, OrderEditView, ChangeProductStatus, CreateProductView, BrandsListView, AddBrandView, \
-    EditBrandView
+    EditBrandView, CategoryListView, AddCategoryView, EditCategoryView
 
 app_name = 'dashboard'
 
@@ -18,4 +18,7 @@ urlpatterns = [
     path('brands/', BrandsListView.as_view(), name='brands_list_view'),
     path('create-brand/', AddBrandView.as_view(), name='create_brand'),
     path('edit-brand/<int:pk>/', EditBrandView.as_view(), name='edit_brand'),
+    path('categories/', CategoryListView.as_view(), name='categories_list_view'),
+    path('create-category/', AddCategoryView.as_view(), name='create_category'),
+    path('edit-category/<int:pk>/', EditCategoryView.as_view(), name='edit_category'),
 ]

@@ -1,6 +1,6 @@
 from django import forms
 
-from products.models import Products, Brand
+from products.models import Products, Brand, Category
 
 
 class DashboardAdminForm(forms.Form):
@@ -11,13 +11,18 @@ class DashboardAdminForm(forms.Form):
 class AddStoreProduct(forms.ModelForm):
     class Meta:
         model = Products
-        fields = ('title', 'description', 'price', 'brand', 'product_type', 'image')
+        fields = ('title', 'description', 'price', 'brand', 'product_type', 'image', 'category')
 
 
 class AddBrandForm(forms.ModelForm):
 
     class Meta:
         model = Brand
+        fields = ('title',)
+
+class AddCategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
         fields = ('title',)
 
 

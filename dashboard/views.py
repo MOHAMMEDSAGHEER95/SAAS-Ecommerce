@@ -3,13 +3,14 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import connection
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView, FormView, ListView, UpdateView
 
-from dashboard.forms import DashboardAdminForm, AddStoreProduct, AddBrandForm
+from dashboard.forms import DashboardAdminForm, AddStoreProduct, AddBrandForm, AddCategoryForm
 from orders.forms import OrderEdit
 from orders.models import Order
-from products.models import Products, Brand
+from products.models import Products, Brand, Category
 from tenant_schemas.utils import schema_context
 
 
@@ -142,6 +143,7 @@ class CreateProductView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['brands'] = Brand.objects.all()
+        context['categories'] = Category.objects.all()
         return context
 
 
@@ -153,22 +155,36 @@ class CreateProductView(FormView):
         return super().form_invalid(form)
 
 
+class EditProductView(UpdateView):
+    form_class = AddStoreProduct
+    template_name = 'dashboard/product_create_edit.html'
+    success_url = '/dashboard/store-products'
+    pk_url_kwarg = 'pk'
+
+
 class BrandsListView(ListView):
     model = Brand
-    context_object_name = 'brands'
+    context_object_name = 'objects'
     template_name = 'dashboard/brands.html'
+    add_object_url = '/dashboard/create-brand'
+    edit_object_url = '/dashboard/edit-brand'
+    metadata_value = 'Brand'
+
 
     def get_queryset(self):
         filter_kwargs = {}
         if self.request.GET.get("title"):
             filter_kwargs = {'title__icontains': self.request.GET.get("name")}
-        return Brand.objects.filter(**filter_kwargs)
+        return self.model.objects.filter(**filter_kwargs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.GET.get("title"):
             context['query'] = self.request.GET.get("title")
         context['collapse_open'] = "show"
+        context['metadata_value'] = self.metadata_value
+        context['add_object_url'] = self.add_object_url
+        context['edit_object_url'] = self.edit_object_url
         return context
 
 
@@ -176,10 +192,16 @@ class AddBrandView(FormView):
     form_class = AddBrandForm
     template_name = 'dashboard/brand_create_edit.html'
     success_url = '/dashboard/brands/'
+    metadata_value = 'Brand'
 
     def form_valid(self, form):
         form.save()
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['metadata_value'] = self.metadata_value
+        return context
 
 
 class EditBrandView(UpdateView):
@@ -188,6 +210,28 @@ class EditBrandView(UpdateView):
     success_url = '/dashboard/brands/'
     pk_url_kwarg = 'pk'
     model = Brand
+
+
+class CategoryListView(BrandsListView):
+    model = Category
+    add_object_url = '/dashboard/create-category'
+    edit_object_url = '/dashboard/edit-category'
+    metadata_value = 'Categories'
+
+class AddCategoryView(AddBrandView):
+    form_class = AddCategoryForm
+    success_url = '/dashboard/categories/'
+    metadata_value = 'Categories'
+
+
+class EditCategoryView(UpdateView):
+    form_class = AddCategoryForm
+    template_name = 'dashboard/brand_create_edit.html'
+    success_url = '/dashboard/categories/'
+    model = Category
+
+
+
 
 
 
