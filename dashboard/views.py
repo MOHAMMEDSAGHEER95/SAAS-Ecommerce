@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView, FormView, ListView, UpdateView
 
-from dashboard.forms import DashboardAdminForm, AddStoreProduct
+from dashboard.forms import DashboardAdminForm, AddStoreProduct, AddBrandForm
 from orders.forms import OrderEdit
 from orders.models import Order
 from products.models import Products, Brand
@@ -151,6 +151,45 @@ class CreateProductView(FormView):
 
     def form_invalid(self, form):
         return super().form_invalid(form)
+
+
+class BrandsListView(ListView):
+    model = Brand
+    context_object_name = 'brands'
+    template_name = 'dashboard/brands.html'
+
+    def get_queryset(self):
+        filter_kwargs = {}
+        if self.request.GET.get("title"):
+            filter_kwargs = {'title__icontains': self.request.GET.get("name")}
+        return Brand.objects.filter(**filter_kwargs)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.GET.get("title"):
+            context['query'] = self.request.GET.get("title")
+        context['collapse_open'] = "show"
+        return context
+
+
+class AddBrandView(FormView):
+    form_class = AddBrandForm
+    template_name = 'dashboard/brand_create_edit.html'
+    success_url = '/dashboard/brands/'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+
+# class EditBrandView(UpdateView):
+#     form_class = AddBrandForm
+#     template_name = 'dashboard/brand_create_edit.html'
+#     success_url = '/dashboard/brands/'
+#     pk_url_kwarg = 'pk'
+#     model = Brand
+
+
 
 
 

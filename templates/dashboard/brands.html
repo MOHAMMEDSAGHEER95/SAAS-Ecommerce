@@ -1,0 +1,45 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}
+    <title>Dashboard: Brands</title>
+    {% endblock %}
+{% block body %}
+<div class="container">
+<div class="row">
+
+  <div class="mx-auto col-sm-6" style="margin-top: 40px">
+    <form action="." method="get" autocomplete="off">
+      <div class="input-group">
+        <input type="text" name="title" class="form-control" placeholder="Search" {% if query %}value="{{query}}" {% endif %}>
+        <div class="input-group-append" style="margin-left: 10px;">
+          <button onclick="location.href = '{% url 'dashboard:create_brand' %}';" type="button" class="btn btn-success" id="store_products">Add Brand</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+<div class="d-flex" style="width:100%">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="row"><input type="checkbox"></th>
+        <th scope="col">Title</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+      </tr>
+    </thead>
+      <tbody>
+      {% for brand in brands %}
+      <tr>
+        <th scope="row"><input type="checkbox"></th>
+        <td>{{brand.title}}</td>
+          <td><a href="{% url 'dashboard:edit_brand' pk=brand.id %}" type="button" class="btn btn-primary">Edit</a> </td>
+          <td><a href="#" type="button" class="btn btn-danger">Delete</a> </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>
+</div>
+    {% endblock %}

@@ -46,6 +46,7 @@
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
             <li><a href="{% url 'dashboard:import_products' %}" class="nav-link text-white rounded {% if request.resolver_match.url_name == 'import_products' %}active{% endif %}">Import Products</a></li>
             <li><a href="{% url 'dashboard:store_products' %}" class="nav-link text-white rounded {% if request.resolver_match.url_name == 'store_products' %}active{% endif %}">Store Products</a></li>
+            <li><a href="{% url 'dashboard:brands_list_view' %}" class="nav-link text-white rounded {% if request.resolver_match.url_name == 'brands_list_view' %}active{% endif %}">Brands</a></li>
           </ul>
         </div>
       </li>

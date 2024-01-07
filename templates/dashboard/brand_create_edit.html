@@ -1,0 +1,19 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}
+    <title>Dashboard: Brand Create</title>
+    {% endblock %}
+{% block body %}
+<div class="container">
+<form action="." method="post" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group mt-5">
+        <label for="brand_title">Title</label>
+        <input {% if form.title.value%}value="{{form.title.value}}"{% endif %} type="text" class="form-control" id="brand_title" name="title" placeholder="Brand Title">
+    </div>
+    <div class="form-group mt-5">
+    <input type="submit" class="btn btn-success" value="Success">
+    </div>
+
+</form>
+</div>
+{% endblock %}
