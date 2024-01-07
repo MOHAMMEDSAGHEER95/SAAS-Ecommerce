@@ -135,16 +135,25 @@ class ChangeProductStatus(View):
         return JsonResponse({"message": "product marked"})
 
 
-class CreateProductView(FormView):
-    form_class = AddStoreProduct
-    template_name = 'dashboard/product_create_edit.html'
-    success_url = '/dashboard/store-products'
-
+class ProductContextMixin(object):
+    page_title = ""
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['brands'] = Brand.objects.all()
         context['categories'] = Category.objects.all()
+        context['collapse_open'] = "show"
+        context['page_title'] = self.page_title
+
         return context
+
+
+class CreateProductView(ProductContextMixin, FormView):
+    form_class = AddStoreProduct
+    template_name = 'dashboard/product_create_edit.html'
+    success_url = '/dashboard/store-products'
+    page_title = "Product Create"
+
+
 
 
     def form_valid(self, form):
@@ -155,11 +164,15 @@ class CreateProductView(FormView):
         return super().form_invalid(form)
 
 
-class EditProductView(UpdateView):
+class EditProductView(ProductContextMixin, UpdateView):
     form_class = AddStoreProduct
+    model = Products
     template_name = 'dashboard/product_create_edit.html'
     success_url = '/dashboard/store-products'
     pk_url_kwarg = 'pk'
+    page_title = "Product Edit"
+
+
 
 
 class BrandsListView(ListView):
@@ -201,6 +214,7 @@ class AddBrandView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['metadata_value'] = self.metadata_value
+        context['collapse_open'] = "show"
         return context
 
 
