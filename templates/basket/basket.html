@@ -40,6 +40,26 @@
     <div class="basket-total text-white bg-dark p-3 " style="border-radius: 10px;">
         {% if request.user.is_authenticated %}
         <h1>Shipping Address</h1>
+       {% for address in addresses %}
+    <div class="form-check">
+        <input class="form-check-input selectedAddress" type="radio" name="selectedAddress" id="address{{ address.id }}" value="{{ address.id }}">
+        <label class="form-check-label" for="address{{ address.id }}">
+            {{ address.full_address }}
+        </label>
+    </div>
+{% endfor %}
+<div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header bg-dark" id="headingThree">
+      <h2 class="mb-0">
+        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#addAddressCollapse" aria-expanded="false" aria-controls="addAddressCollapse">
+          Add Shipping Address
+        </button>
+      </h2>
+    </div>
+
+    <div id="addAddressCollapse" class="collapse bg-dark" aria-labelledby="headingThree" data-parent="#accordionExample">
+
         <form id="add-address" action="{% url 'customers:add_address' %}" method="post">
             <div class="form-outline mb-4 wd-25">
                 <input type="text" id="line_1" name="line_1" class="form-control form-control-sm"/>
@@ -63,10 +83,21 @@
             </div>
             <input type="submit" value="submit" class="btn btn-danger">
         </form>
+
+    </div>
+  </div>
+</div>
+
         {% endif %}
         <h4 class="mb-3">Basket Total</h4>
         <p>Total: £{{ view.object.total }}</p>
-        <a href="{% url 'basket:checkout_basket'%}" class="btn btn-primary checkout-basket">Checkout</a>
+        {% if lines_exists %}
+    <form method="post" action="{% url 'basket:checkout_basket' %}">
+        {% csrf_token %}
+        <input id="selected_shipping_address" name="selected_shipping_address" value="" type="hidden">
+        <button id="checkoutBasketButton" type="submit" class="btn btn-primary checkout-basket" disabled>Checkout</button>
+    </form>
+{% endif %}
     </div>
 </div>
 {% endblock %}
@@ -85,8 +116,8 @@
         contentType: false,
         processData: false,
             success: function(response) {
-                // Handle the success response from the server
-                console.log(response);
+                toastr.success('Address for shipping has been added.');
+                location.reload();
             },
             error: function(xhr, status, error) {
                 // Handle errors
@@ -94,6 +125,12 @@
             }
         });
     });
+
+    $(".selectedAddress").on("click", function(e){
+        $("#selected_shipping_address").val($(this).val());
+        $("#checkoutBasketButton").prop("disabled", false);
+
+    })
 
 </script>
 {% endblock %}

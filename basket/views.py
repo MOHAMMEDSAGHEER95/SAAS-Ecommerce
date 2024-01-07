@@ -33,12 +33,21 @@ class BasketDetailView(DetailView):
     def get_object(self, queryset=None):
         return Basket.objects.get(id=self.request.basket)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['lines_exists'] = self.get_object().lines.exists()
+            context['addresses'] = self.request.user.shipping_address.all()
+        return context
+
+
 
 def stripe_basket_checkout(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/customer/login?next=/basket/view-basket')
     stripe.api_key = settings.STRIPE_SECRET_KEY
     line_items = []
+    request.session["address_id"] = request.POST.get("selected_shipping_address")
     basket = Basket.objects.get(id=request.basket)
     for line in  basket.lines.all():
         price_data = {"product_data": {"name": line.product.title}, "currency": "gbp", "unit_amount": line.product.price * 100}

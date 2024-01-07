@@ -33,7 +33,7 @@
 */
 
 body {
-  background:url('/static/img/trolley.jpg') no-repeat;
+  background:url('/static/img/bg.jpg') no-repeat;
   background-size: cover;
   min-height: 100vh;
 }

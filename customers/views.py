@@ -46,7 +46,6 @@ class AddAddress(FormView):
             address = form.save()
             address.user = request.user
             address.save()
-            request.session["address_id"] = address.id
             return JsonResponse({"message": "address added"}, status=200)
         return JsonResponse({"errors": form.errors})
 

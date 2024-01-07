@@ -28,7 +28,7 @@ class ShippingAddress(TimeStamp):
     line_2 = models.CharField(max_length=250)
     city = models.CharField(max_length=100)
     postcode = models.CharField(max_length=10)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='shipping_address', null=True)
     is_default = models.BooleanField(default=False)
 
     def __str__(self):
@@ -37,4 +37,9 @@ class ShippingAddress(TimeStamp):
     class Meta:
         verbose_name = "Shipping Address"
         verbose_name_plural = "Shipping Addresses"
+        unique_together = ('line_1', 'line_2', 'city', 'postcode')
+
+    @property
+    def full_address(self):
+        return f"{self.line_1}, {self.line_2}, {self.city}, {self.postcode}"
 
