@@ -41,6 +41,8 @@
             </div>
         </div>
     </section>
+        </div>
+    </div>
 </div>
 
 
@@ -107,6 +109,7 @@
         else if(decrement_value == 1){
             $(this).parent().hide();
             $("#"+element.attr("product_id")).show();
+            $("#"+element.attr("product_id")).removeClass("d-none");
             data = {"id": element.attr("product_id"), "quantity": 0};
             addToBasket(data,count_element, "add");
         }
