@@ -36,6 +36,8 @@ class Basket(TimeStamp):
 
     @classmethod
     def get_basket(self, user):
+        if not user.basket_set.exists():
+            return self.create_basket(user)
         basket = user.basket_set.last()
         if basket.status == basket.OPEN:
             return basket

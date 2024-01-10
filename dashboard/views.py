@@ -17,6 +17,10 @@ from tenant_schemas.utils import schema_context
 
 # Create your views here.
 
+class IsStaffMixin(PermissionRequiredMixin):
+    def has_permission(self):
+        # Check if the user is a superuser
+        return self.request.user.is_superuser
 
 class DashboardHomeView(PermissionRequiredMixin, TemplateView):
     permission_required = 'auth.view_user'
@@ -47,7 +51,7 @@ class DashboardLogin(FormView):
             return self.form_invalid(form)
 
 
-class OrderListView(ListView):
+class OrderListView(IsStaffMixin, ListView):
     model = Order
     queryset = Order.objects.all()
     context_object_name = 'orders'
@@ -65,7 +69,7 @@ class OrderListView(ListView):
         return context
 
 
-class PublicSchemaProductImport(TemplateView):
+class PublicSchemaProductImport(IsStaffMixin, TemplateView):
     model = Products
     context_object_name = 'products'
     template_name = 'dashboard/products.html'
@@ -99,7 +103,7 @@ class PublicSchemaProductImport(TemplateView):
         return JsonResponse({"message": "success"})
 
 
-class StoreProductListView(ListView):
+class StoreProductListView(IsStaffMixin, ListView):
     context_object_name = 'items'
     template_name = 'dashboard/products.html'
     paginate_by = 20
@@ -119,7 +123,7 @@ class StoreProductListView(ListView):
         return queryset
 
 
-class OrderEditView(UpdateView):
+class OrderEditView(IsStaffMixin, UpdateView):
     model = Order
     form_class = OrderEdit
     pk_url_kwarg = 'pk'
@@ -127,7 +131,7 @@ class OrderEditView(UpdateView):
     success_url = '/dashboard/orders'
 
 
-class ChangeProductStatus(View):
+class ChangeProductStatus(IsStaffMixin, View):
 
     def post(self, request):
         product_id = request.POST.get("product_id")
@@ -150,7 +154,7 @@ class ProductContextMixin(object):
         return context
 
 
-class CreateProductView(ProductContextMixin, FormView):
+class CreateProductView(IsStaffMixin, ProductContextMixin, FormView):
     form_class = AddStoreProduct
     template_name = 'dashboard/product_create_edit.html'
     success_url = '/dashboard/store-products'
@@ -168,7 +172,7 @@ class CreateProductView(ProductContextMixin, FormView):
         return super().form_invalid(form)
 
 
-class EditProductView(ProductContextMixin, UpdateView):
+class EditProductView(IsStaffMixin, ProductContextMixin, UpdateView):
     form_class = AddStoreProduct
     model = Products
     template_name = 'dashboard/product_create_edit.html'
@@ -179,7 +183,7 @@ class EditProductView(ProductContextMixin, UpdateView):
 
 
 
-class BrandsListView(ListView):
+class BrandsListView(IsStaffMixin, ListView):
     model = Brand
     context_object_name = 'objects'
     template_name = 'dashboard/brands.html'
@@ -205,7 +209,7 @@ class BrandsListView(ListView):
         return context
 
 
-class AddBrandView(FormView):
+class AddBrandView(IsStaffMixin, FormView):
     form_class = AddBrandForm
     template_name = 'dashboard/brand_create_edit.html'
     success_url = '/dashboard/brands/'
@@ -222,7 +226,7 @@ class AddBrandView(FormView):
         return context
 
 
-class EditBrandView(UpdateView):
+class EditBrandView(IsStaffMixin, UpdateView):
     form_class = AddBrandForm
     template_name = 'dashboard/brand_create_edit.html'
     success_url = '/dashboard/brands/'
@@ -242,7 +246,7 @@ class AddCategoryView(AddBrandView):
     metadata_value = 'Categories'
 
 
-class EditCategoryView(UpdateView):
+class EditCategoryView(IsStaffMixin, UpdateView):
     form_class = AddCategoryForm
     template_name = 'dashboard/brand_create_edit.html'
     success_url = '/dashboard/categories/'
