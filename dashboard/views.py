@@ -1,6 +1,7 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.db import connection
+from django.db import connection, transaction
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -41,6 +42,7 @@ class DashboardLogin(FormView):
             login(self.request, user)
             return super().form_valid(form)
         else:
+            messages.error(self.request, "Invalid credentials. Please try again.")
             form.add_error(None, "Invalid credentials")
             return self.form_invalid(form)
 
@@ -161,6 +163,7 @@ class CreateProductView(ProductContextMixin, FormView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
+
         return super().form_invalid(form)
 
 

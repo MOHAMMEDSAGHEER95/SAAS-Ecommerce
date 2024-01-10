@@ -51,6 +51,11 @@ class Products(TimeStamp):
     category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, related_name="categories_products")
     public_schema_product_id = models.IntegerField(default=False, db_index=True)
     product_type = models.CharField(max_length=30, choices=PRODUCT_TYPES, default=STAND_ALONE_PRODUCT)
+    length = models.IntegerField(null=True)
+    width = models.IntegerField(null=True)
+    height = models.IntegerField(null=True)
+    weight = models.IntegerField(null=True)
+    stock = models.PositiveIntegerField(verbose_name="Stock available", default=0)
 
     class Meta:
         verbose_name = "Product"
@@ -79,26 +84,10 @@ class Products(TimeStamp):
             return Products.objects.filter(public_schema_product_id=self.id).exists()
 
 
-class ProductVariant(TimeStamp):
-    length = models.IntegerField(null=True)
-    width = models.IntegerField(null=True)
-    height = models.IntegerField(null=True)
-    weight = models.IntegerField(null=True)
-    name = models.CharField(max_length=300)
-    product = models.ForeignKey(Products, on_delete=models.CASCADE, null=True, related_name="product_product_variants")
-    stock = models.PositiveIntegerField(verbose_name="Stock available", default=0)
-    price = models.IntegerField()
-    def __str__(self):
-        return self.name
-
-
-    class Meta:
-        verbose_name = "Product Variant"
-        verbose_name_plural = "Product Variants"
-
 class ProductImage(TimeStamp):
     image = models.ImageField(upload_to=get_upload_path, null=True)
-    variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE, related_name="variant_product_image")
+    product = models.ForeignKey(Products, null=True, on_delete=models.CASCADE, related_name="product_image")
+    is_cover_image = models.BooleanField(default=False)
 
     def __str__(self):
         return self.variant.name

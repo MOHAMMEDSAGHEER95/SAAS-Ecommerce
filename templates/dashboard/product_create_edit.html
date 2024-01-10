@@ -4,6 +4,19 @@
     {% endblock %}
 {% block body %}
 <div class="container" style="overflow: auto;">
+{% if form.errors %}
+  <ul class="errorlist">
+    {% for field_name, field_errors in form.errors.items %}
+      {% for error in field_errors %}
+        <li>
+          <div class="alert alert-danger" role="alert">
+            {{ field_name }}: {{ error }}
+          </div>
+        </li>
+      {% endfor %}
+    {% endfor %}
+  </ul>
+{% endif %}
 <form action="." method="post" autocomplete="off" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group mt-5">
@@ -35,6 +48,33 @@
             {% endfor %}
             </select>
     </div>
+
+    <div class="form-group mt-3">
+    <label for="product_length">Length (cm)</label>
+    <input type="text" name="length" id="product_length" class="form-control" value="{{ form.length.value| default_if_none:0 }}">
+</div>
+
+<div class="form-group mt-3">
+    <label for="product_width">Width (cm)</label>
+    <input type="text" name="width" id="product_width" class="form-control" value="{{ form.width.value| default_if_none:0 }}">
+</div>
+
+<div class="form-group mt-3">
+    <label for="product_height">Height (cm)</label>
+    <input type="text" name="height" id="product_height" class="form-control" value="{{ form.height.value| default_if_none:0 }}">
+</div>
+
+<div class="form-group mt-3">
+    <label for="product_stock">Stock</label>
+    <input type="text" name="stock" id="product_stock" class="form-control" value="{{ form.stock.value| default_if_none:0 }}">
+</div>
+
+<div class="form-group mt-3">
+    <label for="product_weight">Weight (Kg)</label>
+    <input type="text" name="weight" id="product_weight" class="form-control" value="{{ form.weight.value| default_if_none:0 }}">
+</div>
+
+
     <div class="form-group mt-5">
          <label for="id_product_type">Product Type</label>
         <select name="product_type" id="id_product_type" class="form-control ">
