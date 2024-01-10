@@ -1,7 +1,7 @@
 name: Build & Deploy
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   deploy:
@@ -21,8 +21,8 @@ jobs:
             git pull
             source venv/bin/activate
             source .env
-            pip install -r requirements.txt
-            python manage.py migrate_schemas
-            python manage.py collectstatic --no-input
+#            pip install -r requirements.txt
+#            python manage.py migrate_schemas
+#            python manage.py collectstatic --no-input
             sudo systemctl restart gunicorn
           

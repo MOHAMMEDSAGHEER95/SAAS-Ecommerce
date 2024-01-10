@@ -10,7 +10,7 @@ from django.shortcuts import redirect, render
 
 # Create your views here.
 from django.urls import reverse
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView, FormView, ListView
 from elasticsearch_dsl import Q
 from tenant_schemas.utils import schema_context
 
@@ -23,10 +23,12 @@ from products.documents import ProductDocument
 from products.models import Products
 
 
-class PlanListView(TemplateView):
-
+class PlanListView(ListView):
+    model = Products
     template_name = 'onboarding/plans.html'
     tenant_homepage = 'onboarding/tenant_home.html'
+    context_object_name = 'products'
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         plans = Plan.objects.filter(is_active=True).order_by('id')
@@ -35,9 +37,14 @@ class PlanListView(TemplateView):
         context['tenant'] = connection.schema_name
         if connection.schema_name != 'public':
             with schema_context(connection.schema_name):
-                context['products'] = Products.objects.filter(is_available=True)
                 context['basket_lines'] = BasketLine.objects.filter(basket_id=self.request.basket).count()
         return context
+
+    def get_queryset(self):
+        if connection.schema_name != 'public':
+            return Products.objects.filter(is_available=True)
+        return Plan.objects.filter(is_active=True).order_by('id')
+
 
     def get_template_names(self):
         if connection.schema_name == 'public':
