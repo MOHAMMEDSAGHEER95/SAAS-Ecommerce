@@ -23,7 +23,7 @@ class ProductDocument(Document):
 
     class Django:
         model = Products
-        fields = ['price']
+        fields = ['price', 'is_available']
 
 
     def prepare_tenant(self, instance):
