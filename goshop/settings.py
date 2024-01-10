@@ -42,6 +42,7 @@ SHARED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'products',
+    'django_extensions'
 )
 
 TENANT_APPS = (
@@ -57,6 +58,7 @@ TENANT_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'django_elasticsearch_dsl'
 )
 
 INSTALLED_APPS = [
@@ -75,7 +77,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'payment',
-    'django_extensions'
+    'django_extensions',
+    'django_elasticsearch_dsl'
 ]
 
 MIDDLEWARE = [
@@ -205,3 +208,9 @@ if IS_PRODUCTION:
 
 ORDER_NUMBERING_FROM = 10000
 LOGOUT_REDIRECT_URL = '/'
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+    }

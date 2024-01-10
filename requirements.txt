@@ -7,3 +7,6 @@ bpython==0.24
 stripe==7.7.0
 cloudinary==1.37.0
 pillow==10.1.0
+django-elasticsearch-dsl==6.5.0
+elasticsearch==6.8.1
+elasticsearch-dsl==6.4.0
