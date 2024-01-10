@@ -19,10 +19,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
-from onboarding.views import PlanListView, OnboardingFormView, CreateOnboarding
+from onboarding.views import PlanListView, OnboardingFormView, CreateOnboarding, SearchView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('search/', SearchView.as_view(), name='search'),
     path('', PlanListView.as_view(), name='plans'),
     path("customer/", include('customers.urls')),
     path('products/', include('products.urls')),

@@ -6,7 +6,8 @@ from products.models import Products
 register = template.Library()
 
 @register.simple_tag
-def check_product_exists(basket_id, product):
+def check_product_exists(basket_id, product_id):
+    product = Products.objects.get(id=product_id)
     return product.exists_in_basket(basket_id)
 
 @register.simple_tag

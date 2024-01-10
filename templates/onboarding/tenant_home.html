@@ -19,7 +19,7 @@
                              style="background: url('{{product.get_image_url}}') no-repeat center/cover ">
                             <ul>
 
-                                <li  class="add-to-cart {% check_product_exists request.basket product as exists %}{% if exists %}d-none{% endif %}" id="{{product.id}}"><a href="#">
+                                <li  class="add-to-cart {% check_product_exists request.basket product.id as exists %}{% if exists %}d-none{% endif %}" id="{{product.id}}"><a href="#">
                                     <i class="fa-solid fa-cart-plus"></i>
                                 </a></li>
                             </ul>

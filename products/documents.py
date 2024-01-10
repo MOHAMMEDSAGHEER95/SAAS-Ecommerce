@@ -9,9 +9,11 @@ from products.models import Products
 
 @registry.register_document
 class ProductDocument(Document):
+    id = fields.IntegerField()
     title = fields.TextField()
     description = fields.TextField()
     tenant = fields.TextField()
+    get_image_url = fields.TextField()
     class Index:
         # Name of the Elasticsearch index
         name = 'products'
@@ -26,4 +28,10 @@ class ProductDocument(Document):
 
     def prepare_tenant(self, instance):
         return connection.schema_name
+
+    def prepare_get_image_url(self, instance):
+        return instance.get_image_url
+
+    def prepare_id(self, instance):
+        return instance.id
 

@@ -11,6 +11,7 @@ from django.shortcuts import redirect, render
 # Create your views here.
 from django.urls import reverse
 from django.views.generic import TemplateView, FormView
+from elasticsearch_dsl import Q
 from tenant_schemas.utils import schema_context
 
 from basket.models import BasketLine
@@ -18,6 +19,7 @@ from customers.models import Client
 from onboarding.forms import OnboardingForm
 from onboarding.godaddy.client import GoDaddyClientHelper
 from onboarding.models import Plan, Onboarding
+from products.documents import ProductDocument
 from products.models import Products
 
 
@@ -41,6 +43,22 @@ class PlanListView(TemplateView):
         if connection.schema_name == 'public':
             return self.template_name
         return self.tenant_homepage
+
+
+class SearchView(TemplateView):
+    template_name = 'onboarding/tenant_home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        q = self.request.GET.get('q')
+        response = ProductDocument.search().filter("term", tenant=self.request.tenant.schema_name)
+        wildcard_query = Q("wildcard", title={"value": f"*{q.lower()}*"})
+        response = response.query(wildcard_query)
+        context['products'] = response
+        context['searchterm'] = q
+        return context
+
+
 
 
 class OnboardingFormView(FormView):
