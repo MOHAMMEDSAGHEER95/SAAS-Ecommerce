@@ -35,8 +35,8 @@ class BasketDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['lines_exists'] = self.get_object().lines.exists()
         if self.request.user.is_authenticated:
-            context['lines_exists'] = self.get_object().lines.exists()
             context['addresses'] = self.request.user.shipping_address.all()
         return context
 

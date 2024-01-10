@@ -94,7 +94,7 @@
         {% if lines_exists %}
     <form method="post" action="{% url 'basket:checkout_basket' %}" id="checkoutForm">
         {% csrf_token %}
-        <input id="selected_shipping_address" name="selected_shipping_address" value="" type="hidden">
+        <input id="selected_shipping_address" name="selected_shipping_address" {% if request.user.is_authenticated %}value=""{% else %}value="0"{% endif %} type="hidden">
         <button id="checkoutBasketButton" type="submit" class="btn btn-primary checkout-basket" >Checkout</button>
     </form>
 {% endif %}
