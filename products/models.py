@@ -41,7 +41,7 @@ class Products(TimeStamp):
     PRODUCT_TYPES = ((STAND_ALONE_PRODUCT, "Stand Alone Product"),
                      (PARENT_PRODUCT, "Parent Product"))
 
-    title = models.CharField(max_length=300)
+    title = models.CharField(max_length=300, db_index=True)
     description = models.TextField()
     image = models.ImageField(upload_to=get_upload_path, null=True)
     price = models.IntegerField()
