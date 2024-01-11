@@ -58,9 +58,10 @@ class SearchView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         q = self.request.GET.get('q')
-        response = ProductDocument.search().filter("term", tenant=self.request.tenant.schema_name).filter("term", is_available=True)
-        wildcard_query = Q("wildcard", title={"value": f"*{q.lower()}*"})
-        response = response.query(wildcard_query)
+        # response = ProductDocument.search().filter("term", tenant=self.request.tenant.schema_name).filter("term", is_available=True)
+        # wildcard_query = Q("wildcard", title={"value": f"*{q.lower()}*"})
+        # response = response.query(wildcard_query)
+        response = Products.objects.filter(title__icontains=q)
         context['products'] = response
         context['searchterm'] = q
         return context
