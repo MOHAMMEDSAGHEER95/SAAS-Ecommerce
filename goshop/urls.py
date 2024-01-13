@@ -30,6 +30,7 @@ urlpatterns = [
     path('basket/', include('basket.urls')),
     path('onboarding/', include('onboarding.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('api/', include('restapis.urls')),
 
 ]
 

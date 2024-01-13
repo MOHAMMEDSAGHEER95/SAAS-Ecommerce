@@ -21,6 +21,7 @@ class CustomBasketMiddleware:
                 try:
                     unsigned_basket_id = signer.unsign_object(request.COOKIES['basket'])
                     basket_id = unsigned_basket_id.get("basket_id")
+                    print(basket_id)
                     if Basket.objects.get(id=basket_id).status != Basket.OPEN:
                         create_basket = True
                     if request.user.is_authenticated is False and Basket.objects.get(id=basket_id).user:
@@ -41,12 +42,17 @@ class CustomBasketMiddleware:
                     basket = Basket.create_basket(request.user)
                 basket_id = basket.id
                 request.basket = basket_id
+            if 'delete_basket' in request.session:
+                del request.COOKIES['basket']
+                del request.session['delete_basket']
             response = self.get_response(request)
+            print(request.session.get('delete_basket'))
             if 'basket' not in request.COOKIES or create_basket:
                 hash_value = signer.sign_object({"basket_id": basket_id})
                 if request.user.is_authenticated is False:
                     response.set_cookie("basket", hash_value, max_age=3600, secure=True, httponly=True)
                 request.basket = basket_id
+
             return response
         else:
             response = self.get_response(request)

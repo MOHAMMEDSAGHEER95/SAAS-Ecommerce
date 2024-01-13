@@ -10,3 +10,5 @@ pillow==10.1.0
 django-elasticsearch-dsl==6.5.0
 elasticsearch==6.8.1
 elasticsearch-dsl==6.4.0
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.1

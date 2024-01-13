@@ -50,6 +50,8 @@ TENANT_APPS = (
     'payment',
     'onboarding',
     'products',
+    'rest_framework',
+    'restapis',
     'basket',
     'dashboard',
     'orders',
@@ -66,6 +68,8 @@ INSTALLED_APPS = [
     'customers',
     'onboarding',
     'products',
+    'rest_framework',
+    'restapis',
     'basket',
     'dashboard',
     'orders',
@@ -78,7 +82,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'payment',
     'django_extensions',
-    'django_elasticsearch_dsl'
+    'django_elasticsearch_dsl',
+
 ]
 
 MIDDLEWARE = [
@@ -213,4 +218,12 @@ ELASTICSEARCH_DSL = {
     'default': {
         'hosts': 'localhost:9200'
     },
-    }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}

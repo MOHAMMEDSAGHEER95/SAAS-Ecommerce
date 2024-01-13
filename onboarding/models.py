@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 from customers.abstract_model import TimeStamp
+from customers.models import Client
 
 
 class Plan(TimeStamp):
@@ -31,6 +32,7 @@ class Onboarding(TimeStamp):
     plan = models.ForeignKey(Plan, null=True, related_name="onboarding_plan", on_delete=models.CASCADE)
     session_id = models.CharField(max_length=500, null=True, blank=True)
     stripe_connect_id = models.CharField(max_length=500, null=True, blank=True)
+    client = models.ForeignKey(Client, null=True, related_name='client_onboarding', on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = "Onboarding"
