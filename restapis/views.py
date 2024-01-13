@@ -2,11 +2,13 @@ from django.core.signing import Signer
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from basket.models import Basket
+from restapis.permissions import IsPremiumTenant
 from restapis.serializers import BasketSerializers
 
 
@@ -17,6 +19,7 @@ from restapis.serializers import BasketSerializers
 class BasketDetailAPIView(RetrieveAPIView):
     queryset = Basket
     serializer_class = BasketSerializers
+    permission_classes = [AllowAny, IsPremiumTenant]
 
 
     def retrieve(self, request, *args, **kwargs):
