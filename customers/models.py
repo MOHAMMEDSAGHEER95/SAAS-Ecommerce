@@ -32,7 +32,7 @@ class Client(TenantMixin):
 
     def is_premium_plan(self):
         with schema_context('public'):
-            return self.client_onboarding.filter(plan__slug=['premium']).exists()
+            return self.client_onboarding.filter(plan__slug='premium').exists()
 
     def can_publish_cms(self):
         with schema_context('public'):
