@@ -84,9 +84,11 @@ class LoginTokenAPIView(TokenObtainPairView):
 class ProductListView(ListAPIView):
     queryset = Products.objects.filter(is_available=True)
     serializer_class = ProductsListSerializer
+    permission_classes = [AllowAny, IsPremiumTenant]
 
 class AddProductAPI(CreateAPIView):
     serializer_class = BasketAddProductSerializer
+    permission_classes = [AllowAny, IsPremiumTenant]
 
     def perform_create(self, serializer):
         basket = serializer.validated_data['basket']
