@@ -10,11 +10,25 @@ class ProductsSerializer(serializers.ModelSerializer):
         fields = ('title', 'description', 'price', 'get_image_url')
 
 
+class ProductsListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Products
+        fields = ('id', 'title', 'description', 'price', 'get_image_url')
+
+
+
 class BasketLineSerializer(serializers.ModelSerializer):
     product = ProductsSerializer(read_only=True)
     class Meta:
         model = BasketLine
         fields = ('basket', 'product', 'quantity', 'price')
+
+
+class BasketAddProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = BasketLine
+        fields = ('product', 'quantity', 'basket')
 
 
 
