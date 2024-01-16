@@ -12,18 +12,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <section>
   <div class="container py-5">
-      <form method="post" action=".">
-    {% csrf_token %}
 
-    <div class="form-group">
-      <label for="inputSchemaName">Schema Name</label>
+      <form method="post" action="." novalidate >
+    {% csrf_token %}
+          <label for="inputSchemaName">Schema Name</label>
       <input type="text" class="form-control" id="inputSchemaName" name="schema_name" placeholder="Enter your subdomain name" required>
-      {% for field in form %}
-            {% if field.errors %}
-                <p class="error-message"><strong style="color:red">{{ field.errors }}</strong></p>
-            {% endif %}
-        {% endfor %}
-    </div>
 
         <div class="form-group">
       <label for="first_name">First Name</label>
@@ -41,13 +34,14 @@
     </div>
 
     <div class="form-group">
-      <label for="inputContactNumber">Contact Number</label>
-      <input type="text" class="form-control" id="inputContactNumber" name="contact_number" placeholder="Enter contact number" required>
+      <label for="numericInput">Contact Number</label>
+      <input type="number" class="form-control" id="numericInput" name="contact_number" pattern="[0-9]*" inputmode="numeric">
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
   </div>
+    {% include 'formerrors.html' %}
 </section>
 </body>
 
