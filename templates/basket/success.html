@@ -50,6 +50,11 @@
                                         <h5 class="text-uppercase">{% trans "payment method" %}</h5>
                                         <p class="text-uppercase text-light-black mb-0"><strong>{% if order.transaction_id %}ONLINE{% else %}CASH ON DELIVERY{% endif %}</strong></p>
                                     </div>
+
+                                    <div class="single-order-info">
+                                        <h5 class="text-uppercase">{% trans "Shipping address" %}</h5>
+                                        <p class="text-uppercase text-light-black mb-0"><strong>{{order.shipping_address.full_address}}</strong></p>
+                                    </div>
                                 </div>
                                 <div class="shop-cart-table check-out-wrap">
                                     <div class="row">
@@ -68,6 +73,7 @@
                                                         <tr>
                                                             <td>{{ line.product.title }} x {{ line.quantity }}</td>
                                                             <td class="text-end">GBP {{ line.net_amount }}</td>
+                                                            <td><img src="{{line.product.get_image_url}}" height="150" width="100"></td>
                                                         </tr>
                                                         {% endfor %}
                                                         <tr>

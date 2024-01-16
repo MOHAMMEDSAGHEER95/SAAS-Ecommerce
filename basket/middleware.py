@@ -21,7 +21,6 @@ class CustomBasketMiddleware:
                 try:
                     unsigned_basket_id = signer.unsign_object(request.COOKIES['basket'])
                     basket_id = unsigned_basket_id.get("basket_id")
-                    print(basket_id)
                     if Basket.objects.get(id=basket_id).status != Basket.OPEN:
                         create_basket = True
                     if request.user.is_authenticated is False and Basket.objects.get(id=basket_id).user:
