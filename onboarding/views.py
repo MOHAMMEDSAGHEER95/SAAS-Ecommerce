@@ -16,6 +16,7 @@ from tenant_schemas.utils import schema_context
 
 from basket.models import BasketLine
 from customers.models import Client
+from dashboard.views import TenantIsActive
 from onboarding.forms import OnboardingForm
 from onboarding.godaddy.client import GoDaddyClientHelper
 from onboarding.models import Plan, Onboarding
@@ -23,7 +24,7 @@ from products.documents import ProductDocument
 from products.models import Products
 
 
-class PlanListView(ListView):
+class PlanListView(TenantIsActive, ListView):
     model = Products
     template_name = 'onboarding/plans.html'
     tenant_homepage = 'onboarding/tenant_home.html'

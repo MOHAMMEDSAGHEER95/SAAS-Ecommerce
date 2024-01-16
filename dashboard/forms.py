@@ -2,6 +2,7 @@ from django import forms
 from djrichtextfield.widgets import RichTextWidget
 
 from cms.models import Blog
+from onboarding.models import Onboarding
 from products.models import Products, Brand, Category, ProductImage
 
 
@@ -45,3 +46,9 @@ class AddBlogForm(forms.ModelForm):
     class Meta:
         model = Blog
         fields = ('title', 'body', 'status')
+
+
+class OnboardingEditForm(forms.ModelForm):
+    class Meta:
+        model = Onboarding
+        fields = ('is_active', 'plan')

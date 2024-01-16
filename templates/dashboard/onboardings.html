@@ -1,0 +1,48 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}
+    <title>Dashboard: {{metadata_value}}</title>
+    {% endblock %}
+{% block body %}
+<div class="container" style="overflow: auto;">
+<div class="row">
+
+  <div class="mx-auto col-sm-6" style="margin-top: 40px">
+    <form action="." method="get" autocomplete="off">
+      <div class="input-group">
+        <input type="text" name="title" class="form-control" placeholder="Search using schema name" {% if query %}value="{{query}}" {% endif %}>
+      </div>
+    </form>
+  </div>
+
+</div>
+<div class="d-flex" style="width:100%">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="row"><input type="checkbox"></th>
+        <th scope="col">Schema Name</th>
+        <th scope="col">Status</th>
+        <th scope="col">Plan</th>
+        <th scope="col">Created at</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+      </tr>
+    </thead>
+      <tbody>
+      {% for tenant in tenants %}
+      <tr>
+        <th scope="row"><input type="checkbox"></th>
+        <td>{{tenant.schema_name}}</td>
+        <td>{% if tenant.is_active %}Active{% else %}Inactive{% endif %}</td>
+        <td>{{tenant.plan}}</td>
+        <td>{{tenant.created_at|date:'d/m/Y'}}</td>
+          <td><a href="{% url 'dashboard:onboarding_edit_view' pk=tenant.id%}" type="button" class="btn btn-primary">Edit</a> </td>
+<!--          <td><a href="#" type="button" class="btn btn-danger">Delete</a> </td>-->
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>
+</div>
+    {% endblock %}

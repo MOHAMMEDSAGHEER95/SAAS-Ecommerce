@@ -8,9 +8,12 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView, FormView, ListView, UpdateView
+from django_tenants.utils import get_public_schema_name
 
 from cms.models import Blog
-from dashboard.forms import DashboardAdminForm, AddStoreProduct, AddBrandForm, AddCategoryForm, AddBlogForm
+from dashboard.forms import DashboardAdminForm, AddStoreProduct, AddBrandForm, AddCategoryForm, AddBlogForm, \
+    OnboardingEditForm
+from onboarding.models import Onboarding
 from orders.forms import OrderEdit
 from orders.models import Order
 from products.models import Products, Brand, Category
@@ -23,6 +26,14 @@ class IsStaffMixin(PermissionRequiredMixin):
     def has_permission(self):
         # Check if the user is a superuser
         return self.request.user.is_superuser
+
+
+class TenantIsActive(PermissionRequiredMixin):
+    def has_permission(self):
+        if self.request.tenant.schema_name == get_public_schema_name():
+            return True
+        # Check if the user is active
+        return self.request.tenant.has_active_plan()
 
 class DashboardHomeView(PermissionRequiredMixin, TemplateView):
     permission_required = 'auth.view_user'
@@ -302,3 +313,32 @@ class EditBlog(CanPublishMixin, IsStaffMixin, UpdateView):
     template_name = 'dashboard/blog_create_edit.html'
     success_url = '/dashboard/blogs/'
     model = Blog
+
+class IsPublicTenantMixin(PermissionRequiredMixin):
+    def dispatch(self, request, *args, **kwargs):
+        if request.tenant.schema_name == get_public_schema_name():
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied("Only accesible to public schema")
+
+class OnboardingListView(IsPublicTenantMixin, ListView):
+    permission_required = 'auth.view_user'
+    template_name = 'dashboard/onboardings.html'
+    queryset = Onboarding.objects.all()
+    context_object_name = 'tenants'
+
+    def get_queryset(self):
+        filter_kwargs = {}
+        if self.request.GET.get("title"):
+            filter_kwargs = {'schema_name__icontains': self.request.GET.get("title")}
+        return self.queryset.filter(**filter_kwargs)
+
+
+class OnboardingEditView(IsPublicTenantMixin, UpdateView):
+    permission_required = 'auth.view_user'
+    form_class = OnboardingEditForm
+    model = Onboarding
+    success_url = '/dashboard/onboardings/'
+    template_name = 'dashboard/onboarding-edit.html'
+
+

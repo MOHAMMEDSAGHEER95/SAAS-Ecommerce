@@ -43,7 +43,7 @@
         </button>
         <div class="collapse {{collapse_open}}" id="product-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="{% url 'dashboard:import_products' %}" class="nav-link text-white rounded {% if request.resolver_match.url_name == 'import_products' %}active{% endif %}">Import Products</a></li>
+           {% if request.tenant.schema_name != 'public' %} <li><a href="{% url 'dashboard:import_products' %}" class="nav-link text-white rounded {% if request.resolver_match.url_name == 'import_products' %}active{% endif %}">Import Products</a></li>{% endif %}
             <li><a href="{% url 'dashboard:store_products' %}" class="nav-link text-white rounded {% if request.resolver_match.url_name == 'store_products' %}active{% endif %}">Store Products</a></li>
             <li><a href="{% url 'dashboard:brands_list_view' %}" class="nav-link text-white rounded {% if request.resolver_match.url_name == 'brands_list_view' %}active{% endif %}">Brands</a></li>
             <li><a href="{% url 'dashboard:categories_list_view' %}" class="nav-link text-white rounded {% if request.resolver_match.url_name == 'categories_list_view' %}active{% endif %}">Categories</a></li>
@@ -55,6 +55,14 @@
           <a href="{% url 'dashboard:blogs_list_view' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'blogs_list_view' %}active{% endif %}">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
           Blogs
+        </a>
+          {% endif %}
+      </li>
+        <li>
+          {% if request.tenant.schema_name == 'public' %}
+          <a href="{% url 'dashboard:onboarding_list_view' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'onboarding_list_view' %}active{% endif %}">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+          Onboarding
         </a>
           {% endif %}
       </li>

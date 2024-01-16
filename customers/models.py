@@ -10,11 +10,9 @@ from customers.abstract_model import TimeStamp
 
 class Client(TenantMixin):
     name = models.CharField(max_length=100)
-    on_trial = models.BooleanField(default=True)
     created_on = models.DateField(auto_now_add=True)
     email = models.EmailField(null=True)
     contact_number = models.CharField(null=True, max_length=15)
-    on_trials = models.BooleanField(default=True)
 
     # default true, schema will be automatically created and synced when it is saved
     auto_create_schema = True
@@ -33,6 +31,10 @@ class Client(TenantMixin):
     def is_premium_plan(self):
         with schema_context('public'):
             return self.client_onboarding.filter(plan__slug='premium').exists()
+
+    def has_active_plan(self):
+        with schema_context('public'):
+            return self.client_onboarding.filter(is_active=True).exists()
 
     def can_publish_cms(self):
         with schema_context('public'):
