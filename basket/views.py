@@ -1,5 +1,6 @@
 import stripe
 from django.conf import settings
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.utils import timezone
@@ -66,7 +67,7 @@ def stripe_basket_checkout(request):
     return HttpResponseRedirect(session.url)
 
 
-class SuccessView(TemplateView):
+class SuccessView(LoginRequiredMixin, TemplateView):
     template_name = 'basket/success.html'
 
 
@@ -78,7 +79,12 @@ class SuccessView(TemplateView):
             with schema_context('public'):
                 stripe_account = Onboarding.objects.get(schema_name=schema_name).stripe_connect_id
             session = stripe.checkout.Session.retrieve(id=kwargs.get('slug'), stripe_account=stripe_account)
-            if session.status == "complete":
+            order_created = False
+            if Order.objects.filter(transaction_id=session.id).exists():
+                order = Order.objects.filter(transaction_id=session.id).first()
+                context['order'] = order
+                order_created = True
+            if session.status == "complete" and not order_created:
                 context['status'] = "Success"
                 basket = Basket.objects.get(id=self.request.basket)
                 basket.status = basket.SUBMITTED
@@ -86,9 +92,10 @@ class SuccessView(TemplateView):
                 basket.save()
                 number = settings.ORDER_NUMBERING_FROM + basket.id
                 shipping_address = self.request.session.get("address_id")
-                Order.objects.create(basket=basket, user=basket.user, number=str(number),
+                order = Order.objects.create(basket=basket, user=basket.user, number=str(number),
                                      total_incl_tax=session.amount_total/100, transaction_id=session.id,
                                      shipping_address_id=shipping_address)
+                context['order'] = order
         except Exception as e:
             context['status'] = "Error"
         return context

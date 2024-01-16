@@ -1,4 +1,6 @@
+
 {% extends 'base.html' %}
+{% load i18n %}
 
 
 
@@ -14,5 +16,85 @@
 </style>
 <div class="container my-5" style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
     <h2 class="text-center mb-4">Payment {{status}}</h2>
+<div class="shopping-cart-area  pt-80 pb-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shopping-cart">
+                    <div class="order-received mb-2">
+                        <a href="/" class="btn btn-back"><i class="fa fa-angle-left pr-2"></i>{% trans 'Back' %}</a>
+                    </div>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+
+                        <!-- order-complete start -->
+                        <div class="tab-pane active" id="order-complete">
+                            <form action="#">
+                                <div class="thank-recieve bg-white mb-30">
+                                    <p>{% trans "Thank you. Your order has been received." %}</p>
+                                </div>
+                                <div class="order-info bg-white text-center clearfix mb-30">
+                                    <div class="single-order-info">
+                                        <h5 class="text-uppercase">{% trans "order no" %}</h5>
+                                        <p class="text-uppercase text-light-black mb-0"><strong>{{ order.number }}</strong></p>
+                                    </div>
+                                    <div class="single-order-info">
+                                        <h5 class="text-uppercase">{% trans "Date" %}</h5>
+                                        <p class="text-uppercase text-light-black mb-0"><strong>{{ order.created_at|date:'d/m/Y' }}</strong></p>
+                                    </div>
+                                    <div class="single-order-info">
+                                        <h5 class="text-uppercase">{% trans "Total" %}</h5>
+                                        <p class="text-uppercase text-light-black mb-0"><strong>GBP  {{ order.total_incl_tax }}</strong></p>
+                                    </div>
+                                    <div class="single-order-info">
+                                        <h5 class="text-uppercase">{% trans "payment method" %}</h5>
+                                        <p class="text-uppercase text-light-black mb-0"><strong>{% if order.transaction_id %}ONLINE{% else %}CASH ON DELIVERY{% endif %}</strong></p>
+                                    </div>
+                                </div>
+                                <div class="shop-cart-table check-out-wrap">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="our-order payment-details pr-20">
+                                                <h4 class="title-1 title-border text-uppercase mb-30">{% trans "your order" %}</h4>
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th><strong>{% trans "Product" %}</strong></th>
+                                                            <th class="text-end"><strong>{% trans "Total" %}</strong></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for line in order.basket.lines.all %}
+                                                        <tr>
+                                                            <td>{{ line.product.title }} x {{ line.quantity }}</td>
+                                                            <td class="text-end">GBP {{ line.net_amount }}</td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                        <tr>
+                                                            <td>{% trans "Cart Subtotal" %}</td>
+                                                            <td class="text-end">GBP {{ order.total_incl_tax }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>{% trans "Order Total" %}</td>
+                                                            <td class="text-end">GBP {{ order.total_incl_tax }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- order-complete end -->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 {% endblock %}
