@@ -1,0 +1,47 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}
+    <title>Dashboard: {{metadata_value}}</title>
+    {% endblock %}
+{% block body %}
+<div class="container" style="overflow: auto;">
+<div class="row">
+
+  <div class="mx-auto col-sm-6" style="margin-top: 40px">
+    <form action="." method="get" autocomplete="off">
+      <div class="input-group">
+        <input type="text" name="title" class="form-control" placeholder="Search" {% if query %}value="{{query}}" {% endif %}>
+        <div class="input-group-append" style="margin-left: 10px;">
+          <button onclick="location.href = '{{add_object_url}}';" type="button" class="btn btn-success" id="store_products">Add {{metadata_value}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+<div class="d-flex" style="width:100%">
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="row"><input type="checkbox"></th>
+        <th scope="col">Title</th>
+        <th scope="col">Staus</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+      </tr>
+    </thead>
+      <tbody>
+      {% for object in objects %}
+      <tr>
+        <th scope="row"><input type="checkbox"></th>
+        <td>{{object.title}}</td>
+        <td>{{object.status}}</td>
+          <td><a href="{{edit_object_url}}/{{object.id}}" type="button" class="btn btn-primary">Edit</a> </td>
+          <td><a href="#" type="button" class="btn btn-danger">Delete</a> </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+</div>
+</div>
+    {% endblock %}

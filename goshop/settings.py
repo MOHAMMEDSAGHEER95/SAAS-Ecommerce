@@ -42,7 +42,9 @@ SHARED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'products',
-    'django_extensions'
+    'django_extensions',
+    'cms',
+    'djrichtextfield'
 )
 
 TENANT_APPS = (
@@ -55,6 +57,7 @@ TENANT_APPS = (
     'basket',
     'dashboard',
     'orders',
+    'cms',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.sites',
@@ -73,6 +76,8 @@ INSTALLED_APPS = [
     'basket',
     'dashboard',
     'orders',
+    'cms',
+    'djrichtextfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -229,3 +234,14 @@ REST_FRAMEWORK = {
 }
 
 LOGIN_URL = '/customer/login/'
+
+DJRICHTEXTFIELD_CONFIG = {
+    'js': ['//cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js'],
+    'init_template': 'djrichtextfield/init/tinymce.js',
+    'settings': {
+        'menubar': False,
+        'plugins': 'link image',
+
+        'width': 700
+    }
+}

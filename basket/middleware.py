@@ -45,7 +45,6 @@ class CustomBasketMiddleware:
                 del request.COOKIES['basket']
                 del request.session['delete_basket']
             response = self.get_response(request)
-            print(request.session.get('delete_basket'))
             if 'basket' not in request.COOKIES or create_basket:
                 hash_value = signer.sign_object({"basket_id": basket_id})
                 if request.user.is_authenticated is False:

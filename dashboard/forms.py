@@ -1,5 +1,7 @@
 from django import forms
+from djrichtextfield.widgets import RichTextWidget
 
+from cms.models import Blog
 from products.models import Products, Brand, Category, ProductImage
 
 
@@ -36,3 +38,10 @@ class AddCategoryForm(forms.ModelForm):
 
     def clean_title(self):
         return self.cleaned_data['title'].capitalize()
+
+
+class AddBlogForm(forms.ModelForm):
+    body = forms.CharField(widget=RichTextWidget())
+    class Meta:
+        model = Blog
+        fields = ('title', 'body', 'status')

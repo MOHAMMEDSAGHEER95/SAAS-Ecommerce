@@ -51,10 +51,12 @@
         </div>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-          Customers
+          {% if request.tenant.can_publish_cms %}
+          <a href="{% url 'dashboard:blogs_list_view' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'blogs_list_view' %}active{% endif %}">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+          Blogs
         </a>
+          {% endif %}
       </li>
     </ul>
     <hr>

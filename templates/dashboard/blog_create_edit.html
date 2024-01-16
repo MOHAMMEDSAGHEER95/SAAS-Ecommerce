@@ -1,0 +1,43 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}
+    <title>Dashboard: {{metadata_value}} Create</title>
+    {% endblock %}
+{% block body %}
+<div class="container" style="overflow: auto;">
+    {{ form.media }}
+    <h1>Blogs</h1>
+
+    {% if form.errors %}
+  <ul class="errorlist">
+    {% for field_name, field_errors in form.errors.items %}
+      {% for error in field_errors %}
+        <li>
+          <div class="alert alert-danger" role="alert">
+            {{ field_name }}: {{ error }}
+          </div>
+        </li>
+      {% endfor %}
+    {% endfor %}
+  </ul>
+{% endif %}
+<form action="." method="post" autocomplete="off" enctype="multipart/form-data" novalidate  >
+    {% csrf_token %}
+    <div class="form-group mt-5">
+        <label for="brand_title">Title</label>
+        <input {% if form.title.value%}value="{{form.title.value}}"{% endif %} type="text" class="form-control" id="brand_title" name="title" placeholder="{{metadata_value}} Title">
+    </div>
+<div class="form-group mt-5">
+    {{form.body}}
+    </div>
+
+    <div class="form-group mt-5">
+    {{form.status}}
+    </div>
+
+    <div class="form-group mt-5">
+    <input type="submit" class="btn btn-success" value="Submit">
+    </div>
+
+</form>
+</div>
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db import connection, transaction
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -8,7 +9,8 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView, FormView, ListView, UpdateView
 
-from dashboard.forms import DashboardAdminForm, AddStoreProduct, AddBrandForm, AddCategoryForm
+from cms.models import Blog
+from dashboard.forms import DashboardAdminForm, AddStoreProduct, AddBrandForm, AddCategoryForm, AddBlogForm
 from orders.forms import OrderEdit
 from orders.models import Order
 from products.models import Products, Brand, Category
@@ -190,6 +192,7 @@ class BrandsListView(IsStaffMixin, ListView):
     add_object_url = '/dashboard/create-brand'
     edit_object_url = '/dashboard/edit-brand'
     metadata_value = 'Brand'
+    collapse_open = "show"
 
 
     def get_queryset(self):
@@ -202,7 +205,7 @@ class BrandsListView(IsStaffMixin, ListView):
         context = super().get_context_data(**kwargs)
         if self.request.GET.get("title"):
             context['query'] = self.request.GET.get("title")
-        context['collapse_open'] = "show"
+        context['collapse_open'] = self.collapse_open
         context['metadata_value'] = self.metadata_value
         context['add_object_url'] = self.add_object_url
         context['edit_object_url'] = self.edit_object_url
@@ -256,9 +259,46 @@ class EditCategoryView(IsStaffMixin, UpdateView):
 
 
 
+class CanPublishMixin(PermissionRequiredMixin):
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.tenant.can_publish_cms():
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied("Cannot Publish CMS")
+
+
+class BlogsListView(CanPublishMixin, BrandsListView):
+    model = Blog
+    template_name = 'dashboard/blogs.html'
+    add_object_url = '/dashboard/create-blogs'
+    edit_object_url = '/dashboard/edit-blog'
+    metadata_value = 'Blogs'
+    collapse_open = ''
 
 
 
+class AddBlogsView(CanPublishMixin, IsStaffMixin, FormView):
+    form_class = AddBlogForm
+    template_name = 'dashboard/blog_create_edit.html'
+    success_url = '/dashboard/blogs/'
+    pk_url_kwarg = 'pk'
+    metadata_value = 'Blogs'
+    model = Blog
 
 
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['metadata_value'] = self.metadata_value
+        return context
+
+
+class EditBlog(CanPublishMixin, IsStaffMixin, UpdateView):
+    form_class = AddBlogForm
+    template_name = 'dashboard/blog_create_edit.html'
+    success_url = '/dashboard/blogs/'
+    model = Blog
