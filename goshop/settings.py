@@ -245,3 +245,11 @@ DJRICHTEXTFIELD_CONFIG = {
         'width': 700
     }
 }
+
+
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+SENDGRID_SANDBOX_MODE_IN_DEBUG=False
+
+SENDGRID_ECHO_TO_STDOUT=False
+

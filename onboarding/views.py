@@ -1,3 +1,5 @@
+import secrets
+import string
 import time
 
 import stripe
@@ -15,6 +17,7 @@ from elasticsearch_dsl import Q
 from tenant_schemas.utils import schema_context
 
 from basket.models import BasketLine
+from customers.email import SendEmail
 from customers.models import Client
 from dashboard.views import TenantIsActive
 from onboarding.forms import OnboardingForm
@@ -120,22 +123,26 @@ class CreateOnboarding(TemplateView):
             onboarding.is_active = True
             onboarding.client = client
             onboarding.save()
+            with schema_context(onboarding.schema_name):
+                try:
+                    user = User.objects.create(username='admin@setyour.shop')
+                    characters = string.ascii_letters + string.digits
+                    keyword = ''.join(secrets.choice(characters) for _ in range(8))
+                    user.set_password(keyword)
+                    user.is_superuser = True
+                    user.is_staff = True
+                    user.save()
+                    site = Site.objects.first()
+                    site.domain = onboarding.domain_url
+                    site.save()
+                    SendEmail().send_onboarded_admin_email(site.domain, keyword, onboarding.email)
+                except IntegrityError as e:
+                    pass
         context = super().get_context_data()
         context['website_url'] = onboarding.domain_url
         context['products'] = Products.objects.filter(is_available=True)
         context['schema_name'] = onboarding.schema_name
-        with schema_context(onboarding.schema_name):
-            try:
-                user = User.objects.create(username='admin')
-                user.set_password("qwertyuiop")
-                user.is_superuser = True
-                user.is_staff = True
-                user.save()
-                site = Site.objects.first()
-                site.domain = onboarding.domain_url
-                site.save()
-            except IntegrityError as e:
-                pass
+
         return context
 
 

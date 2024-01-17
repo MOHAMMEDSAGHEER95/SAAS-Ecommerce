@@ -33,6 +33,7 @@ class Onboarding(TimeStamp):
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
     is_active = models.BooleanField(default=False)
+    email = models.EmailField(null=True)
     plan = models.ForeignKey(Plan, null=True, related_name="onboarding_plan", on_delete=models.CASCADE)
     session_id = models.CharField(max_length=500, null=True, blank=True)
     stripe_connect_id = models.CharField(max_length=500, null=True, blank=True)

@@ -13,3 +13,4 @@ elasticsearch-dsl==6.4.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
 django-richtextfield==1.6.1
+django-sendgrid-v5==1.2.3
