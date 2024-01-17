@@ -6,7 +6,11 @@ from customers.models import Client
 
 
 class Plan(TimeStamp):
-    title = models.CharField(max_length=255)
+    BASIC = 'basic'
+    ENTERPRISE = 'enterprise'
+    PREMIUM = 'premium'
+    plans = ((BASIC, 'Basic'), (ENTERPRISE, 'Enterprise'), (PREMIUM, 'Premium'))
+    title = models.CharField(max_length=255, choices=plans)
     description = models.TextField()
     price = models.IntegerField()
     is_active = models.BooleanField(default=True)
