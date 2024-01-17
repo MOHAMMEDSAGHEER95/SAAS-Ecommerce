@@ -14,6 +14,8 @@ class ProductDocument(Document):
     description = fields.TextField()
     tenant = fields.TextField()
     get_image_url = fields.TextField()
+    brand = fields.TextField()
+    category = fields.TextField()
     class Index:
         # Name of the Elasticsearch index
         name = 'products'
@@ -34,4 +36,14 @@ class ProductDocument(Document):
 
     def prepare_id(self, instance):
         return instance.id
+
+    def prepare_brand(self, instance):
+        if instance.brand:
+            return instance.brand.title
+        return ""
+
+    def prepare_category(self, instance):
+        if instance.category:
+            return instance.category.title
+        return ""
 
