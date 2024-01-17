@@ -31,6 +31,22 @@
             <div class="col-md-6 col-lg-7 d-flex align-items-center">
               <div class="card-body p-4 p-lg-5 text-black">
 {% include 'formerrors.html' %}
+                  <ul class="messages">
+                      {% for message in messages %}
+                      {% if message.tags == 'error' %}
+                      <div class="alert alert-danger" role="alert">
+                          {{ message }}
+                      </div>
+                      {% endif %}
+
+                      {% if message.tags == 'success' %}
+                      <div class="alert alert-success" role="alert">
+                          {{ message }}
+                      </div>
+                      {% endif %}
+
+                      {% endfor %}
+                  </ul>
 <form action="." method="post" >
     {% csrf_token %}
 

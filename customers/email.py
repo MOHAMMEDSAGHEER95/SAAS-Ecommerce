@@ -37,3 +37,11 @@ Admin
 Setyour Shop'''.format(site, password)
         recipient_list = [email]
         send_mail(subject, body, self.from_email, recipient_list)
+
+
+    def send_welcome_email(self, tenant_url, user):
+        subject = 'Welcome to Our {}'.format(tenant_url)
+        recipient_list = [user.email]
+        message = f'Thank you for signing up, {user.username}! We are excited to have you on board.'
+        send_mail(subject, message, self.from_email, recipient_list)
+

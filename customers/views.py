@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect, JsonResponse
@@ -29,10 +30,12 @@ class RegisterCustomer(FormView):
 
     def form_valid(self, form):
         form.cleaned_data.pop("password2")
-        user = form.save()
+        user = form.save(commit=False)
         user.username = form.cleaned_data['email']
         user.set_password(form.cleaned_data.pop("password"))
         user.save()
+        messages.success(self.request, "Registration Successful")
+        messages.success(self.request, "Welcome {}".format(user.email))
         return super().form_valid(form)
 
 
