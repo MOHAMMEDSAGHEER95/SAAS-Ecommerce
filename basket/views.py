@@ -84,6 +84,7 @@ class SuccessView(LoginRequiredMixin, TemplateView):
                 order = Order.objects.filter(transaction_id=session.id).first()
                 context['order'] = order
                 order_created = True
+                context['status'] = "Success"
             if session.status == "complete" and not order_created:
                 context['status'] = "Success"
                 basket = Basket.objects.get(id=self.request.basket)
