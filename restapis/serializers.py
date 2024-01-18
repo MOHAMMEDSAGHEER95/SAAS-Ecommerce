@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from basket.models import Basket, BasketLine
+from orders.models import ShippingAddress, Order
 from products.models import Products
 
 
@@ -37,3 +38,25 @@ class BasketSerializers(serializers.ModelSerializer):
     class Meta:
         model = Basket
         fields = ('id', 'status', 'user', 'lines', 'total')
+
+
+class ShippingAddressSerializers(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    class Meta:
+        model = ShippingAddress
+        fields = ('id', 'line_1', 'line_2', 'city', 'postcode', 'user', 'is_default')
+
+
+class OrderSerializers(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField()
+    number = serializers.ReadOnlyField()
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Order
+        fields = ('id', 'basket', 'number', 'user', 'shipping_address', 'total_incl_tax')
+
+
+class StripetokenSerializers(serializers.Serializer):
+    stripe_token = serializers.CharField(required=True)

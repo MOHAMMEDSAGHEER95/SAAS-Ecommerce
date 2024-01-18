@@ -1,17 +1,21 @@
+import stripe
+from django.conf import settings
 from django.core.signing import Signer
 from django.shortcuts import render
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.generics import RetrieveAPIView, CreateAPIView, ListAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from basket.models import Basket
+from orders.models import Order
 from products.models import Products
 from restapis.permissions import IsPremiumTenant
 from restapis.serializers import BasketSerializers, BasketLineSerializer, ProductsSerializer, ProductsListSerializer, \
-    BasketAddProductSerializer
+    BasketAddProductSerializer, ShippingAddressSerializers, OrderSerializers, StripetokenSerializers
 
 
 # Create your views here.
@@ -107,6 +111,54 @@ class AddProductAPI(CreateAPIView):
         headers = self.get_success_headers(serializer.data)
         basketserializer = BasketSerializers(instance=serializer.validated_data['basket'])
         return Response(basketserializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class AddShippingAPI(CreateAPIView):
+    serializer_class = ShippingAddressSerializers
+    permission_classes = [IsAuthenticated, IsPremiumTenant]
+
+
+
+class GetUserShippingAPI(ListAPIView):
+    serializer_class = ShippingAddressSerializers
+    permission_classes = [IsAuthenticated, IsPremiumTenant]
+
+    def get_queryset(self):
+        return self.request.user.shipping_address.all()
+
+
+
+class CreateOrderAPI(CreateAPIView):
+    serializer_class = OrderSerializers
+    permission_classes = [IsAuthenticated, IsPremiumTenant]
+
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        stripe_ser = StripetokenSerializers(data=request.data)
+        stripe_ser.is_valid(raise_exception=True)
+        serializer.is_valid(raise_exception=True)
+        basket = serializer.validated_data['basket']
+        number = settings.ORDER_NUMBERING_FROM + basket.id
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        charge = stripe.Charge.create(amount=int(basket.total()) * 100, currency='gbp',
+                             source=stripe_ser.validated_data['stripe_token'],
+                             description=f"charge for order number {number} tenant {request.tenant}")
+        print(charge.status)
+        order = Order.objects.create(basket=basket,
+                                     user=request.user, number=str(number),
+                                     total_incl_tax=basket.total(), transaction_id=charge.id,
+                                     shipping_address=serializer.validated_data['shipping_address'])
+        headers = self.get_success_headers(serializer.data)
+        basket.status = basket.SUBMITTED
+        basket.submitted_at = timezone.now()
+        basket.save()
+        data = OrderSerializers(instance=order).data
+        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+
+
 
 
 

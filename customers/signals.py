@@ -7,6 +7,7 @@ from tenant_schemas.models import TenantMixin
 
 from customers.email import SendEmail
 from customers.models import Client
+from orders.models import ShippingAddress
 
 
 @receiver(post_schema_sync)
@@ -20,6 +21,13 @@ def send_welcome_email_signal(sender, instance, created, **kwargs):
     if created:
         client = Client.objects.get(schema_name=connection.schema_name)
         SendEmail().send_welcome_email(client.domain_url, instance)
+
+
+@receiver(post_save, sender=ShippingAddress)
+def update_default_address_to_false(sender, instance, created, **kwargs):
+    if created:
+        if instance.is_default:
+            instance.user.shipping_address.exclude(id=instance.id).update(is_default=False)
 
 
 
