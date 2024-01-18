@@ -4,6 +4,7 @@
     {% endblock %}
 {% block body %}
 <div class="container" style="overflow: auto;">
+    <h3>Update Details of Onboarded customer:{{object.schema_name}}</h3>
 <form action="." method="post" autocomplete="off" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group mt-5">
