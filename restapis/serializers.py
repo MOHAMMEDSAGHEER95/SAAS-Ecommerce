@@ -58,7 +58,7 @@ class OrderSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('id', 'basket', 'number', 'user', 'shipping_address', 'total_incl_tax')
+        fields = ('id', 'basket', 'number', 'user', 'shipping_address', 'total_incl_tax', 'created_at')
 
 
 class StripetokenSerializers(serializers.Serializer):

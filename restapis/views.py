@@ -144,20 +144,25 @@ class CreateOrderAPI(CreateAPIView):
         basket = serializer.validated_data['basket']
         number = settings.ORDER_NUMBERING_FROM + basket.id
         stripe.api_key = settings.STRIPE_SECRET_KEY
-        charge = stripe.Charge.create(amount=int(basket.total()) * 100, currency='gbp',
+        try:
+            charge = stripe.Charge.create(amount=int(basket.total()) * 100, currency='gbp',
                              source=stripe_ser.validated_data['stripe_token'],
                              description=f"charge for order number {number} tenant {request.tenant}")
-        print(charge.status)
-        order = Order.objects.create(basket=basket,
-                                     user=request.user, number=str(number),
-                                     total_incl_tax=basket.total(), transaction_id=charge.id,
-                                     shipping_address=serializer.validated_data['shipping_address'])
-        headers = self.get_success_headers(serializer.data)
-        basket.status = basket.SUBMITTED
-        basket.submitted_at = timezone.now()
-        basket.save()
-        data = OrderSerializers(instance=order).data
-        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+        except Exception as e:
+            return Response({"payment was not successful"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            if charge.status == "succeeded":
+                order = Order.objects.create(basket=basket,
+                                             user=request.user, number=str(number),
+                                             total_incl_tax=basket.total(), transaction_id=charge.id,
+                                             shipping_address=serializer.validated_data['shipping_address'])
+                headers = self.get_success_headers(serializer.data)
+                basket.status = basket.SUBMITTED
+                basket.submitted_at = timezone.now()
+                basket.save()
+                data = OrderSerializers(instance=order).data
+                return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response({"message": "payment was not successful"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GetUserOrdersAPI(ListAPIView):
