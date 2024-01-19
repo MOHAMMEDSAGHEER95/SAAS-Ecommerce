@@ -1,10 +1,11 @@
 import stripe
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.signing import Signer
 from django.shortcuts import render
 from django.utils import timezone
 from rest_framework import status
-from rest_framework.generics import RetrieveAPIView, CreateAPIView, ListAPIView
+from rest_framework.generics import RetrieveAPIView, CreateAPIView, ListAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -16,7 +17,7 @@ from products.models import Products
 from restapis.permissions import IsPremiumTenant
 from restapis.serializers import BasketSerializers, BasketLineSerializer, ProductsSerializer, ProductsListSerializer, \
     BasketAddProductSerializer, ShippingAddressSerializers, OrderSerializers, StripetokenSerializers, \
-    CreateOrderSerializers
+    CreateOrderSerializers, CustomTokenObtainPairSerializer
 
 
 # Create your views here.
@@ -73,17 +74,18 @@ class BasketDetailAPIView(RetrieveAPIView):
 
 
 class LoginTokenAPIView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
 
     def post(self, request, *args, **kwargs):
+        basket_id = request.session.get('anonymous_basket_id')
         response = super().post(request, *args, **kwargs)
-        # if response.status_code == status.HTTP_200_OK:
-        #     # user = self.user
-        #     refresh = response.data['refresh']
-        #     access = response.data['access']
-        #     # response.data['user_id'] = user.id
-        #     # response.data['username'] = user.username
-        #     response.data['refresh_expires'] = RefreshToken(refresh)
-        #     response.data['access_expires'] = RefreshToken(access)
+        try:
+            user = get_object_or_404(User, id=response.data['user'])
+            user_basket = Basket.get_basket(user)
+            Basket.merge_basket(basket_id, user_basket.id)
+        except Exception as e:
+            print(e)
         return response
 
 class ProductListView(ListAPIView):

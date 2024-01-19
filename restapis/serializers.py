@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from basket.models import Basket, BasketLine
 from orders.models import ShippingAddress, Order
@@ -51,6 +52,7 @@ class ShippingAddressSerializers(serializers.ModelSerializer):
 class OrderSerializers(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     number = serializers.ReadOnlyField()
+    created_at = serializers.ReadOnlyField()
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     basket = BasketSerializers()
 
@@ -67,3 +69,10 @@ class CreateOrderSerializers(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ('shipping_address', 'basket')
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data["user"] =self.user.id
+        return data
