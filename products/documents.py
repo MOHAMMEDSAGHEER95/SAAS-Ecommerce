@@ -2,7 +2,7 @@
 from django.db import connection
 from django_elasticsearch_dsl import Document, fields
 from django_elasticsearch_dsl.registries import registry
-
+from elasticsearch_dsl import Q
 
 from products.models import Products
 
@@ -26,6 +26,13 @@ class ProductDocument(Document):
     class Django:
         model = Products
         fields = ['price', 'is_available', 'search_keywords']
+
+    def response(self, query):
+        response = self.search().filter("term", tenant=connection.schema_name).filter("term",
+                                                                                                          is_available=True)
+        wildcard_query = Q("wildcard", title={"value": f"*{query.lower()}*"})
+        response = response.query(wildcard_query | Q("match", search_keywords=query))
+        return response
 
 
     def prepare_tenant(self, instance):

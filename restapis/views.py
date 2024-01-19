@@ -9,11 +9,13 @@ from rest_framework.generics import RetrieveAPIView, CreateAPIView, ListAPIView,
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.validators import UniqueValidator
+from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from basket.models import Basket
 from orders.models import Order
+from products.documents import ProductDocument
 from products.models import Products
 from restapis.permissions import IsPremiumTenant
 from restapis.serializers import BasketSerializers, BasketLineSerializer, ProductsSerializer, ProductsListSerializer, \
@@ -179,6 +181,34 @@ class GetUserOrdersAPI(ListAPIView):
 
     def get_queryset(self):
         return self.request.user.user_orders.all()
+
+
+class SearchProductAPI(APIView):
+    permission_classes = [AllowAny, IsPremiumTenant]
+
+    def get(self, request):
+        search = request.query_params.get("q")
+        response = ProductDocument().response(search)
+        hits = response.execute().hits
+
+        # Serialize the hits data
+        serialized_data = [
+            {
+                'id': hit.id,
+                'title': hit.title,
+                'description': hit.description,
+                'tenant': hit.tenant,
+                'get_image_url': hit.get_image_url,
+                'brand': hit.brand,
+                'category': hit.category,
+                'price': hit.price,
+                'is_available': hit.is_available,
+                'search_keywords': hit.search_keywords,
+            }
+            for hit in hits
+        ]
+        return Response(serialized_data)
+
 
 
 

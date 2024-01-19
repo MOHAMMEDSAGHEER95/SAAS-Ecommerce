@@ -1,7 +1,7 @@
 from django.urls import path
 
 from restapis.views import BasketDetailAPIView, LoginTokenAPIView, AddProductAPI, ProductListView, AddShippingAPI, \
-    GetUserShippingAPI, CreateOrderAPI, GetUserOrdersAPI, RegisterView
+    GetUserShippingAPI, CreateOrderAPI, GetUserOrdersAPI, RegisterView, SearchProductAPI
 
 app_name = 'restapis'
 
@@ -16,4 +16,5 @@ urlpatterns = [
     path('get-shipping-address/', GetUserShippingAPI.as_view(), name='get_shipping_api'),
     path('create-order/', CreateOrderAPI.as_view(), name='create_order'),
     path('my-orders/', GetUserOrdersAPI.as_view(), name='my_orders'),
+    path('search/', SearchProductAPI.as_view(), name='search_api'),
 ]

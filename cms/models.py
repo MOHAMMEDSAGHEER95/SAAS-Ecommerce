@@ -6,19 +6,6 @@ from products.models import get_upload_path
 
 
 # Create your models here.
-
-
-class BannerImages(TimeStamp):
-    image = models.ImageField(upload_to=get_upload_path, null=True)
-
-    def __str__(self):
-        return self.id
-
-    class Meta:
-        verbose_name = "Banner Image"
-        verbose_name_plural = "Banner Images"
-
-
 class Blog(TimeStamp):
     DRAFT = 'draft'
     PUBLISHED = 'published'
