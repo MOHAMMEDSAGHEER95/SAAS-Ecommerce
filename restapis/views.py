@@ -15,7 +15,8 @@ from orders.models import Order
 from products.models import Products
 from restapis.permissions import IsPremiumTenant
 from restapis.serializers import BasketSerializers, BasketLineSerializer, ProductsSerializer, ProductsListSerializer, \
-    BasketAddProductSerializer, ShippingAddressSerializers, OrderSerializers, StripetokenSerializers
+    BasketAddProductSerializer, ShippingAddressSerializers, OrderSerializers, StripetokenSerializers, \
+    CreateOrderSerializers
 
 
 # Create your views here.
@@ -129,7 +130,7 @@ class GetUserShippingAPI(ListAPIView):
 
 
 class CreateOrderAPI(CreateAPIView):
-    serializer_class = OrderSerializers
+    serializer_class = CreateOrderSerializers
     permission_classes = [IsAuthenticated, IsPremiumTenant]
 
 
@@ -155,6 +156,14 @@ class CreateOrderAPI(CreateAPIView):
         basket.save()
         data = OrderSerializers(instance=order).data
         return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class GetUserOrdersAPI(ListAPIView):
+    serializer_class = OrderSerializers
+    permission_classes = [IsAuthenticated, IsPremiumTenant]
+
+    def get_queryset(self):
+        return self.request.user.user_orders.all()
 
 
 

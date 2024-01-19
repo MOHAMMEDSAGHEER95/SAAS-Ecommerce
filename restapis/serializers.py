@@ -52,6 +52,7 @@ class OrderSerializers(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     number = serializers.ReadOnlyField()
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    basket = BasketSerializers()
 
     class Meta:
         model = Order
@@ -60,3 +61,9 @@ class OrderSerializers(serializers.ModelSerializer):
 
 class StripetokenSerializers(serializers.Serializer):
     stripe_token = serializers.CharField(required=True)
+
+
+class CreateOrderSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ('shipping_address', 'basket')
