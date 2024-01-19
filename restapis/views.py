@@ -76,6 +76,7 @@ class BasketDetailAPIView(RetrieveAPIView):
 
 class LoginTokenAPIView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+    permission_classes = [AllowAny, IsPremiumTenant]
 
 
     def post(self, request, *args, **kwargs):
