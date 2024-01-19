@@ -92,7 +92,7 @@ class LoginTokenAPIView(TokenObtainPairView):
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
-    permission_classes = (AllowAny,)
+    permission_classes = (AllowAny, IsPremiumTenant)
     serializer_class = RegisterSerializer
 
 class ProductListView(ListAPIView):
