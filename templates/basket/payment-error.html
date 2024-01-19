@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}
+    <title>Payment Error</title>
+{% endblock %}
+
+{% block body %}
+<style>
+    .shadow {
+        box-shadow: 5px 5px 2px 6px lightblue;
+    }
+</style>
+<div class="container my-5" style="background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h2 class="text-center mb-4">Payment Error</h2>
+
+    <div class="payment-error-message bg-white mb-4 p-4">
+        <p>{% trans "Oops! There was an error processing your payment. Please try again later." %}</p>
+    </div>
+
+    <div class="back-to-home text-center">
+        <a href="/" class="btn btn-primary"><i class="fa fa-home pr-2"></i>{% trans 'Back to Home' %}</a>
+    </div>
+</div>
+{% endblock %}
