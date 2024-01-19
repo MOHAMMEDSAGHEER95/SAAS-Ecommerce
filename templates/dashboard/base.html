@@ -99,6 +99,9 @@
   })
 })()
 
+
+
+
     $("#import_product").on("click", function(){
         let checkboxlist = [];
         $('input[name="product"]').each(function(){
@@ -114,6 +117,7 @@
                 dataType: "json",
                 data: data,
                 success: function(response) {
+                toastr.success('product imported');
                 },
                 error: function(xhr, status, error) {
                     console.error("AJAX Request Error:", status, error);
