@@ -56,6 +56,7 @@ class Products(TimeStamp):
     height = models.IntegerField(null=True)
     weight = models.IntegerField(null=True)
     stock = models.PositiveIntegerField(verbose_name="Stock available", default=0)
+    search_keywords = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Product"

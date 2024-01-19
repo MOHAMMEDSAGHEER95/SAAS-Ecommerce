@@ -25,7 +25,7 @@ class ProductDocument(Document):
 
     class Django:
         model = Products
-        fields = ['price', 'is_available']
+        fields = ['price', 'is_available', 'search_keywords']
 
 
     def prepare_tenant(self, instance):

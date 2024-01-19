@@ -21,7 +21,7 @@ class AddStoreProduct(forms.ModelForm):
 
     class Meta:
         model = Products
-        fields = ('title', 'description', 'price', 'brand', 'product_type', 'image',
+        fields = ('title', 'description', 'price', 'brand', 'product_type', 'image','search_keywords',
                   'category', 'length', 'width', 'height', 'stock', 'weight', 'length')
 
 

@@ -48,6 +48,10 @@
             {% endfor %}
             </select>
     </div>
+     <div class="form-group mt-3">
+    <label for="product_length">Search Keywords</label>
+    <input type="text" name="search_keywords" id="search_keywords" class="form-control" value="{{ form.search_keywords.value| default_if_none:"" }}" placeholder="separate words with comma">
+</div>
 
     <div class="form-group mt-3">
     <label for="product_length">Length (cm)</label>
