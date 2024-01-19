@@ -4,10 +4,11 @@ from django.contrib.auth.models import User
 from django.core.signing import Signer
 from django.shortcuts import render
 from django.utils import timezone
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.generics import RetrieveAPIView, CreateAPIView, ListAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -17,7 +18,7 @@ from products.models import Products
 from restapis.permissions import IsPremiumTenant
 from restapis.serializers import BasketSerializers, BasketLineSerializer, ProductsSerializer, ProductsListSerializer, \
     BasketAddProductSerializer, ShippingAddressSerializers, OrderSerializers, StripetokenSerializers, \
-    CreateOrderSerializers, CustomTokenObtainPairSerializer
+    CreateOrderSerializers, CustomTokenObtainPairSerializer, RegisterSerializer
 
 
 # Create your views here.
@@ -87,6 +88,12 @@ class LoginTokenAPIView(TokenObtainPairView):
         except Exception as e:
             print(e)
         return response
+
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
 
 class ProductListView(ListAPIView):
     queryset = Products.objects.filter(is_available=True)
