@@ -61,7 +61,7 @@
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="email" id="email" {% if form.last_name.value %}value="{{form.last_name.value}}"{% endif %} name="email" class="form-control form-control-lg" />
+                    <input type="email" id="email" {% if form.email.value %}value="{{form.email.value}}"{% endif %} name="email" class="form-control form-control-lg" />
                     <label class="form-label" for="email">Email</label>
                       {% if form.email.errors %}
     <div class="alert-danger" role="alert">
