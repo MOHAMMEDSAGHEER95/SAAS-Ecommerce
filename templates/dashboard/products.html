@@ -10,7 +10,19 @@
     <form action="." method="get" autocomplete="off">
       <div class="input-group">
         <input type="text" name="name" class="form-control" placeholder="Search" {% if query %}value="{{query}}" {% endif %}>
-        {% if request.resolver_match.url_name == 'import_products' %}
+        {% if categories %}
+          <select name="category">
+            <option value="" selected></option>
+            {% for category in categories %}
+            {% for id, slug in category.items %}
+
+            <option value="{{id}}">{{slug}}</option>
+            {% endfor %}
+            {% endfor %}
+        </select>
+          {% endif %}
+          <button type="submit" class="btn btn-danger">search</button>
+          {% if request.resolver_match.url_name == 'import_products' %}
         <div class="input-group-append" style="margin-left: 10px;">
           <button type="button" class="btn btn-success" id="import_product">Import Products</button>
         </div>
@@ -34,7 +46,7 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="row"><input type="checkbox"></th>
+        <th scope="row">Sl No</th>
         <th scope="col">Product</th>
         <th scope="col">Thumbnail</th>
         <th scope="col">Price</th>
@@ -48,6 +60,7 @@
       </tr>
     </thead>
     <tbody>
+    
     {% for product in items %}
       <tr>
         <th scope="row"><input name="product" product_id="{{product.id}}" type="checkbox" {% if request.resolver_match.url_name == 'import_products' and  product.imported %}checked disabled{% endif %}></th>

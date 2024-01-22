@@ -23,7 +23,7 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="row"><input type="checkbox"></th>
+<!--        <th scope="row"><input type="checkbox"></th>-->
         <th scope="col">Title</th>
           <th scope="col">Edit</th>
           <th scope="col">Delete</th>
@@ -32,7 +32,7 @@
       <tbody>
       {% for object in objects %}
       <tr>
-        <th scope="row"><input type="checkbox"></th>
+<!--        <th scope="row"><input type="checkbox"></th>-->
         <td>{{object.title}}</td>
           <td><a href="{{edit_object_url}}/{{object.id}}" type="button" class="btn btn-primary">Edit</a> </td>
           <td><a href="#" type="button" class="btn btn-danger">Delete</a> </td>

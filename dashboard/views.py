@@ -9,6 +9,8 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView, FormView, ListView, UpdateView
 from django_tenants.utils import get_public_schema_name
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
 
 from cms.models import Blog
 from dashboard.forms import DashboardAdminForm, AddStoreProduct, AddBrandForm, AddCategoryForm, AddBlogForm, \
@@ -86,6 +88,7 @@ class PublicSchemaProductImport(IsStaffMixin, TemplateView):
     model = Products
     context_object_name = 'products'
     template_name = 'dashboard/products.html'
+    paginate_by = 10
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -95,11 +98,27 @@ class PublicSchemaProductImport(IsStaffMixin, TemplateView):
         filter_kwargs = {}
         if self.request.GET.get("name"):
             filter_kwargs["title__icontains"] = self.request.GET.get("name")
+        if self.request.GET.get("category"):
+            filter_kwargs["category__id"] = self.request.GET.get("category")
 
         with schema_context('public'):
-            for i in Products.objects.filter(**filter_kwargs):
-                product_list.append(i)
-            context['items'] = product_list
+            product_queryset = Products.objects.filter(**filter_kwargs)
+            context['categories'] = [{x.id: x.slug} for x in Category.objects.all()]
+
+            # Pagination
+            paginator = Paginator(product_queryset, self.paginate_by)
+            page = self.request.GET.get('page')
+
+            try:
+                items = paginator.page(page)
+            except PageNotAnInteger:
+                # If page is not an integer, deliver first page.
+                items = paginator.page(1)
+            except EmptyPage:
+                # If page is out of range (e.g. 9999), deliver last page of results.
+                items = paginator.page(paginator.num_pages)
+            context['items'] = items
+            context['page_obj'] = items
         return context
 
     def post(self, request):
