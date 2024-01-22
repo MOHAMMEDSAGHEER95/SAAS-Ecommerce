@@ -19,7 +19,7 @@ from onboarding.models import Onboarding
 from orders.forms import OrderEdit
 from orders.models import Order
 from products.models import Products, Brand, Category
-from tenant_schemas.utils import schema_context
+from django_tenants.utils import schema_context
 
 
 # Create your views here.
@@ -107,8 +107,9 @@ class PublicSchemaProductImport(IsStaffMixin, TemplateView):
 
             # Pagination
             paginator = Paginator(product_queryset, self.paginate_by)
-            page = self.request.GET.get('page')
-
+            page = self.request.GET.get('page', 1)
+            start_index = self.paginate_by * int(page)
+            end_index = start_index + self.paginate_by
             try:
                 items = paginator.page(page)
             except PageNotAnInteger:
@@ -117,8 +118,9 @@ class PublicSchemaProductImport(IsStaffMixin, TemplateView):
             except EmptyPage:
                 # If page is out of range (e.g. 9999), deliver last page of results.
                 items = paginator.page(paginator.num_pages)
-            context['items'] = items
+            context['items'] = [product for product in product_queryset[start_index: end_index]]
             context['page_obj'] = items
+            context['query'] = self.request.GET.get("name")
         return context
 
     def post(self, request):
@@ -144,6 +146,8 @@ class StoreProductListView(IsStaffMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['collapse_open'] = "show"
         context['page_title'] = "Store Products"
+        if self.request.GET.get("name"):
+            context['query'] = self.request.GET.get("name")
         return context
 
     def get_queryset(self):
