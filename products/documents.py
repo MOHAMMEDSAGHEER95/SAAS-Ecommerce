@@ -31,7 +31,7 @@ class ProductDocument(Document):
         response = self.search().filter("term", tenant=connection.schema_name).filter("term",
                                                                                                           is_available=True)
         wildcard_query = Q("wildcard", title={"value": f"*{query.lower()}*"})
-        response = response.filter(Q("match", title=query) | Q("match", search_keywords=query))
+        response = response.filter(Q("match", title=query) | Q("match", search_keywords=query)).sort('_score')
         return response
 
 
