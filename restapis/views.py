@@ -204,6 +204,7 @@ class SearchProductAPI(APIView):
                 'price': hit.price,
                 'is_available': hit.is_available,
                 'search_keywords': hit.search_keywords,
+                'score': hit.meta.score
             }
             for hit in hits
         ]
