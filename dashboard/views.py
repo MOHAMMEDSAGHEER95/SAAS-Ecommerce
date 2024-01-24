@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import connection, transaction
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView, FormView, ListView, UpdateView
@@ -363,5 +363,15 @@ class OnboardingEditView(IsPublicTenantMixin, UpdateView):
     model = Onboarding
     success_url = '/dashboard/onboardings/'
     template_name = 'dashboard/onboarding-edit.html'
+
+class ChangeStatus(IsStaffMixin, View):
+
+    def post(self, request):
+        ids = request.POST.get('orderid').split(",")
+
+        for order in Order.objects.filter(id__in=ids):
+            order.status = request.POST.get('change_status')
+            order.save()
+        return redirect("/dashboard/orders")
 
 
