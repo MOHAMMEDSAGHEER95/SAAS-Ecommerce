@@ -45,7 +45,7 @@ class AddBlogForm(forms.ModelForm):
     body = forms.CharField(widget=RichTextWidget())
     class Meta:
         model = Blog
-        fields = ('title', 'body', 'status')
+        fields = ('title', 'body', 'status', 'cover_image')
 
 
 class OnboardingEditForm(forms.ModelForm):

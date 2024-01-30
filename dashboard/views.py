@@ -3,14 +3,15 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import connection, transaction
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.views import View
 from django.views.generic import TemplateView, FormView, ListView, UpdateView
 from django_tenants.utils import get_public_schema_name
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
+from reportlab.pdfgen import canvas
 
 from cms.models import Blog
 from dashboard.forms import DashboardAdminForm, AddStoreProduct, AddBrandForm, AddCategoryForm, AddBlogForm, \
@@ -71,6 +72,7 @@ class OrderListView(IsStaffMixin, ListView):
     queryset = Order.objects.all()
     context_object_name = 'orders'
     template_name = 'dashboard/orders.html'
+    paginate_by = 10
 
     def get_queryset(self):
         if self.request.GET.get('number'):
@@ -368,10 +370,68 @@ class ChangeStatus(IsStaffMixin, View):
 
     def post(self, request):
         ids = request.POST.get('orderid').split(",")
-
-        for order in Order.objects.filter(id__in=ids):
+        orders = Order.objects.filter(id__in=ids)
+        for order in orders:
             order.status = request.POST.get('change_status')
             order.save()
-        return redirect("/dashboard/orders")
+        if request.POST.get('change_status') == Order.PACKED:
+            return self.generate_order_pdf(orders)
+        return redirect(reverse('dashboard:dashboard_orders'))
+
+    from reportlab.pdfgen import canvas
+    from django.http import HttpResponse
+
+    def generate_order_pdf(self, orders):
+        # Create a response object with PDF content type
+        response = HttpResponse(content_type='application/pdf')
+
+        # Set the Content-Disposition header for the PDF file
+        filename = 'order_packed' + timezone.now().strftime('%Y-%m-%d%H:%M:%S')
+        response['Content-Disposition'] = f'attachment; filename="{filename}.pdf"'
+
+        # Create a PDF document
+        pdf_canvas = canvas.Canvas(response)
+
+        # Set the title font
+        pdf_canvas.setFont("Helvetica-Bold", 16)
+
+        # Loop through each order and create a new page for each
+        for order in orders:
+            # Set up the title and content for each order
+            title = f"Order {order.number}"
+            content = [
+                f"User: {order.user.get_full_name()}",
+                f"Status: {order.get_status_display()}",
+                f"Payment Method: {order.get_payment_method_display()}",
+                f"Transaction ID: {order.transaction_id}",
+                f"Total Amount: £{order.total_incl_tax}",
+                f"Notes: {order.notes}",
+                f"Shipping Address: {order.shipping_address.full_address}",
+                f"date: {order.created_at.strftime('%Y-%m-%d')}"
+            ]
+
+            # Set the title font for each page
+            pdf_canvas.setFont("Helvetica-Bold", 16)
+            pdf_canvas.drawCentredString(300, 750, title)
+
+            # Set the content font for each page
+            pdf_canvas.setFont("Helvetica", 12)
+
+            # Set the initial y-coordinate for content on each page
+            y_position = 700
+
+            # Draw each line of content for each order
+            for line in content:
+                pdf_canvas.drawString(50, y_position, line)
+                y_position -= 15  # Move to the next line
+
+            # Start a new page for each order
+            pdf_canvas.showPage()
+
+        # Save the PDF
+        pdf_canvas.save()
+
+        return response
+
 
 

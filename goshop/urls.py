@@ -31,6 +31,7 @@ urlpatterns = [
     path('onboarding/', include('onboarding.urls')),
     path('dashboard/', include('dashboard.urls')),
     path('api/', include('restapis.urls')),
+    path('blogs/', include('cms.urls')),
     path('djrichtextfield/', include('djrichtextfield.urls'))
 
 ]

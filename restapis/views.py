@@ -162,10 +162,11 @@ class CreateOrderAPI(CreateAPIView):
             return Response({"payment was not successful"}, status=status.HTTP_400_BAD_REQUEST)
         else:
             if charge.status == "succeeded":
-                order = Order.objects.create(basket=basket,
+                order = Order(basket=basket,
                                              user=request.user, number=str(number),
                                              total_incl_tax=basket.total(), transaction_id=charge.id,
                                              shipping_address=serializer.validated_data['shipping_address'])
+                order.save()
                 headers = self.get_success_headers(serializer.data)
                 basket.status = basket.SUBMITTED
                 basket.submitted_at = timezone.now()

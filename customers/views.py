@@ -46,7 +46,7 @@ class AddAddress(FormView):
     def post(self, request):
         form = self.form_class(data=request.POST)
         if form.is_valid():
-            address = form.save()
+            address = form.save(commit=False)
             address.user = request.user
             address.save()
             return JsonResponse({"message": "address added"}, status=200)

@@ -203,7 +203,10 @@
     <span class="navbar-toggler-icon"></span>
   </button>
     <a style="color:white" class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-    <form class="form-inline my-2 my-lg-0" method="get" action="/search/" autocomplete="off">
+    {% if request.tenant.can_publish_cms %}
+    <a style="color:white" class="nav-link" href="/blogs">Blogs <span class="sr-only">(current)</span></a>
+    {% endif %}
+    <form class="form-inline my-2 my-lg-0" method="get" action="{% if request.resolver_match.url_name == 'blog_list' %}{% else %}/search/{% endif %}" autocomplete="off">
       <input {%if searchterm %}value="{{searchterm}}"{% endif %} class="form-control mr-sm-2" name="q" type="search" placeholder="Search" aria-label="Search">
     </form>
 

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+
+    {% block title %}
+    <title>Blogs</title>
+    {% endblock %}
+{% block body %}
+<div class="container">
+
+  <hr>
+  <div class="row">
+
+   <div class="col-lg-4 col-md-6 col-sm-12">
+     <div class="blog_card">
+    <div class="blog_card_image">
+      <img src="{{blog.cover_image.url}}" alt="" style="height:300px;width:500px">
+    </div>
+    <div class="blog_card_content">
+       <h3 style="color:white">{{object.title}}</h3>
+       <h3 style="color:white">{{object.body|safe}}</h3>
+
+
+    </div>
+  </div>
+    </div>
+
+</div>
+</div>
+{% endblock %}

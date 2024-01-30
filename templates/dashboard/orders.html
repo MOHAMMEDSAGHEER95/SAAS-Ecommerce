@@ -50,7 +50,28 @@
     </tbody>
   </table>
 </div>
+  <div class="pagination-container" style="text-align: center;">
+<div class="pagination text-center">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if query%}&name={{query}}{% endif %}">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if query%}&name={{query}}{% endif %}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if query%}&name={{query}}{% endif %}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if query%}&name={{query}}{% endif %}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+    </div>
   </div>
+
+
 
 {% endblock %}
 
