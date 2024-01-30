@@ -145,7 +145,7 @@ hr {
         </span>
         {% for line in order.basket.lines.all %}
         <div class="row row-main">
-            <div class="col-3"> <img class="img-fluid" src="https://i.imgur.com/qSnCFIS.png" style="height:50px; width:50px"> </div>
+            <div class="col-3"> <img class="img-fluid" src="{{line.product.get_image_url}}" style="height:50px; width:50px"> </div>
             <div class="col-6">
                 <div class="row d-flex">
                     <p><b>{{line.product.title}}</b></p>
