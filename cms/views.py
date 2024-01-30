@@ -9,7 +9,7 @@ class BlogListView(CanPublishMixin, ListView):
     template_name = 'dashboard/blogslist.html'
     context_object_name = 'blogs'
     queryset = Blog.objects.filter(status=Blog.PUBLISHED)
-    permission_required = 'auth.view_user'
+    permission_required = None
 
     def get_queryset(self):
         if self.request.GET.get('q'):
@@ -21,4 +21,4 @@ class BlogDetailView(CanPublishMixin, DetailView):
     model = Blog
     pk_url_kwarg = 'pk'
     template_name = 'dashboard/blogdetails.html'
-    permission_required = 'auth.view_user'
+    permission_required = None

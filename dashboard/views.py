@@ -295,7 +295,7 @@ class EditCategoryView(IsStaffMixin, UpdateView):
 
 
 
-class CanPublishMixin(PermissionRequiredMixin):
+class CanPublishMixin():
 
     def dispatch(self, request, *args, **kwargs):
         if request.tenant.can_publish_cms():
