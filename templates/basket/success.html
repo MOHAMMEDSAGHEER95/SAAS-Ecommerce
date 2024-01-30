@@ -72,7 +72,7 @@
                                                         {% for line in order.basket.lines.all %}
                                                         <tr>
                                                             <td>{{ line.product.title }} x {{ line.quantity }}</td>
-                                                            <td class="text-end">GBP {{ line.net_amount }}</td>
+                                                            <td class="text-end">GBP {{ line.price }}</td>
                                                             <td><img src="{{line.product.get_image_url}}" height="150" width="100"></td>
                                                         </tr>
                                                         {% endfor %}

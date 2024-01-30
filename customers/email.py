@@ -1,4 +1,4 @@
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
@@ -52,9 +52,10 @@ Setyour Shop'''.format(site, password)
     def send_order_confirmation(self, order: Order):
         subject = f"order placed {order.number}"
         recipient_list = [order.user.email]
-        html_content = render_to_string('basket/success.html', {'order': order})
-        text_content = strip_tags(html_content)
-        send_mail(subject, text_content, self.from_email, recipient_list, html_message=html_content)
+        html_content = render_to_string('emails/order_placed.html', {'order': order})
+        msg = EmailMultiAlternatives(subject, 'Order Placed', self.from_email, recipient_list)
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
 
 
 
