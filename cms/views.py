@@ -14,7 +14,7 @@ class BlogListView(CanPublishMixin, ListView):
     def get_queryset(self):
         if self.request.GET.get('q'):
             return Blog.objects.filter(status=Blog.PUBLISHED, title__icontains=self.request.GET.get('q'))
-        return self.queryset
+        return Blog.objects.filter(status=Blog.PUBLISHED)
 
 
 class BlogDetailView(CanPublishMixin, DetailView):
