@@ -37,7 +37,7 @@ def update_product_stock(sender, instance, created, **kwargs):
         for line in lines:
             product = line.product
             product.stock = product.stock - line.quantity
-            if product.stock < 1:
+            if product.stock < 2:
                 product.is_available = False
             product.save()
 

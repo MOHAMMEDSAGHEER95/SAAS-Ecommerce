@@ -138,7 +138,7 @@ class PublicSchemaProductImport(IsStaffMixin, TemplateView):
                         category = Category.objects.filter(title=category_title).first()
                     Products.objects.create(title=product.title, public_schema_product_id=product.id,
                                             url=product.url, is_available=product.is_available,
-                                            price=product.price, image=product.image,
+                                            price=product.price, image=product.image,stock=10,
                                             description=product.description, category=category)
         return JsonResponse({"message": "success"})
 
