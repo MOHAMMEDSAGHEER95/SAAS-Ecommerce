@@ -136,6 +136,8 @@ class PublicSchemaProductImport(IsStaffMixin, TemplateView):
                     category = None
                     if Category.objects.filter(title=category_title).exists():
                         category = Category.objects.filter(title=category_title).first()
+                    else:
+                        category = Category.objects.create(title=category_title)
                     Products.objects.create(title=product.title, public_schema_product_id=product.id,
                                             url=product.url, is_available=product.is_available,
                                             price=product.price, image=product.image,stock=10,
