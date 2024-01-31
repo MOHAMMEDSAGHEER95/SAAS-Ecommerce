@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.utils import timezone
 from django.views import View
-from django.views.generic import TemplateView, FormView, ListView, UpdateView
+from django.views.generic import TemplateView, FormView, ListView, UpdateView, DeleteView
 from django_tenants.utils import get_public_schema_name
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from reportlab.pdfgen import canvas
@@ -131,11 +131,15 @@ class PublicSchemaProductImport(IsStaffMixin, TemplateView):
         with schema_context('public'):
             products = Products.objects.filter(id__in=product_ids)
             for product in products:
+                category_title = product.category.title
                 with schema_context(tenant):
+                    category = None
+                    if Category.objects.filter(title=category_title).exists():
+                        category = Category.objects.filter(title=category_title).first()
                     Products.objects.create(title=product.title, public_schema_product_id=product.id,
                                             url=product.url, is_available=product.is_available,
                                             price=product.price, image=product.image,
-                                            description=product.description)
+                                            description=product.description, category=category)
         return JsonResponse({"message": "success"})
 
 
@@ -432,6 +436,17 @@ class ChangeStatus(IsStaffMixin, View):
         pdf_canvas.save()
 
         return response
+
+
+
+class DeleteBrand(DeleteView):
+    success_url = '/dashboard/brands/'
+    model = Brand
+
+
+class DeleteCategory(DeleteView):
+    success_url = '/dashboard/categories/'
+    model = Category
 
 
 

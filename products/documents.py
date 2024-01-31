@@ -34,6 +34,20 @@ class ProductDocument(Document):
         response = response.query(Q("match", title=query) | Q("match", search_keywords=query)).sort('_score')
         return response
 
+    def filter_by_price(self, price):
+        start_price = price - 50
+        base_query = Q("term", tenant=connection.schema_name) & Q("term", is_available=True)
+        final_query = base_query & Q("range", price={"lt": price, "gt": start_price})
+        search_result = ProductDocument.search().query(final_query)
+        return search_result
+
+    def filter_by_category(self, category):
+        base_query = Q("term", tenant=connection.schema_name) & Q("term", is_available=True)
+        final_query = base_query & Q("match", category=category)
+        search_result = ProductDocument.search().query(final_query)
+        return search_result
+
+
 
     def prepare_tenant(self, instance):
         return connection.schema_name

@@ -35,7 +35,10 @@
 <!--        <th scope="row"><input type="checkbox"></th>-->
         <td>{{object.title}}</td>
           <td><a href="{{edit_object_url}}/{{object.id}}" type="button" class="btn btn-primary">Edit</a> </td>
-          <td><a href="#" type="button" class="btn btn-danger">Delete</a> </td>
+          <form method="post" action="{% if request.resolver_match.url_name == 'brands_list_view'%}{% url 'dashboard:delete_brand' pk=object.id %}{% else %}{% url 'dashboard:delete_category' pk=object.id %}{% endif %}">
+
+          <td><button  type="submit" class="btn btn-danger">Delete</button> </td>
+              </form>
       </tr>
       {% endfor %}
       </tbody>

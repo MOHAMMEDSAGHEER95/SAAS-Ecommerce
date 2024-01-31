@@ -56,12 +56,13 @@ class OrderSerializers(serializers.ModelSerializer):
     id = serializers.ReadOnlyField()
     number = serializers.ReadOnlyField()
     created_at = serializers.ReadOnlyField()
+    tracking_url = serializers.ReadOnlyField()
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     basket = BasketSerializers()
 
     class Meta:
         model = Order
-        fields = ('id', 'basket', 'number', 'user', 'shipping_address', 'total_incl_tax', 'created_at')
+        fields = ('id', 'basket', 'number', 'user', 'shipping_address', 'total_incl_tax', 'tracking_url', 'created_at')
 
 
 class StripetokenSerializers(serializers.Serializer):

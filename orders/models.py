@@ -43,6 +43,7 @@ class Order(TimeStamp):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='user_orders', null=True)
     payment_method = models.CharField(choices=PAYMENT_METHOD, default=ONLINE_TRANSACTION, max_length=30)
     transaction_id = models.CharField(max_length=250, null=True, blank=True)
+    tracking_url = models.CharField(max_length=250, null=True, blank=True)
     notes = models.TextField(blank=True)
     shipping_address = models.ForeignKey(ShippingAddress, on_delete=models.SET_NULL, null=True)
 

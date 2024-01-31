@@ -62,9 +62,18 @@ class SearchView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         q = self.request.GET.get('q')
-        response = ProductDocument().response(q)
-        context['products'] = response
-        context['searchterm'] = q
+        if q:
+            response = ProductDocument().response(q)
+            context['products'] = response
+            context['searchterm'] = q
+        elif self.request.GET.get('price'):
+            price = int(self.request.GET.get('price'))
+            response = ProductDocument().filter_by_price(price)
+            context['products'] = response
+        elif self.request.GET.get('category'):
+            category = self.request.GET.get('category')
+            response = ProductDocument().filter_by_category(category)
+            context['products'] = response
         return context
 
 
