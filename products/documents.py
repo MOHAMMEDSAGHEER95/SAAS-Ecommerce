@@ -15,7 +15,7 @@ class ProductDocument(Document):
     tenant = fields.TextField()
     get_image_url = fields.TextField()
     brand = fields.TextField()
-    category = fields.TextField()
+    category = fields.KeywordField()
     class Index:
         # Name of the Elasticsearch index
         name = 'products'
@@ -43,7 +43,7 @@ class ProductDocument(Document):
 
     def filter_by_category(self, category):
         base_query = Q("term", tenant=connection.schema_name) & Q("term", is_available=True)
-        final_query = base_query & Q("match", category=category)
+        final_query = base_query & Q("term", category=category)
         search_result = ProductDocument.search().query(final_query)
         return search_result
 
