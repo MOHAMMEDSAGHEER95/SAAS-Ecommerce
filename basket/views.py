@@ -11,6 +11,7 @@ from tenant_schemas.utils import schema_context
 from basket.models import Basket
 from onboarding.models import Onboarding
 from orders.models import Order
+from products.models import Products
 
 
 # Create your views here.
@@ -22,6 +23,12 @@ class AddToBasket(View):
         data = request.POST
         basket = Basket.objects.get(id=request.basket)
         product_id = data.get('id')
+        try:
+            product_count = basket.get_product_line_count(product_id)
+            if int(data.get('quantity')) > Products.objects.get(id=product_id).stock:
+                return JsonResponse({"message": "Cannot add to cart low stock", "product_count": product_count}, status=400)
+        except Exception as e:
+            print(str(e))
         lines = basket.create_basket_lines(product_id, data.get('quantity'))
         product_count = basket.get_product_line_count(product_id)
         return JsonResponse({"message": "Added to Cart", "count": lines, "product_count": product_count})

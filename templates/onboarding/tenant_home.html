@@ -104,7 +104,8 @@
         },
         error: function(xhr, status, error) {
             // Handle error
-            alert(name + " already added website");
+            toastr.error(xhr.responseJSON.message);
+            count_element.val(xhr.responseJSON.product_count);
             console.error("AJAX Request Error:", status, error);
         }
     });
