@@ -35,6 +35,13 @@ class BasketAddProductSerializer(serializers.ModelSerializer):
         model = BasketLine
         fields = ('product', 'quantity', 'basket')
 
+    def validate(self, data):
+        product = data['product']
+        quantity = data['quantity']
+        if product.stock < quantity:
+            raise serializers.ValidationError("Not enough stock available.")
+        return data
+
 
 
 class BasketSerializers(serializers.ModelSerializer):
