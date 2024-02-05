@@ -1,3 +1,4 @@
+from ckeditor.widgets import CKEditorWidget
 from django import forms
 from djrichtextfield.widgets import RichTextWidget
 
@@ -42,7 +43,7 @@ class AddCategoryForm(forms.ModelForm):
 
 
 class AddBlogForm(forms.ModelForm):
-    body = forms.CharField(widget=RichTextWidget())
+    body = forms.CharField(widget=CKEditorWidget(config_name='default'))
     class Meta:
         model = Blog
         fields = ('title', 'body', 'status', 'cover_image')

@@ -45,7 +45,8 @@ SHARED_APPS = (
     'products',
     'django_extensions',
     'cms',
-    'djrichtextfield'
+    'djrichtextfield',
+    'ckeditor',
 )
 
 TENANT_APPS = (
@@ -89,6 +90,7 @@ INSTALLED_APPS = [
     'payment',
     'django_extensions',
     'django_elasticsearch_dsl',
+    'ckeditor'
 
 ]
 
@@ -261,3 +263,16 @@ if IS_PRODUCTION:
     SENDGRID_ECHO_TO_STDOUT=False
 
 CELERY_BROKER_URL="redis://localhost:6379"
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source']
+        ]
+    }
+}
