@@ -1,8 +1,12 @@
-# Django Multi-Tenancy (phase 1 completing on Jan 19,2024)
+# Django Multi-Tenancy (phase 1 completing on Fed 19,2024)
 
 ## Overview
 
 This Django project, named "SAAS-Ecommerce," is a modular e-commerce system designed to provide multi-tenancy support. It comprises several packages to handle different aspects of the e-commerce platform.
+
+##System Architecture
+[![Image](https://res.cloudinary.com/dlfmiu5bf/image/upload/v1/media/sagheer/Screenshot_2024-01-31_at_4.40.58_PM_c9tukh)](https://example.com/link)
+
 
 ## Packages
 
