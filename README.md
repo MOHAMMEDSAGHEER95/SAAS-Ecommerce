@@ -1,4 +1,4 @@
-# Django Multi-Tenancy (phase 1 completing on Fed 19,2024)
+# Django Multi-Tenancy (phase 1 completing on Feb 19,2024)
 
 ## Overview
 
