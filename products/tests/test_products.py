@@ -1,9 +1,10 @@
 import pytest
 from django.db import connection
 from django.test import TestCase
+from django.utils.text import slugify
 
 from products.documents import ProductDocument
-from products.models import Products
+from products.models import Products, Brand, Category
 
 
 @pytest.mark.django_db
@@ -26,6 +27,15 @@ class TestProduct(TestCase):
 
 
     def test_product_elastic(self):
-        response = ProductDocument.search().filter("term", tenant='public').filter("match", title="Prime")
+        response = ProductDocument.search().filter("term", tenant='public').filter("term", title="Updated new Product")
         print(response.count())
         assert response.count() > 0
+
+    def test_brand_creation(self):
+        brand = Brand.objects.create(title='Puma')
+        assert slugify('Puma') == brand.slug
+
+    def test_category_creation(self):
+        category = Category.objects.create(title='Electronics')
+        assert category.title == 'Electronics'
+        assert category.slug == slugify('Electronics')

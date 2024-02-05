@@ -222,7 +222,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'localhost:9200'
+        'hosts': os.environ.get('ELASTICSEARCH_HOST')
     },
 }
 
@@ -260,3 +260,4 @@ if IS_PRODUCTION:
     SENDGRID_SANDBOX_MODE_IN_DEBUG = False
     SENDGRID_ECHO_TO_STDOUT=False
 
+CELERY_BROKER_URL="redis://localhost:6379"

@@ -8,6 +8,7 @@ from tenant_schemas.models import TenantMixin
 from customers.email import SendEmail
 from customers.models import Client
 from orders.models import ShippingAddress, Order
+from orders.tasks import post_order_tasks
 
 
 @receiver(post_schema_sync)
@@ -32,14 +33,7 @@ def update_default_address_to_false(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Order)
 def update_product_stock(sender, instance, created, **kwargs):
     if created:
-        lines = instance.basket.lines.all()
-        SendEmail().send_order_confirmation(instance)
-        for line in lines:
-            product = line.product
-            product.stock = product.stock - line.quantity
-            if product.stock < 2:
-                product.is_available = False
-            product.save()
+        post_order_tasks.delay(instance.number, connection.schema_name)
 
 
 
