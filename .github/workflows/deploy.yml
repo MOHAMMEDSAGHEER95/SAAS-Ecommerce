@@ -15,8 +15,6 @@ jobs:
           username: ${{ secrets.USER_NAME }}
 
           script: |
-            echo "hello"
-            mkdir test
             cd /home/ubuntu/SAAS-Ecommerce
             eval "$(ssh-agent -s)"
             ssh-add /home/ubuntu/.ssh/id_rsa
