@@ -10,9 +10,9 @@ jobs:
       - name: Deploy Django app
         uses: appleboy/ssh-action@v0.1.2
         with:
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_KEY }}
-          username: ${{ secrets.SSH_USERNAME }}
+          HOSTNAME: ${{secrets.SSH_HOST}}
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          USER_NAME: ${{secrets.USER_NAME}}
 
           script: |
             cd /home/ubuntu/SAAS-Ecommerce
