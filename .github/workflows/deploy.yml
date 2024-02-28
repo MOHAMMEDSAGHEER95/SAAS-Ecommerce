@@ -15,9 +15,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
 
           script: |
-            cd /home/sagheer/SAAS-Ecommerce
+            cd /home/ubuntu/SAAS-Ecommerce
             eval "$(ssh-agent -s)"
-            ssh-add /home/sagheer/.ssh/id_rsa
+            ssh-add /home/ubuntu/.ssh/id_rsa
             git pull
             source venv/bin/activate
             source .env
