@@ -109,7 +109,7 @@ class PublicSchemaProductImport(IsStaffMixin, TemplateView):
 
             # Pagination
             paginator = Paginator(product_queryset, self.paginate_by)
-            page = self.request.GET.get('page', 1)
+            page = self.request.GET.get('page', 0)
             start_index = self.paginate_by * int(page)
             end_index = start_index + self.paginate_by
             try:
