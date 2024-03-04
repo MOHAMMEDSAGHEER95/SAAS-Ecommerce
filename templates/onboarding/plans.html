@@ -1,4 +1,14 @@
-<style>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <!-- Add your CSS styles or link to an external stylesheet here -->
+    <style>
   * {
     margin: 0;
     padding: 0;
@@ -151,23 +161,30 @@ a.cta_btn:hover {
     }
 }
 </style>
-<div class="container">
+</head>
+<body>
 
+    <div class="container">
         <div class="grid">
-          {% for plan in plans %}
-            <div class="card">
-                <h2 class="card_title">{{plan.title}}</h2>
-                <p class="pricing">£{{plan.price}}<span class="small">/per month</span></p>
-                <p>Save $9</p>
-                <hr>
-                <ul class="features">
-                  {% for feature in plan.decription_array %}
-                    <li>{{feature}}</li>
-                  {% endfor %}
-                </ul>
-                <a href="{% url 'onboarding' slug=plan.slug %}" class="cta_btn">Buy Now</a>
-            </div>
-          {% endfor %}
-
+            {% for plan in plans %}
+                <div class="card">
+                    <h2 class="card_title">{{plan.title}}</h2>
+                    <p class="pricing">£{{plan.price}}<span class="small">/per month</span></p>
+                    <p>Save $9</p>
+                    <hr>
+                    <ul class="features">
+                        {% for feature in plan.decription_array %}
+                            <li>{{feature}}</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{% url 'onboarding' slug=plan.slug %}" class="cta_btn">Buy Now</a>
+                </div>
+            {% endfor %}
         </div>
     </div>
+
+    <!-- Add your JavaScript scripts or link to external scripts here -->
+
+</body>
+</html>
+
