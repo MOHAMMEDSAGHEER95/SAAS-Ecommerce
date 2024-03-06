@@ -38,7 +38,8 @@
 */
 
 body {
-  background:url('/static/img/eCommerce-Animated-GIF.gif') no-repeat;
+
   background-size: cover;
+
   min-height: 100vh;
 }

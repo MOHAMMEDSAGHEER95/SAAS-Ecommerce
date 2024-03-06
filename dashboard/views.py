@@ -47,6 +47,12 @@ class DashboardHomeView(PermissionRequiredMixin, TemplateView):
         # Check if the user is a superuser
         return self.request.user.is_superuser
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['product_count'] = Products.objects.filter(is_available=True).count()
+        context['order_count'] = Order.objects.count()
+        return context
+
 
 class DashboardLogin(FormView):
     template_name = 'dashboard/dashboard_login.html'
