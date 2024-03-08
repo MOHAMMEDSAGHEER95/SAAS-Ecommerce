@@ -3,47 +3,17 @@
     <title>Dashboard: {{page_title}}</title>
     {% endblock %}
 {% block body %}
-<div class="container" style="overflow: auto;">
-<div class="row">
+<div class="content-body">
+    <!-- row -->
+    <div class="container-fluid">
 
-  <div class="mx-auto col-sm-6" style="margin-top: 40px">
-    <form action="." method="get" autocomplete="off">
-      <div class="input-group">
-        <input type="text" name="name" class="form-control" placeholder="Search" {% if query %}value="{{query}}" {% endif %}>
-        {% if categories %}
-          <select name="category">
-            <option value="" selected></option>
-            {% for category in categories %}
-            {% for id, slug in category.items %}
-
-            <option value="{{id}}">{{slug}}</option>
-            {% endfor %}
-            {% endfor %}
-        </select>
-          {% endif %}
-          <button type="submit" class="btn btn-danger">search</button>
-          {% if request.resolver_match.url_name == 'import_products' %}
-        <div class="input-group-append" style="margin-left: 10px;">
-          <button type="button" class="btn btn-success" id="import_product">Import Products</button>
-        </div>
-        {% endif %}
-        {% if request.resolver_match.url_name == 'store_products' %}
-        <div class="input-group-append" style="margin-left: 10px;">
-          <button onclick="location.href = '{% url 'dashboard:create_product' %}';" type="button" class="btn btn-success" id="store_products">Add Products</button>
-        </div>
-        {% endif %}
-      </div>
-    </form>
-  </div>
-
-</div>
-
-  <div class="alert alert-success d-none" role="alert">
-  This is a success alert—check it out!
-</div>
-<div class="d-flex" style="width:100%">
-
-  <table class="table">
+        <div class="row">
+            <div class="col-xl-6 col-xxl-12">
+                <div class="card">
+                    <div class="tab-pane active show fade">
+                        <div class="tab-pane" id="Today" role="tabpanel">
+                            <div class="table-responsive">
+                                <table class="table table-responsive-md card-table transactions-table">
     <thead>
       <tr>
         <th scope="row">Sl No</th>
@@ -60,7 +30,7 @@
       </tr>
     </thead>
     <tbody>
-    
+
     {% for product in items %}
       <tr>
         <th scope="row"><input name="product" product_id="{{product.id}}" type="checkbox" {% if request.resolver_match.url_name == 'import_products' and  product.imported %}checked disabled{% endif %}></th>
@@ -79,8 +49,13 @@
       <!-- Add more rows for each order -->
     </tbody>
   </table>
-</div>
-  <div class="pagination-container" style="text-align: center;">
+
+
+
+                            </div>
+
+                        </div>
+                        <div class="pagination-container" style="text-align: center;">
 <div class="pagination text-center">
     <span class="step-links">
         {% if page_obj.has_previous %}
@@ -99,9 +74,17 @@
     </span>
 </div>
     </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!--**********************************
+    Content body end
+***********************************-->
 
-  </div>
 
 {% endblock %}
 

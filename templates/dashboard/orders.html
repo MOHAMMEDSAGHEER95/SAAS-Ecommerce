@@ -17,31 +17,42 @@
                         <div class="tab-pane" id="Today" role="tabpanel">
                             <div class="table-responsive">
                                 <table class="table table-responsive-md card-table transactions-table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="row"><input type="checkbox" id="selectall"></th>
-                                        <th scope="col">Order Number</th>
-                                        <th scope="col">User Email</th>
-                                        <th scope="col">Total</th>
-                                        <th scope="col">Status</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for order in orders %}
-                                    <tr>
-                                        <th scope="row"><input type="checkbox" name="order" value="{{order.id}}"></th>
-                                        <td>{{order.number}}</td>
-                                        <td>{{order.user.email}}</td>
-                                        <td>£ {{order.total_incl_tax}}</td>
-                                        <td>{{order.status}}</td>
-                                        <td><a href="{% url 'dashboard:dashboard_orders_edit' pk=order.id %}"
-                                               type="button" class="btn btn-primary">Edit</a></td>
-                                    </tr>
-                                    {% endfor %}
-                                    <!-- Add more rows for each order -->
-                                    </tbody>
-                                </table>
+    <thead>
+      <tr>
+        <th scope="row">Sl No</th>
+        <th scope="col">Product</th>
+        <th scope="col">Thumbnail</th>
+        <th scope="col">Price</th>
+        <th scope="col">Type</th>
+        {% if request.resolver_match.url_name == 'store_products' %}
+        <th scope="col">Show on Website</th>
+        <th scope="col">Brand</th>
+        <th scope="col">Category</th>
+        {% endif %}
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+
+    {% for product in items %}
+      <tr>
+        <th scope="row"><input name="product" product_id="{{product.id}}" type="checkbox" {% if request.resolver_match.url_name == 'import_products' and  product.imported %}checked disabled{% endif %}></th>
+        <td>{{product.title}}</td>
+        <td><img src="{{product.get_image_url}}" style="width:50px;height:50px"> </td>
+        <td>£ {{product.price}}</td>
+        <td>{{product.get_product_type_display}}</td>
+        {% if request.resolver_match.url_name == 'store_products' %}
+        <td><input name="show_on_website" type="checkbox" product_id="{{product.id}}" {% if product.is_available %}checked{% endif %}></td>
+        <td>{{product.brand.title}}</td>
+        <td>{{product.category.title}}</td>
+        <td><a href="{% url 'dashboard:edit_product' pk=product.id %}" type="button" class="btn btn-primary">Edit</a> </td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+      <!-- Add more rows for each order -->
+    </tbody>
+  </table>
+
 
 
                             </div>

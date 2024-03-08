@@ -1,9 +1,18 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'dashboard/index.html' %}
 {% block title %}
     <title>Dashboard: {{page_title}}</title>
     {% endblock %}
 {% block body %}
-<div class="container" style="overflow: auto;">
+<div class="content-body">
+    <!-- row -->
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-xl-6 col-xxl-12">
+                <div class="card">
+                    <div class="tab-pane active show fade">
+                        <div class="tab-pane" id="Today" role="tabpanel">
+                            <div class="table-responsive">
 {% if form.errors %}
   <ul class="errorlist">
     {% for field_name, field_errors in form.errors.items %}
@@ -104,6 +113,13 @@
 </div>
 </form>
     </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 {% block script %}
 <script>
