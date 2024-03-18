@@ -49,8 +49,9 @@ class DashboardHomeView(PermissionRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['product_count'] = Products.objects.filter(is_available=True).count()
-        context['order_count'] = Order.objects.count()
+        if self.request.tenant.schema_name != get_public_schema_name():
+            context['product_count'] = Products.objects.filter(is_available=True).count()
+            context['order_count'] = Order.objects.count()
         return context
 
 
