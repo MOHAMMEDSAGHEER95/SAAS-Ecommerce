@@ -21,6 +21,5 @@ jobs:
             git pull
             source venv/bin/activate
             source .env
-            python manage.py collectstatic --no-input
             sudo systemctl restart gunicorn
           
