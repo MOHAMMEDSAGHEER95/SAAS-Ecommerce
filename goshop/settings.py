@@ -224,8 +224,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': os.environ.get('ELASTICSEARCH_HOST'),
-        'timeout': 6000
+        'hosts': os.environ.get('ELASTICSEARCH_HOST')
     },
 }
 
