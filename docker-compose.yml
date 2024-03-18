@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  django:
+    image: saas-ecommerce-django
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    volumes:
+      - .:/app
+    command: >
+      sh -c "
+             python manage.py migrate_schemas &&
+             python manage.py runserver 0.0.0.0:8000"
+    env_file:
+      - ./env
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: postgres_database
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2-arm64
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+      - "9300:9300"
