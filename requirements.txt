@@ -1,7 +1,7 @@
 Django==4.2.11
 django-tenants==3.6.1
 psycopg2==2.9.3
-django-tenant-schemas==1.11.0
+django-tenant-schemas==1.12.0
 django-extensions==3.2.3
 bpython==0.24
 stripe==7.7.0
