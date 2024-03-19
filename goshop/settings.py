@@ -107,7 +107,7 @@ MIDDLEWARE = [
     'basket.middleware.CustomBasketMiddleware'
 ]
 
-CSRF_TRUSTED_ORIGINS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://ekart.setyour.shop']
 
 ROOT_URLCONF = 'goshop.urls'
 PUBLIC_SCHEMA_URLCONF = 'goshop.urls'
