@@ -7,6 +7,18 @@ This Django project, named "SAAS-Ecommerce," is a modular e-commerce system desi
 ## System Architecture
 [![Image](https://res.cloudinary.com/dlfmiu5bf/image/upload/v1/media/sagheer/Screenshot_2024-01-31_at_4.40.58_PM_c9tukh)](https://example.com/link)
 
+## Dashboard
+[![Image](https://imgtr.ee/images/2024/03/19/7563f94721e27cc5bf8947db60958d6c.png)](https://imgtr.ee/images/2024/03/19/7563f94721e27cc5bf8947db60958d6c.png )
+
+## Swagger
+[![Image](https://imgtr.ee/images/2024/03/19/0d02e4a0444ccbea9765319174ef173f.png)](https://imgtr.ee/images/2024/03/19/0d02e4a0444ccbea9765319174ef173f.png )
+
+## HomePage
+[![Image](https://imgtr.ee/images/2024/03/19/47c756bb13edfaa0a3ed369f60095194.png)](https://imgtr.ee/images/2024/03/19/47c756bb13edfaa0a3ed369f60095194.png )
+
+## Plans
+[![Image](https://imgtr.ee/images/2024/03/19/07403d2070b904f2a8d2aa94b71c07f6.png)](https://imgtr.ee/images/2024/03/19/07403d2070b904f2a8d2aa94b71c07f6.png )
+
 
 ## Packages
 
