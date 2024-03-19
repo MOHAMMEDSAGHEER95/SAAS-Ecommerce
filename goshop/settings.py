@@ -47,6 +47,7 @@ SHARED_APPS = (
     'cms',
     'djrichtextfield',
     'ckeditor',
+    'drf_yasg'
 )
 
 TENANT_APPS = (
@@ -90,7 +91,8 @@ INSTALLED_APPS = [
     'payment',
     'django_extensions',
     'django_elasticsearch_dsl',
-    'ckeditor'
+    'ckeditor',
+    'drf_yasg'
 
 ]
 

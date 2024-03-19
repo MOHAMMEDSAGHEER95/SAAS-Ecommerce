@@ -19,3 +19,4 @@ celery==5.3.6
 django-ckeditor==6.7.0
 reportlab==4.0.9
 django-cloudinary-storage==0.3.0
+drf-yasg==1.21.7

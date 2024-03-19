@@ -63,8 +63,8 @@
 
 								</div>
 								<div>
-									<h2 class="text-white invoice-num">1256</h2>
-									<span class="text-white fs-18">Unpaid Invoices</span>
+									<h2 class="text-white invoice-num">{{customers}}</h2>
+									<span class="text-white fs-18">Total Customers</span>
 								</div>
 							</div>
 						</div>
@@ -97,8 +97,8 @@
 											<img class="pattern-img" src="{% static 'img/pattern/pattern6.png'%}" alt="">
 											<div class="card-info text-white">
 												<img src="{% static 'img/pattern/circle.png'%}" class="mb-4" alt="">
-												<h2 class="text-white card-balance">$824,571.93</h2>
-												<p class="fs-16">Wallet Balance</p>
+												<h2 class="text-white card-balance">£ {{total_sales}}</h2>
+												<p class="fs-16">Total Sales</p>
 												<span>+0,8% than last week</span>
 											</div>
 											<a class="change-btn" href="javascript:void(0);"><i class="fa fa-caret-up up-ico"></i>Change<span class="reload-icon"><i class="fas fa-sync-alt reload active"></i></span></a>
@@ -130,7 +130,7 @@
 							<div class="card-header pb-0 border-0">
 								<div>
 									<h4 class="card-title mb-2">Activity</h4>
-									<h2 class="mb-0">$78120</h2>
+									<h2 class="mb-0">£78120</h2>
 								</div>
 								<ul class="card-list">
 									<li class="justify-content-end">Income<span class="bg-success circle me-0 ms-2"></span></li>
@@ -189,7 +189,7 @@
                                 </div>
 								<div class="text-secondary fs-16 d-flex justify-content-between font-w600 mt-4">
 									<span>Your Balance</span>
-									<span>$ 456,345.62</span>
+									<span>£ 456,345.62</span>
 								</div>
 							</div>
 							<div class="card-footer border-0 pt-0">
@@ -226,7 +226,7 @@
                                 </div>
 								<div class="d-flex align-items-end mt-2 pb-3 justify-content-between">
 									<span>Investment</span>
-									<span class="fs-18"><span class="text-black pe-2">$1415</span>/$2000</span>
+									<span class="fs-18"><span class="text-black pe-2">£1415</span>/£2000</span>
 								</div>
 								<div class="progress default-progress mt-4">
                                     <div class="progress-bar bg-gradient-2 progress-animated" style="width: 70%; height:20px;" role="progressbar">
@@ -235,7 +235,7 @@
                                 </div>
 								<div class="d-flex align-items-end mt-2 pb-3 justify-content-between">
 									<span>Restaurant</span>
-									<span class="fs-18"><span class="text-black pe-2">$1567</span>/$5000</span>
+									<span class="fs-18"><span class="text-black pe-2">£1567</span>/£5000</span>
 								</div>
 								<div class="progress default-progress mt-4">
                                     <div class="progress-bar bg-gradient-3 progress-animated" style="width: 35%; height:20px;" role="progressbar">
@@ -244,7 +244,7 @@
                                 </div>
 								<div class="d-flex align-items-end mt-2 pb-3 justify-content-between">
 									<span>Installment</span>
-									<span class="fs-18"><span class="text-black pe-2">$487</span>/$10000</span>
+									<span class="fs-18"><span class="text-black pe-2">£487</span>/£10000</span>
 								</div>
 								<div class="progress default-progress mt-4">
                                     <div class="progress-bar bg-gradient-4 progress-animated" style="width: 95%; height:20px;" role="progressbar">
@@ -253,7 +253,7 @@
                                 </div>
 								<div class="d-flex align-items-end mt-2 justify-content-between">
 									<span>Property</span>
-									<span class="fs-18"><span class="text-black pe-2">$3890</span>/$4000</span>
+									<span class="fs-18"><span class="text-black pe-2">£3890</span>/£4000</span>
 								</div>
 							</div>
 							<div class="card-footer border-0 pt-0">
@@ -343,7 +343,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="fs-16 text-black font-w600">+£5,553</span></td>
 													<td><span class="text-success fs-16 font-w500 text-end d-block">Completed</span></td>
 												</tr>
 												<tr>
@@ -360,7 +360,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">-$167</span></td>
+													<td><span class="fs-16 text-black font-w600">-£167</span></td>
 													<td><span class="text-light fs-16 font-w500 text-end d-block">Pending</span></td>
 												</tr>
 												<tr>
@@ -378,7 +378,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="fs-16 text-black font-w600">+£5,553</span></td>
 													<td><span class="text-danger fs-16 font-w500 text-end d-block">Canceled</span></td>
 												</tr>
 												<tr>
@@ -396,7 +396,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="fs-16 text-black font-w600">+£5,553</span></td>
 													<td><span class="text-success fs-16 font-w500 text-end d-block">Completed</span></td>
 												</tr>
 												<tr>
@@ -413,7 +413,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="fs-16 text-black font-w600">+£5,553</span></td>
 													<td><span class="text-danger fs-16 font-w500 text-end d-block">Canceled</span></td>
 												</tr>
 											</tbody>
@@ -439,7 +439,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="fs-16 text-black font-w600">+£5,553</span></td>
 													<td><span class="text-success fs-16 font-w500 text-end d-block">Completed</span></td>
 												</tr>
 												<tr>
@@ -456,7 +456,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">-$167</span></td>
+													<td><span class="fs-16 text-black font-w600">-£167</span></td>
 													<td><span class="text-light fs-16 font-w500 text-end d-block">Pending</span></td>
 												</tr>
 												<tr>
@@ -474,7 +474,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="fs-16 text-black font-w600">+£5,553</span></td>
 													<td><span class="text-danger fs-16 font-w500 text-end d-block">Canceled</span></td>
 												</tr>
 											</tbody>
@@ -499,7 +499,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">-$167</span></td>
+													<td><span class="fs-16 text-black font-w600">-£167</span></td>
 													<td><span class="text-light fs-16 font-w500 text-end d-block">Pending</span></td>
 												</tr>
 												<tr>
@@ -517,7 +517,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 5, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="fs-16 text-black font-w600">+£5,553</span></td>
 													<td><span class="text-danger fs-16 font-w500 text-end d-block">Canceled</span></td>
 												</tr>
 												<tr>
@@ -535,7 +535,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="fs-16 text-black font-w600">+£5,553</span></td>
 													<td><span class="text-success fs-16 font-w500 text-end d-block">Completed</span></td>
 												</tr>
 												<tr>
@@ -552,7 +552,7 @@
 														<h6 class="fs-16 text-black font-w600 mb-0">June 4, 2020</h6>
 														<span class="fs-14">05:34:45 AM</span>
 													</td>
-													<td><span class="fs-16 text-black font-w600">+$5,553</span></td>
+													<td><span class="fs-16 text-black font-w600">+£5,553</span></td>
 													<td><span class="text-danger fs-16 font-w500 text-end d-block">Canceled</span></td>
 												</tr>
 											</tbody>

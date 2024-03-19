@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.db import connection, transaction
+from django.db.models import Sum
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -52,6 +54,8 @@ class DashboardHomeView(PermissionRequiredMixin, TemplateView):
         if self.request.tenant.schema_name != get_public_schema_name():
             context['product_count'] = Products.objects.filter(is_available=True).count()
             context['order_count'] = Order.objects.count()
+            context['customers'] = User.objects.count()
+            context['total_sales'] = Order.objects.all().aggregate(amount=Sum("total_incl_tax"))["amount"]
         return context
 
 
