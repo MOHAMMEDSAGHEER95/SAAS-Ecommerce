@@ -113,6 +113,11 @@ MIDDLEWARE = [
 CSRF_TRUSTED_ORIGINS = ['https://ekart.setyour.shop', 'https://setyour.shop', 'http://sagheer.localhost:8000']
 
 CORS_ALLOWED_ORIGINS = CSRF_TRUSTED_ORIGINS
+CORS_ORIGIN_WHITELIST = [
+    'https://ekart.setyour.shop',
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'goshop.urls'
 PUBLIC_SCHEMA_URLCONF = 'goshop.urls'
