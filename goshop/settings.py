@@ -47,7 +47,8 @@ SHARED_APPS = (
     'cms',
     'djrichtextfield',
     'ckeditor',
-    'drf_yasg'
+    'drf_yasg',
+    'corsheaders'
 )
 
 TENANT_APPS = (
@@ -92,7 +93,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_elasticsearch_dsl',
     'ckeditor',
-    'drf_yasg'
+    'drf_yasg',
+    'corsheaders'
 
 ]
 
@@ -100,6 +102,7 @@ MIDDLEWARE = [
     'tenant_schemas.middleware.TenantMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -107,7 +110,9 @@ MIDDLEWARE = [
     'basket.middleware.CustomBasketMiddleware'
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://ekart.setyour.shop']
+CSRF_TRUSTED_ORIGINS = ['https://ekart.setyour.shop', 'https://setyour.shop', 'http://sagheer.localhost:8000']
+
+CORS_ALLOWED_ORIGINS = CSRF_TRUSTED_ORIGINS
 
 ROOT_URLCONF = 'goshop.urls'
 PUBLIC_SCHEMA_URLCONF = 'goshop.urls'
