@@ -21,3 +21,4 @@ reportlab==4.0.9
 django-cloudinary-storage==0.3.0
 drf-yasg==1.21.7
 django-nose==1.4.7
+coverage==7.4.4
