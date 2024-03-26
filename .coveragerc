@@ -1,0 +1,9 @@
+[run]
+source = goshop/
+omit = */migrations/*
+        */admin.py
+
+[report]
+omit =
+    */migrations/*
+    */admin.py

@@ -48,7 +48,8 @@ SHARED_APPS = (
     'djrichtextfield',
     'ckeditor',
     'drf_yasg',
-    'corsheaders'
+    'corsheaders',
+    'django_nose'
 )
 
 TENANT_APPS = (
@@ -94,7 +95,8 @@ INSTALLED_APPS = [
     'django_elasticsearch_dsl',
     'ckeditor',
     'drf_yasg',
-    'corsheaders'
+    'corsheaders',
+    'django_nose'
 
 ]
 
@@ -118,6 +120,12 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=basket,cms,customers',
+]
 
 ROOT_URLCONF = 'goshop.urls'
 PUBLIC_SCHEMA_URLCONF = 'goshop.urls'
